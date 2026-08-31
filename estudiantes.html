@@ -42,6 +42,67 @@
         <div class="row my-3">
             <div class="col">
                 Column
+                <div class="card text-center">
+    <!-- Foto grande arriba -->
+    <img src="https://via.placeholder.com/400x300" class="card-img-top" alt="Helen Alejandra" style="height: 300px; object-fit: cover;">
+    
+    <!-- Tabs en el header -->
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="perfil-tab" data-bs-toggle="tab" data-bs-target="#perfil" 
+                        type="button" role="tab" aria-controls="perfil" aria-selected="true">
+                    Perfil
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="proyectos-tab" data-bs-toggle="tab" data-bs-target="#proyectos" 
+                        type="button" role="tab" aria-controls="proyectos" aria-selected="false">
+                    Proyectos
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="habilidades-tab" data-bs-toggle="tab" data-bs-target="#habilidades" 
+                        type="button" role="tab" aria-controls="habilidades" aria-selected="false">
+                    Habilidades
+                </button>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Contenido del body con tabs -->
+    <div class="card-body">
+        <h5 class="card-title">Helen Alejandra</h5>
+        <p class="card-text text-muted">Ingeniera de Software</p>
+        
+        <div class="tab-content" id="myTabContent">
+            <!-- Tab Perfil -->
+            <div class="tab-pane fade show active" id="perfil" role="tabpanel" aria-labelledby="perfil-tab">
+                <p class="mt-3">Conoce más de mí.</p>
+                <p class="text-start"><strong>Sobre mí:</strong> Apasionada por el desarrollo web y la creación de soluciones innovadoras.</p>
+                
+                <a href="#" class="btn btn-primary mt-2">Ver Portafolio</a>
+            </div>
+            
+            <!-- Tab Proyectos -->
+            <div class="tab-pane fade" id="proyectos" role="tabpanel" aria-labelledby="proyectos-tab">
+                <ul class="list-group list-group-flush text-start mt-3">
+                  
+                </ul>
+            </div>
+            
+            <!-- Tab Habilidades -->
+            <div class="tab-pane fade" id="habilidades" role="tabpanel" aria-labelledby="habilidades-tab">
+                <div class="mt-3 text-start">
+                    <p><strong>Habilidades técnicas:</strong></p>
+                    
+                    <p class="mt-3"><strong>Intereses:</strong> Desarrollo Frontend, UX/UI Design</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
             </div>
             <div class="col">
                 Column
