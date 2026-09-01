@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - Felipe Jaramillo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #00a3e0;
+            --accent-color: #ff6b6b;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .profile-header {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .profile-hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .profile-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: white;
+            margin: 0 auto 20px;
+            border: 5px solid rgba(255,255,255,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 20px 0 10px;
+        }
+
+        .profile-title {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 5px;
+        }
+
+        .profile-info {
+            padding: 40px;
+        }
+
+        .profile-bio {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-top: 40px;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+
+        .project-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .project-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .project-description {
+            color: #555;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .tech-stack {
+            margin-top: 15px;
+        }
+
+        .badge-tech {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .skill-category {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .skill-category-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .skill-item {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 8px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .skill-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-link {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .contact-link:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- PERFIL HEADER -->
+        <div class="profile-header">
+            <div class="profile-hero">
+                <img src="https://cdn.corenexis.com/f/syyPJ7hRIlP.jpeg" alt="Felipe Jaramillo" class="profile-photo" style="width: 180px; height: 180px; object-fit: cover;">
+                <h1 class="profile-name">Bayron Felipe Jaramillo Galindres</h1>
+                <p class="profile-title">Estudiante de Ingeniería de Software</p>
+                <p style="margin-bottom: 0; opacity: 0.9;">Pasto, Nariño - Colombia</p>
+            </div>
+
+            <div class="profile-info">
+                <div class="profile-bio">
+                    <p>
+                        Estudiante de Ingeniería de Software con sólida capacidad para el trabajo en equipo y rápida adaptación a nuevas tecnologías. 
+                        Destacado por una orientación técnica y analítica aplicada a la resolución eficiente de problemas. 
+                        Comprometido con la mejora continua y la participación activa en proyectos desafiantes.
+                    </p>
+                </div>
+
+                <!-- PROYECTOS DESTACADOS -->
+                <h2 class="section-title">
+                    <i class="fas fa-rocket" style="margin-right: 10px;"></i>Proyectos Destacados
+                </h2>
+
+                <div class="project-card">
+                    <div class="project-title">🥽 Proyecto de Realidad Virtual - Gestación</div>
+                    <div class="project-description">
+                        Aplicación educativa para estudiar procesos de gestación en entornos inmersivos. 
+                        Desarrollo de entornos 3D y dinámicas interactivas implementadas en Meta Quest 3, Quest 2 y Meta Quest Pro.
+                    </div>
+                    <div class="tech-stack">
+                        <span class="badge-tech">Unity</span>
+                        <span class="badge-tech">C#</span>
+                        <span class="badge-tech">VR/AR</span>
+                        <span class="badge-tech">Oculus Rift</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">🌸 Página Web para Floristería</div>
+                    <div class="project-description">
+                        Sitio web funcional con catálogo de arreglos florales, secciones organizadas y navegación fluida. 
+                        Diseño responsivo optimizado para múltiples dispositivos.
+                    </div>
+                    <div class="tech-stack">
+                        <span class="badge-tech">HTML5</span>
+                        <span class="badge-tech">CSS3</span>
+                        <span class="badge-tech">JavaScript</span>
+                        <span class="badge-tech">Responsive Design</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">⚡ Juego de Recorrido en Circuito - Arduino</div>
+                    <div class="project-description">
+                        Sistema interactivo que detecta contacto con sensores y activa señales sonoras y luminosas. 
+                        Integración completa de programación del microcontrolador con hardware físico.
+                    </div>
+                    <div class="tech-stack">
+                        <span class="badge-tech">Arduino</span>
+                        <span class="badge-tech">C++</span>
+                        <span class="badge-tech">Electrónica</span>
+                        <span class="badge-tech">Hardware</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">🎯 Simulación de Trayectoria y Cálculo de Fuerza</div>
+                    <div class="project-description">
+                        Aplicación para calcular la fuerza necesaria en el lanzamiento de proyectiles. 
+                        Modelado matemático con visualización gráfica de trayectorias y análisis de mecánica clásica.
+                    </div>
+                    <div class="tech-stack">
+                        <span class="badge-tech">Python</span>
+                        <span class="badge-tech">NumPy</span>
+                        <span class="badge-tech">Matplotlib</span>
+                        <span class="badge-tech">Física</span>
+                    </div>
+                </div>
+
+                <!-- HABILIDADES -->
+                <h2 class="section-title">
+                    <i class="fas fa-tools" style="margin-right: 10px;"></i>Habilidades Técnicas
+                </h2>
+
+                <div class="skills-container">
+                    <div class="skill-category">
+                        <div class="skill-category-title">💻 Programación</div>
+                        <div class="skill-item">Python</div>
+                        <div class="skill-item">Java</div>
+                        <div class="skill-item">C#</div>
+                        <div class="skill-item">JavaScript</div>
+                    </div>
+
+                    <div class="skill-category">
+                        <div class="skill-category-title">🌐 Web</div>
+                        <div class="skill-item">HTML5</div>
+                        <div class="skill-item">CSS3</div>
+                        <div class="skill-item">Bootstrap</div>
+                        <div class="skill-item">Responsive Design</div>
+                    </div>
+
+                    <div class="skill-category">
+                        <div class="skill-category-title">🔧 Herramientas</div>
+                        <div class="skill-item">Git & GitHub</div>
+                        <div class="skill-item">Unity</div>
+                        <div class="skill-item">Visual Studio Code</div>
+                        <div class="skill-item">Docker</div>
+                    </div>
+
+                    <div class="skill-category">
+                        <div class="skill-category-title">📊 Otras Habilidades</div>
+                        <div class="skill-item">Trabajo en Equipo</div>
+                        <div class="skill-item">Resolución de Problemas</div>
+                        <div class="skill-item">Pensamiento Analítico</div>
+                        <div class="skill-item">Adaptabilidad</div>
+                    </div>
+                </div>
+
+                <!-- CONTACTO -->
+                <div class="contact-section">
+                    <h2 style="margin-bottom: 20px; font-weight: 700;">Ponte en Contacto</h2>
+                    <div>
+                        <a href="tel:3209586971" class="contact-link">
+                            <i class="fas fa-phone"></i> +57 320 9586971
+                        </a>
+                        <a href="mailto:felipejaramillog602@gmail.com" class="contact-link">
+                            <i class="fas fa-envelope"></i> Email
+                        </a>
+                        <a href="https://www.linkedin.com/in/felipejaramillo-933a0039b/" target="_blank" class="contact-link">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
