@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agro 360 - Proyectos 6B</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <style>
+        .project-banner {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            background-color: #e9ecef;
+        }
+
+        .banner-placeholder {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #198754 0%, #20c997 60%, #0dcaf0 100%);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .member-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+            color: inherit;
+        }
+
+        .member-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #dee2e6;
+        }
+
+        .avatar-placeholder {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 3px solid #dee2e6;
+            flex-shrink: 0;
+        }
+
+        .section-label {
+            letter-spacing: 0.15em;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../index.html">TEAM 6B</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../proyectos.html">Proyectos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../estudiantes.html">Estudiantes</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container my-5">
+
+        <!-- Banner del proyecto -->
+        <div class="row mb-4">
+            <div class="col">
+                <div class="banner-placeholder">
+                    <div class="text-center">
+                        <i class="bi bi-tree-fill" style="font-size: 3rem;"></i>
+                        <h2 class="fw-bold mt-2 mb-0">Agro 360</h2>
+                        <p class="mb-0 opacity-75">Gestión Agropecuaria Integral</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Descripción -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-12 col-md-10">
+                <p class="text-center text-secondary">
+                    <strong>Agro 360</strong> es una solución integral diseñada para optimizar y simplificar la gestión
+                    agropecuaria desde la palma de tu mano. Nuestra plataforma conecta la supervisión en tiempo real del
+                    ganado con el control eficiente de tus cultivos, ofreciendo herramientas intuitivas que facilitan el
+                    monitoreo, la toma de decisiones y la productividad en el campo. Diseñada pensando en la facilidad
+                    de uso, <strong>Agro 360</strong> transforma la complejidad del trabajo agrícola y ganadero en una
+                    experiencia ágil, clara y accesible para todo tipo de productores.
+                </p>
+            </div>
+        </div>
+
+        <!-- Integrantes -->
+        <div class="row mb-3">
+            <div class="col text-center">
+                <h6 class="text-uppercase text-muted fw-semibold section-label">Integrantes</h6>
+            </div>
+        </div>
+
+        <div class="row g-3 justify-content-center mb-5">
+
+            <!-- Felipe Narvaez -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <a href="../estudiantes/perfil_felipe.html"
+                    class="member-card card border shadow-sm p-3 d-flex flex-row align-items-center gap-3 h-100">
+                    <div class="avatar-placeholder">FN</div>
+                    <div class="overflow-hidden">
+                        <p class="fw-semibold mb-0 text-truncate">Felipe Narvaez Gomez</p>
+                        <small class="text-muted">FelipeUCC898</small>
+                        <div class="mt-1">
+                            <span class="badge bg-success-subtle text-success border border-success-subtle">
+                                <i class="bi bi-check-circle-fill me-1"></i>Perfil disponible
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Placeholder compañero 2 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card border shadow-sm p-3 d-flex flex-row align-items-center gap-3 h-100 opacity-50">
+                    <div class="avatar-placeholder" style="background-color:#adb5bd;">
+                        <i class="bi bi-person-fill" style="font-size:1.4rem;"></i>
+                    </div>
+                    <div>
+                        <p class="fw-semibold mb-0 text-muted">Integrante</p>
+                        <small class="text-muted">Pendiente de PR</small>
+                        <div class="mt-1">
+                            <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">
+                                <i class="bi bi-clock me-1"></i>Próximamente
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Placeholder compañero 3 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card border shadow-sm p-3 d-flex flex-row align-items-center gap-3 h-100 opacity-50">
+                    <div class="avatar-placeholder" style="background-color:#adb5bd;">
+                        <i class="bi bi-person-fill" style="font-size:1.4rem;"></i>
+                    </div>
+                    <div>
+                        <p class="fw-semibold mb-0 text-muted">Integrante</p>
+                        <small class="text-muted">Pendiente de PR</small>
+                        <div class="mt-1">
+                            <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">
+                                <i class="bi bi-clock me-1"></i>Próximamente
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Placeholder compañero 4 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card border shadow-sm p-3 d-flex flex-row align-items-center gap-3 h-100 opacity-50">
+                    <div class="avatar-placeholder" style="background-color:#adb5bd;">
+                        <i class="bi bi-person-fill" style="font-size:1.4rem;"></i>
+                    </div>
+                    <div>
+                        <p class="fw-semibold mb-0 text-muted">Integrante</p>
+                        <small class="text-muted">Pendiente de PR</small>
+                        <div class="mt-1">
+                            <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">
+                                <i class="bi bi-clock me-1"></i>Próximamente
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Enlace a repositorio -->
+        <div class="row mb-2">
+            <div class="col">
+                <h6 class="text-uppercase text-muted fw-semibold section-label">Enlace a Repositorio</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-outline-dark" disabled>
+                    <i class="bi bi-github me-2"></i>GIT
+                </button>
+                <small class="text-muted ms-2">Enlace no disponible aún</small>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
