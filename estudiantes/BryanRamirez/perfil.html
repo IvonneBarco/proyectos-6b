@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bryan Alexander Ramirez Benavides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --asfalto: #161310;
+            --asfalto-2: #221c18;
+            --crema: #f4ead8;
+            --gorras: #d8c4a4;
+            --oro: #c9a36a;
+            --visera: #1a1a1a;
+            --pelaje: #e8d3b0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Outfit", system-ui, sans-serif;
+            background: var(--asfalto);
+            color: var(--crema);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .fondo {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 70% -10%, rgba(201, 163, 106, 0.28), transparent 55%),
+                radial-gradient(ellipse 60% 40% at 10% 100%, rgba(90, 60, 30, 0.35), transparent 50%),
+                var(--asfalto);
+        }
+
+        .fondo::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("foto.jpg");
+            background-size: cover;
+            background-position: center 30%;
+            filter: blur(42px) saturate(1.1);
+            opacity: 0.22;
+            transform: scale(1.15);
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 28px 20px 64px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 36px;
+        }
+
+        .brand {
+            letter-spacing: 0.22em;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            color: var(--gorras);
+            text-decoration: none;
+        }
+
+        .back {
+            color: var(--crema);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: 1px solid rgba(244, 234, 216, 0.22);
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            transition: 0.2s ease;
+        }
+
+        .back:hover {
+            background: var(--oro);
+            color: var(--visera);
+            border-color: var(--oro);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.05fr 1fr;
+            gap: 48px;
+            align-items: center;
+            margin-bottom: 56px;
+        }
+
+        .foto-wrap {
+            position: relative;
+            justify-self: center;
+        }
+
+        .foto-wrap::after {
+            content: "";
+            position: absolute;
+            inset: -18px;
+            border-radius: 32px;
+            background: radial-gradient(circle at 50% 40%, rgba(201, 163, 106, 0.45), transparent 70%);
+            z-index: -1;
+            filter: blur(8px);
+        }
+
+        .foto {
+            width: min(100%, 420px);
+            aspect-ratio: 1;
+            object-fit: cover;
+            object-position: center 20%;
+            border-radius: 28px;
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, 0.45),
+                0 0 0 1px rgba(216, 196, 164, 0.25);
+            display: block;
+        }
+
+        .kicker {
+            font-size: 0.78rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--oro);
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            font-family: "Fraunces", Georgia, serif;
+            font-size: clamp(2.1rem, 4vw, 3.4rem);
+            font-weight: 700;
+            line-height: 1.12;
+            margin-bottom: 14px;
+        }
+
+        .subtitulo {
+            color: rgba(244, 234, 216, 0.72);
+            font-weight: 300;
+            font-size: 1.08rem;
+            margin-bottom: 28px;
+        }
+
+        .pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .pill {
+            font-size: 0.78rem;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: rgba(201, 163, 106, 0.14);
+            border: 1px solid rgba(201, 163, 106, 0.35);
+            color: var(--pelaje);
+        }
+
+        .sobre {
+            background: rgba(34, 28, 24, 0.72);
+            border: 1px solid rgba(216, 196, 164, 0.16);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(16px);
+        }
+
+        .sobre h2,
+        .bloque h2 {
+            font-family: "Fraunces", Georgia, serif;
+            font-size: 1.45rem;
+            margin-bottom: 12px;
+        }
+
+        .sobre p {
+            color: rgba(244, 234, 216, 0.78);
+            line-height: 1.7;
+            font-weight: 300;
+            max-width: 62ch;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat {
+            background: linear-gradient(180deg, rgba(244, 234, 216, 0.08), rgba(244, 234, 216, 0.02));
+            border: 1px solid rgba(216, 196, 164, 0.16);
+            border-radius: 20px;
+            padding: 22px 18px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .stat:hover {
+            transform: translateY(-4px);
+            border-color: var(--oro);
+        }
+
+        .stat span {
+            display: block;
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--oro);
+            margin-bottom: 8px;
+        }
+
+        .stat strong {
+            font-family: "Fraunces", Georgia, serif;
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
+        .bloque {
+            margin-bottom: 28px;
+        }
+
+        .tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech span {
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: var(--crema);
+            color: var(--asfalto);
+            font-weight: 500;
+            font-size: 0.88rem;
+        }
+
+        .tech span:nth-child(even) {
+            background: transparent;
+            color: var(--crema);
+            border: 1px solid rgba(216, 196, 164, 0.35);
+        }
+
+        .contacto {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .contacto a {
+            display: block;
+            text-decoration: none;
+            color: var(--crema);
+            border: 1px solid rgba(216, 196, 164, 0.22);
+            border-radius: 18px;
+            padding: 18px 20px;
+            background: rgba(34, 28, 24, 0.6);
+            transition: 0.2s ease;
+        }
+
+        .contacto a:hover {
+            border-color: var(--oro);
+            transform: translateY(-3px);
+        }
+
+        .contacto small {
+            display: block;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-size: 0.68rem;
+            color: var(--oro);
+            margin-bottom: 6px;
+        }
+
+        .proyectos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .proy {
+            display: block;
+            text-decoration: none;
+            border-radius: 22px;
+            padding: 26px;
+            min-height: 180px;
+            background: var(--crema);
+            color: var(--asfalto);
+            transition: transform 0.2s ease;
+        }
+
+        .proy:hover {
+            transform: translateY(-4px);
+        }
+
+        .proy:nth-child(even) {
+            background: transparent;
+            color: var(--crema);
+            border: 1px solid rgba(216, 196, 164, 0.28);
+        }
+
+        .proy small {
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            opacity: 0.65;
+        }
+
+        .proy h3 {
+            font-family: "Fraunces", Georgia, serif;
+            font-size: 1.35rem;
+            margin: 10px 0 10px;
+        }
+
+        .proy p {
+            font-weight: 300;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            opacity: 0.82;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(216, 196, 164, 0.55);
+            letter-spacing: 0.08em;
+        }
+
+        @media (max-width: 800px) {
+            .hero,
+            .stats,
+            .proyectos,
+            .contacto {
+                grid-template-columns: 1fr;
+            }
+
+            .foto {
+                width: 100%;
+                max-width: 340px;
+                margin: 0 auto;
+            }
+
+            h1 {
+                font-size: 2.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fondo"></div>
+
+    <div class="wrap">
+        <div class="topbar">
+            <a class="brand" href="../../index.html">Team 6B</a>
+            <a class="back" href="../../estudiantes.html">← Estudiantes</a>
+        </div>
+
+        <section class="hero">
+            <div class="foto-wrap">
+                <img class="foto" src="foto.jpg" alt="Foto de perfil de Bryan Alexander Ramirez Benavides">
+            </div>
+            <div>
+                <p class="kicker">Perfil estudiante</p>
+                <h1>Bryan Alexander Ramirez Benavides</h1>
+                <p class="subtitulo">Ingeniería de Software · 6B · Pasto, Colombia. Interfaces, juegos y frontend con gorra puesta.</p>
+                <div class="pills">
+                    <span class="pill">Frontend</span>
+                    <span class="pill">React / Next.js</span>
+                    <span class="pill">Pasto, Colombia</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="sobre">
+            <h2>Sobre mí</h2>
+            <p>
+                Estudiante de Ingeniería de Software en Pasto, Colombia. Me especializo en
+                frontend: diseño interfaces claras con React, Next.js y TypeScript, y también
+                desarrollo experiencias interactivas con Phaser. Busco código ordenado,
+                trabajo en equipo con Git y productos que se puedan ver y usar, no solo entregar.
+            </p>
+        </section>
+
+        <section class="stats">
+            <article class="stat">
+                <span>Formación</span>
+                <strong>Ing. de Software</strong>
+            </article>
+            <article class="stat">
+                <span>Ciudad</span>
+                <strong>Pasto, Colombia</strong>
+            </article>
+            <article class="stat">
+                <span>Enfoque</span>
+                <strong>Frontend y juegos</strong>
+            </article>
+        </section>
+
+        <section class="bloque">
+            <h2>Contacto</h2>
+            <div class="contacto">
+                <a href="mailto:vxillaxl4@gmail.com">
+                    <small>Correo</small>
+                    vxillaxl4@gmail.com
+                </a>
+                <a href="https://github.com/vxillaxl" target="_blank" rel="noopener noreferrer">
+                    <small>GitHub</small>
+                    github.com/vxillaxl
+                </a>
+            </div>
+        </section>
+
+        <section class="bloque">
+            <h2>Tecnologías</h2>
+            <div class="tech">
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>JavaScript</span>
+                <span>TypeScript</span>
+                <span>React</span>
+                <span>Next.js</span>
+                <span>Tailwind</span>
+                <span>Phaser 3</span>
+                <span>Python</span>
+                <span>Git</span>
+            </div>
+        </section>
+
+        <section class="bloque">
+            <h2>Proyectos</h2>
+            <div class="proyectos">
+                <a class="proy" href="https://umbra-eta.vercel.app" target="_blank" rel="noopener noreferrer">
+                    <small>Juego · Phaser 3</small>
+                    <h3>UMBRA</h3>
+                    <p>Aventura épica El Último Guardián: intro cinematográfica, niveles, enemigos y jefe. Demo en Vercel.</p>
+                </a>
+                <a class="proy" href="https://portafolio-q9jd.vercel.app" target="_blank" rel="noopener noreferrer">
+                    <small>Next.js · TypeScript</small>
+                    <h3>Portafolio</h3>
+                    <p>Sitio personal en React 19, Next.js y Tailwind, publicado en Vercel.</p>
+                </a>
+                <a class="proy" href="https://banco-frontend-seven.vercel.app" target="_blank" rel="noopener noreferrer">
+                    <small>React · AWS</small>
+                    <h3>Banco frontend</h3>
+                    <p>Interfaz bancaria en React con Axios y AWS SDK. Demo en Vercel.</p>
+                </a>
+                <a class="proy" href="https://github.com/vxillaxl/CHECKOUT" target="_blank" rel="noopener noreferrer">
+                    <small>Next.js · TypeScript</small>
+                    <h3>Checkout</h3>
+                    <p>Flujo de pago en Next.js y Tailwind: UI de producto, no un taller suelto.</p>
+                </a>
+            </div>
+        </section>
+
+        <footer>TEAM 6B · Bryan Alexander Ramirez Benavides</footer>
+    </div>
+</body>
+</html>
