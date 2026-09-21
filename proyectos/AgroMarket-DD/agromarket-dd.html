@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AgroMarket DD</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f4faf4;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a5c2a 0%, #2e7d32 40%, #66bb6a 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -60px; left: -60px;
+            width: 300px; height: 300px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px; right: -80px;
+            width: 400px; height: 400px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 50%;
+        }
+
+        .hero img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.6);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .hero p.lead {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .badge-green {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 16px;
+        }
+
+        .section-title {
+            color: #1a5c2a;
+            font-weight: 700;
+            font-size: 1.6rem;
+            border-left: 5px solid #4caf50;
+            padding-left: 14px;
+            margin-bottom: 20px;
+        }
+
+        .description-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            border-left: 5px solid #4caf50;
+            line-height: 1.9;
+            color: #333;
+            font-size: 1.05rem;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #1a5c2a, #66bb6a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content-center: center;
+            font-size: 1.5rem;
+            margin: 0 auto 12px;
+            color: white;
+            justify-content: center;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 14px;
+            padding: 28px 20px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 28px rgba(76,175,80,0.2);
+        }
+
+        .feature-card h6 {
+            color: #1a5c2a;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, #1a5c2a, #4caf50);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 30px;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .btn-back:hover {
+            opacity: 0.88;
+            color: white;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1a5c2a, #2e7d32);
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            padding: 24px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero -->
+    <div class="hero">
+        <img src="./agro market.png" alt="AgroMarket DD">
+        <h1>🌿 AgroMarket DD</h1>
+        <p class="lead">Conectando el campo con el mercado digital</p>
+        <span class="badge-green">Plataforma Agrícola Digital</span>
+    </div>
+
+    <!-- Descripción -->
+    <div class="container my-5">
+        <h2 class="section-title">¿Qué es AgroMarket?</h2>
+        <div class="description-card">
+            <p>
+                AgroMarket es una plataforma digital que conecta directamente a agricultores, consumidores y negocios,
+                facilitando la publicación, búsqueda y compra de productos agrícolas. Su propósito es fortalecer la
+                comercialización del campo, reducir intermediarios y brindar a los productores mejores oportunidades
+                para ofrecer sus productos de forma rápida, sencilla y accesible.
+            </p>
+            <p class="mb-0">
+                AgroMarket busca impulsar una conexión más directa entre el campo y el mercado, promoviendo el comercio
+                local y apoyando el crecimiento de los productores agrícolas.
+            </p>
+        </div>
+    </div>
+
+    <!-- Características -->
+    <div class="container mb-5">
+        <h2 class="section-title">Características principales</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">🌾</div>
+                    <h6>Conexión directa</h6>
+                    <p>Une a agricultores con consumidores y negocios sin intermediarios innecesarios.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">🛒</div>
+                    <h6>Comercio fácil</h6>
+                    <p>Publica, busca y compra productos agrícolas de forma rápida y sencilla.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">📈</div>
+                    <h6>Crecimiento local</h6>
+                    <p>Impulsa el comercio local y apoya el crecimiento de productores agrícolas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón volver -->
+    <div class="container mb-5 text-center">
+        <a href="../../proyectos.html" class="btn btn-back">← Volver a Proyectos</a>
+    </div>
+
+    <footer>
+        &copy; 2026 AgroMarket DD &mdash; TEAM 6B
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
