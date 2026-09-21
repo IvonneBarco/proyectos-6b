@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AgroMarket DD</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: #f4faf4;
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ── Animación de partículas en el hero ── */
+        .hero {
+            background: linear-gradient(135deg, #1a5c2a 0%, #2e7d32 40%, #66bb6a 100%);
+            color: white;
+            padding: 90px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+        }
+
+        .hero-content { position: relative; z-index: 2; }
+
+        .hero img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.7);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+            margin-bottom: 24px;
+            animation: floatImg 3s ease-in-out infinite;
+        }
+
+        @keyframes floatImg {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-10px); }
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero p.lead {
+            font-size: 1.1rem;
+            opacity: 0.92;
+            max-width: 600px;
+            margin: 0 auto 16px;
+        }
+
+        .badge-green {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.45);
+            padding: 7px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        /* ── Nav interna ── */
+        .nav-pills .nav-link {
+            color: #1a5c2a;
+            font-weight: 600;
+            border-radius: 20px;
+            padding: 8px 22px;
+        }
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, #1a5c2a, #4caf50);
+            color: white;
+        }
+
+        /* ── Títulos de sección ── */
+        .section-title {
+            color: #1a5c2a;
+            font-weight: 700;
+            font-size: 1.6rem;
+            border-left: 5px solid #4caf50;
+            padding-left: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* ── Descripción ── */
+        .description-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            border-left: 5px solid #4caf50;
+            line-height: 1.9;
+            color: #333;
+            font-size: 1.05rem;
+        }
+
+        /* ── Feature cards ── */
+        .feature-icon {
+            width: 56px; height: 56px;
+            background: linear-gradient(135deg, #1a5c2a, #66bb6a);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 12px;
+            color: white;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 14px;
+            padding: 28px 20px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            transition: transform 0.25s, box-shadow 0.25s;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(76,175,80,0.22);
+        }
+
+        .feature-card h6 { color: #1a5c2a; font-weight: 700; margin-bottom: 8px; }
+        .feature-card p  { color: #666; font-size: 0.9rem; margin: 0; }
+
+        /* ── Member cards ── */
+        .member-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            transition: transform 0.25s, box-shadow 0.25s;
+            height: 100%;
+        }
+
+        .member-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 14px 36px rgba(26,92,42,0.18);
+        }
+
+        .member-card .card-header {
+            background: linear-gradient(135deg, #1a5c2a, #4caf50);
+            color: white;
+            padding: 28px 20px 20px;
+            text-align: center;
+        }
+
+        .member-card .avatar {
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.7);
+            object-fit: cover;
+            margin: 0 auto 12px;
+            display: block;
+            background: rgba(255,255,255,0.2);
+            font-size: 2.2rem;
+            line-height: 90px;
+            text-align: center;
+        }
+
+        .member-card .card-header h5 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .member-card .card-header span {
+            font-size: 0.8rem;
+            opacity: 0.85;
+        }
+
+        .member-card .card-body { padding: 24px; }
+
+        .member-card .tag {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #1a5c2a;
+            border-radius: 12px;
+            padding: 3px 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin: 3px 2px;
+        }
+
+        .btn-member {
+            background: linear-gradient(135deg, #1a5c2a, #4caf50);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 22px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s, transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-member:hover { opacity: 0.88; color: white; transform: scale(1.04); }
+
+        /* ── Botón volver ── */
+        .btn-back {
+            background: linear-gradient(135deg, #1a5c2a, #4caf50);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 11px 32px;
+            font-weight: 600;
+            transition: opacity 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-back:hover { opacity: 0.88; color: white; }
+
+        footer {
+            background: linear-gradient(135deg, #1a5c2a, #2e7d32);
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            padding: 26px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero con animación de partículas -->
+    <div class="hero">
+        <canvas id="particles"></canvas>
+        <div class="hero-content">
+            <img src="./agro market.png" alt="AgroMarket DD">
+            <h1>🌿 AgroMarket DD</h1>
+            <p class="lead">Conectando el campo con el mercado digital</p>
+            <span class="badge-green">Plataforma Agrícola Digital</span>
+        </div>
+    </div>
+
+    <!-- Nav interna -->
+    <div class="container mt-4 mb-2">
+        <ul class="nav nav-pills justify-content-center gap-2">
+            <li class="nav-item"><a class="nav-link active" href="#descripcion">Descripción</a></li>
+            <li class="nav-item"><a class="nav-link" href="#caracteristicas">Características</a></li>
+            <li class="nav-item"><a class="nav-link" href="#integrantes">Integrantes</a></li>
+        </ul>
+    </div>
+
+    <!-- Descripción -->
+    <div class="container my-5" id="descripcion">
+        <h2 class="section-title">¿Qué es AgroMarket?</h2>
+        <div class="description-card">
+            <p>
+                AgroMarket es una plataforma digital que conecta directamente a agricultores, consumidores y negocios,
+                facilitando la publicación, búsqueda y compra de productos agrícolas. Su propósito es fortalecer la
+                comercialización del campo, reducir intermediarios y brindar a los productores mejores oportunidades
+                para ofrecer sus productos de forma rápida, sencilla y accesible.
+            </p>
+            <p class="mb-0">
+                AgroMarket busca impulsar una conexión más directa entre el campo y el mercado, promoviendo el comercio
+                local y apoyando el crecimiento de los productores agrícolas.
+            </p>
+        </div>
+    </div>
+
+    <!-- Características -->
+    <div class="container mb-5" id="caracteristicas">
+        <h2 class="section-title">Características principales</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">🌾</div>
+                    <h6>Conexión directa</h6>
+                    <p>Une a agricultores con consumidores y negocios sin intermediarios innecesarios.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">🛒</div>
+                    <h6>Comercio fácil</h6>
+                    <p>Publica, busca y compra productos agrícolas de forma rápida y sencilla.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">📈</div>
+                    <h6>Crecimiento local</h6>
+                    <p>Impulsa el comercio local y apoya el crecimiento de productores agrícolas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Integrantes -->
+    <div class="container mb-5" id="integrantes">
+        <h2 class="section-title">👥 Integrantes del proyecto</h2>
+        <div class="row g-4 justify-content-center">
+
+            <!-- Sebastian Dario -->
+            <div class="col-md-5">
+                <div class="member-card">
+                    <div class="card-header">
+                        <div class="avatar">👨‍💻</div>
+                        <h5>Sebastian Dario</h5>
+                        <span>Integrante del proyecto</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- David Salas -->
+            <div class="col-md-5">
+                <div class="member-card">
+                    <div class="card-header">
+                        <img src="../../estudiantes/DAVID_SALAS/dasda.jpg" alt="David Salas" class="avatar">
+                        <h5>David Alejandro Salas Ibarra</h5>
+                        <span>Integrante del proyecto</span>
+                    </div>
+                    <div class="card-body text-center">
+                        <a href="../../estudiantes/DAVID_SALAS/david-salas.html" class="btn-member">Ver perfil</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Botón volver -->
+    <div class="container mb-5 text-center">
+        <a href="../../proyectos.html" class="btn-back">← Volver a Proyectos</a>
+    </div>
+
+    <footer>
+        &copy; 2026 AgroMarket DD &mdash; TEAM 6B
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <!-- Animación de partículas flotantes -->
+    <script>
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width  = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        for (let i = 0; i < 55; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 3 + 1,
+                dx: (Math.random() - 0.5) * 0.6,
+                dy: (Math.random() - 0.5) * 0.6,
+                alpha: Math.random() * 0.5 + 0.2
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
+                ctx.fill();
+                p.x += p.dx;
+                p.y += p.dy;
+                if (p.x < 0 || p.x > canvas.width)  p.dx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body>
+
+</html>
