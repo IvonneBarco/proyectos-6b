@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Perfil - Khaled Benavides</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #fff;
+            color: #172033;
+        }
+
+        .perfil-contenido {
+            max-width: 900px;
+        }
+
+        .foto-perfil {
+            width: 245px;
+            height: 245px;
+            object-fit: cover;
+            filter: grayscale(100%);
+        }
+
+        .descripcion {
+            font-size: 1.25rem;
+            line-height: 1.55;
+        }
+
+        .nombre {
+            font-size: 2.45rem;
+        }
+
+        @media (max-width: 576px) {
+            .foto-perfil {
+                width: 190px;
+                height: 190px;
+            }
+
+            .nombre {
+                font-size: 2rem;
+            }
+
+            .descripcion {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../../index.html">TEAM 6B</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Mostrar navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="../../estudiantes.html">Estudiantes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../proyectos.html">Proyectos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container perfil-contenido text-center my-5">
+        <header class="mb-4">
+            <img src="https://files.catbox.moe/qhwp6c.jpeg"
+                alt="Foto de Khaled Benavides" class="foto-perfil rounded-circle mb-4">
+            <h1 class="nombre fw-bold mb-3">Khaled Benavides</h1>
+        </header>
+
+        <section class="descripcion">
+            <p>
+                Khaled Santiago Benavides Obando, estudiante de Ingeniería de Software y desarrollador en formación,
+                enfocado en crear soluciones tecnológicas modernas, funcionales y orientadas a resolver problemas
+                reales.
+            </p>
+            <p>
+                Cuento con conocimientos en Python, Java, React, Vite, Next.js, Tailwind CSS, SQL y Supabase, además
+                de Django, Docker y arquitectura de sistemas. Me interesa transformar ideas en productos digitales
+                eficientes, escalables y con una buena experiencia de usuario.
+            </p>
+            <p>
+                También soy fundador y director creativo de BEMONT, donde combino tecnología, branding, diseño y
+                estrategia. Complemento mi perfil con experiencia en fotografía, producción audiovisual y dirección
+                creativa, integrando lógica y creatividad para desarrollar proyectos con identidad propia.
+            </p>
+            <p>
+                Mi enfoque es aprender, experimentar y convertir ideas en soluciones reales, buscando siempre crecer
+                como desarrollador y aportar valor en cada proyecto.
+            </p>
+        </section>
+
+        <a href="../../estudiantes.html" class="btn btn-success mt-3">Volver a estudiantes</a>
+    </main>
+</body>
+
+</html>
