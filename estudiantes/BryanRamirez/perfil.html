@@ -9,13 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --asfalto: #161310;
-            --asfalto-2: #221c18;
-            --crema: #f4ead8;
-            --gorras: #d8c4a4;
-            --oro: #c9a36a;
-            --visera: #1a1a1a;
-            --pelaje: #e8d3b0;
+            --asfalto: #0b0b0d;
+            --asfalto-2: #161618;
+            --crema: #f3efe8;
+            --gorras: #c9bba8;
+            --oro: #c4a574;
+            --visera: #0b0b0d;
+            --pelaje: #efe8dc;
         }
 
         * {
@@ -37,8 +37,8 @@
             inset: 0;
             z-index: 0;
             background:
-                radial-gradient(ellipse 80% 50% at 70% -10%, rgba(201, 163, 106, 0.28), transparent 55%),
-                radial-gradient(ellipse 60% 40% at 10% 100%, rgba(90, 60, 30, 0.35), transparent 50%),
+                radial-gradient(ellipse 70% 45% at 78% 8%, rgba(196, 165, 116, 0.18), transparent 58%),
+                radial-gradient(ellipse 50% 40% at 8% 92%, rgba(40, 40, 44, 0.7), transparent 55%),
                 var(--asfalto);
         }
 
@@ -48,9 +48,9 @@
             inset: 0;
             background-image: url("foto.jpg");
             background-size: cover;
-            background-position: center 30%;
-            filter: blur(42px) saturate(1.1);
-            opacity: 0.22;
+            background-position: center 18%;
+            filter: blur(48px) saturate(0.85);
+            opacity: 0.28;
             transform: scale(1.15);
         }
 
@@ -113,20 +113,20 @@
             position: absolute;
             inset: -18px;
             border-radius: 32px;
-            background: radial-gradient(circle at 50% 40%, rgba(201, 163, 106, 0.45), transparent 70%);
+            background: radial-gradient(circle at 50% 35%, rgba(196, 165, 116, 0.28), transparent 68%);
             z-index: -1;
             filter: blur(8px);
         }
 
         .foto {
-            width: min(100%, 420px);
-            aspect-ratio: 1;
+            width: min(100%, 400px);
+            aspect-ratio: 4 / 5;
             object-fit: cover;
-            object-position: center 20%;
-            border-radius: 28px;
+            object-position: center 12%;
+            border-radius: 22px;
             box-shadow:
-                0 30px 60px rgba(0, 0, 0, 0.45),
-                0 0 0 1px rgba(216, 196, 164, 0.25);
+                0 28px 70px rgba(0, 0, 0, 0.55),
+                0 0 0 1px rgba(243, 239, 232, 0.12);
             display: block;
         }
 
@@ -169,7 +169,7 @@
         }
 
         .sobre {
-            background: rgba(34, 28, 24, 0.72);
+            background: rgba(18, 18, 20, 0.78);
             border: 1px solid rgba(216, 196, 164, 0.16);
             border-radius: 24px;
             padding: 32px;
@@ -253,7 +253,7 @@
 
         .contacto {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 12px;
             margin-bottom: 28px;
         }
@@ -265,7 +265,7 @@
             border: 1px solid rgba(216, 196, 164, 0.22);
             border-radius: 18px;
             padding: 18px 20px;
-            background: rgba(34, 28, 24, 0.6);
+            background: rgba(18, 18, 20, 0.72);
             transition: 0.2s ease;
         }
 
@@ -374,11 +374,11 @@
             <div>
                 <p class="kicker">Perfil estudiante</p>
                 <h1>Bryan Alexander Ramirez Benavides</h1>
-                <p class="subtitulo">Ingeniería de Software · 6B · Pasto, Colombia. Interfaces, juegos y frontend con gorra puesta.</p>
+                <p class="subtitulo">Ingeniería de Software · 6B · Pasto, Colombia.</p>
                 <div class="pills">
-                    <span class="pill">Frontend</span>
                     <span class="pill">React / Next.js</span>
-                    <span class="pill">Pasto, Colombia</span>
+                    <span class="pill">TypeScript</span>
+                    <span class="pill">Phaser 3</span>
                 </div>
             </div>
         </section>
@@ -386,10 +386,14 @@
         <section class="sobre">
             <h2>Sobre mí</h2>
             <p>
-                Estudiante de Ingeniería de Software en Pasto, Colombia. Me especializo en
-                frontend: diseño interfaces claras con React, Next.js y TypeScript, y también
-                desarrollo experiencias interactivas con Phaser. Busco código ordenado,
-                trabajo en equipo con Git y productos que se puedan ver y usar, no solo entregar.
+                Estudiante de sexto semestre de Ingeniería de Software en la
+                Universidad Cooperativa de Colombia, sede Pasto. En el programa he
+                reforzado fundamentos de programación, desarrollo web y trabajo en
+                equipo con Git. Me desempeño en frontend con React, Next.js,
+                TypeScript y Tailwind: diseño e implemento interfaces, las publico
+                en Vercel y las dejo listas para revisión. También desarrollo
+                experiencias interactivas en el navegador con Phaser 3, e integro
+                clientes web con servicios en la nube cuando el proyecto lo requiere.
             </p>
         </section>
 
@@ -404,7 +408,7 @@
             </article>
             <article class="stat">
                 <span>Enfoque</span>
-                <strong>Frontend y juegos</strong>
+                <strong>React y Phaser</strong>
             </article>
         </section>
 
@@ -418,6 +422,10 @@
                 <a href="https://github.com/vxillaxl" target="_blank" rel="noopener noreferrer">
                     <small>GitHub</small>
                     github.com/vxillaxl
+                </a>
+                <a href="https://www.instagram.com/aexven" target="_blank" rel="noopener noreferrer">
+                    <small>Instagram</small>
+                    @aexven
                 </a>
             </div>
         </section>
@@ -446,20 +454,20 @@
                     <h3>UMBRA</h3>
                     <p>Aventura épica El Último Guardián: intro cinematográfica, niveles, enemigos y jefe. Demo en Vercel.</p>
                 </a>
-                <a class="proy" href="https://portafolio-q9jd.vercel.app" target="_blank" rel="noopener noreferrer">
+                <a class="proy" href="https://portafolio-8wqb.vercel.app" target="_blank" rel="noopener noreferrer">
                     <small>Next.js · TypeScript</small>
                     <h3>Portafolio</h3>
-                    <p>Sitio personal en React 19, Next.js y Tailwind, publicado en Vercel.</p>
+                    <p>Sitio personal en React 19, Next.js y Tailwind, con foto y proyectos. Publicado en Vercel.</p>
                 </a>
                 <a class="proy" href="https://banco-frontend-seven.vercel.app" target="_blank" rel="noopener noreferrer">
                     <small>React · AWS</small>
                     <h3>Banco frontend</h3>
                     <p>Interfaz bancaria en React con Axios y AWS SDK. Demo en Vercel.</p>
                 </a>
-                <a class="proy" href="https://github.com/vxillaxl/CHECKOUT" target="_blank" rel="noopener noreferrer">
+                <a class="proy" href="https://checkout-inky-three.vercel.app" target="_blank" rel="noopener noreferrer">
                     <small>Next.js · TypeScript</small>
                     <h3>Checkout</h3>
-                    <p>Flujo de pago en Next.js y Tailwind: UI de producto, no un taller suelto.</p>
+                    <p>Flujo de pago en Next.js y Tailwind: carrito, tarjeta y checkout. Demo en Vercel.</p>
                 </a>
             </div>
         </section>
