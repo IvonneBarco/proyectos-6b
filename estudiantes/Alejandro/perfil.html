@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jhon Alejandro Molina - Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #6c63ff;
+            --secondary: #f50057;
+            --dark: #1a1a2e;
+            --card-bg: #16213e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.05) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-brand {
+            color: var(--primary) !important;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary) !important;
+        }
+
+        /* Hero section */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(108, 99, 255, 0.15) 0%, transparent 70%);
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 28px;
+        }
+
+        .avatar-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            animation: spin 4s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+            border: 4px solid var(--dark);
+        }
+
+        .avatar-placeholder {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+            border: 4px solid var(--dark);
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 30%, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .hero .tagline {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        /* Info cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 28px 20px;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .info-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 30px rgba(108, 99, 255, 0.2);
+        }
+
+        .info-card .icon {
+            font-size: 2.4rem;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .info-card .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 6px;
+        }
+
+        .info-card .value {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* Special love card */
+        .love-card {
+            border-color: rgba(245, 0, 87, 0.3);
+        }
+
+        .love-card:hover {
+            border-color: var(--secondary);
+            box-shadow: 0 12px 30px rgba(245, 0, 87, 0.2);
+        }
+
+        .love-card .value {
+            background: linear-gradient(135deg, #ff6b8a, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.3rem;
+        }
+
+        /* Heart beat animation */
+        .heart {
+            display: inline-block;
+            animation: heartbeat 1.2s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+
+        /* About section */
+        .about-section {
+            max-width: 700px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+
+        .about-section h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .about-section p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Back button */
+        .btn-back {
+            background: linear-gradient(135deg, var(--primary), #8b85ff);
+            border: none;
+            color: #fff;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 60px;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.4);
+            color: #fff;
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(108, 99, 255, 0.4);
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+        }
+
+        .container-main {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Particles background -->
+    <div class="particles" aria-hidden="true">
+        <div class="particle" style="left:10%; width:3px; height:3px; animation-duration:12s; animation-delay:0s;"></div>
+        <div class="particle" style="left:25%; width:5px; height:5px; animation-duration:18s; animation-delay:3s;"></div>
+        <div class="particle" style="left:40%; width:3px; height:3px; animation-duration:14s; animation-delay:6s;"></div>
+        <div class="particle" style="left:60%; width:4px; height:4px; animation-duration:16s; animation-delay:1s;"></div>
+        <div class="particle" style="left:75%; width:3px; height:3px; animation-duration:11s; animation-delay:4s;"></div>
+        <div class="particle" style="left:88%; width:5px; height:5px; animation-duration:20s; animation-delay:7s;"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../../index.html">TEAM 6B</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../estudiantes.html">Estudiantes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../proyectos.html">Proyectos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-main">
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="avatar-wrapper">
+                <img src="foto.jpeg" alt="Jhon Alejandro Molina" class="avatar"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="avatar-placeholder" style="display:none;">JA</div>
+            </div>
+            <h1>Jhon Alejandro Molina</h1>
+            <p class="tagline">Ingeniería de Software · Equipo 6B</p>
+        </section>
+
+        <!-- Info Cards -->
+        <div class="info-grid">
+            <div class="info-card">
+                <span class="icon">👤</span>
+                <p class="label">Nombre</p>
+                <p class="value">Jhon Alejandro Molina</p>
+            </div>
+            <div class="info-card">
+                <span class="icon">🎂</span>
+                <p class="label">Edad</p>
+                <p class="value">22 años</p>
+            </div>
+            <div class="info-card">
+                <span class="icon">🎓</span>
+                <p class="label">Carrera</p>
+                <p class="value">Ingeniería de Software</p>
+            </div>
+           
+        </div>
+
+        <!-- About -->
+        <div class="about-section text-center">
+            <h2>Sobre mí</h2>
+            <p>
+                Hola, soy <strong style="color:#fff;">Jhon Alejandro Molina</strong>, tengo 22 años y soy estudiante
+                de Ingeniería de Software. Me apasiona la tecnología, el desarrollo de software y seguir creciendo
+                profesionalmente cada día.
+            </p>
+        </div>
+
+        <!-- Back button -->
+        <div class="text-center">
+            <a href="../../estudiantes.html" class="btn-back">← Volver a Estudiantes</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
