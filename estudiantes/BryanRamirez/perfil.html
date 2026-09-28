@@ -24,12 +24,88 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: "Outfit", system-ui, sans-serif;
             background: var(--asfalto);
             color: var(--crema);
             min-height: 100vh;
             overflow-x: hidden;
+        }
+
+        ::selection {
+            background: rgba(196, 165, 116, 0.38);
+            color: var(--crema);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0b0b0d;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #c4a574, #7d6848);
+            border-radius: 999px;
+        }
+
+        @keyframes enterUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        @keyframes photoIn {
+            from {
+                opacity: 0;
+                transform: scale(1.08) translateY(18px);
+                filter: blur(10px);
+            }
+            to {
+                opacity: 1;
+                transform: none;
+                filter: none;
+            }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.45; transform: scale(0.96); }
+            50% { opacity: 1; transform: scale(1.04); }
+        }
+
+        @keyframes kenburns {
+            from { transform: scale(1.15); }
+            to { transform: scale(1.28) translate(-2%, 3%); }
+        }
+
+        @keyframes lineDraw {
+            from { width: 0; opacity: 0; }
+            to { width: 72px; opacity: 1; }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-140%) rotate(18deg); }
+            55%, 100% { transform: translateX(220%) rotate(18deg); }
+        }
+
+        @keyframes floatDust {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            15% { opacity: 0.7; }
+            100% { transform: translateY(-110vh) scale(0.6); opacity: 0; }
+        }
+
+        @keyframes cinta {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(196, 165, 116, 0.45); }
+            70% { box-shadow: 0 0 0 8px rgba(196, 165, 116, 0); }
         }
 
         .fondo {
@@ -52,11 +128,89 @@
             filter: blur(48px) saturate(0.85);
             opacity: 0.28;
             transform: scale(1.15);
+            animation: kenburns 22s ease-in-out infinite alternate;
         }
+
+        .fondo::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(243, 239, 232, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(243, 239, 232, 0.035) 1px, transparent 1px);
+            background-size: 56px 56px;
+            mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+            pointer-events: none;
+        }
+
+        .grano {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.07;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .progreso {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            z-index: 20;
+            background: linear-gradient(90deg, #8d7348, var(--oro), #f3efe8);
+            box-shadow: 0 0 12px rgba(196, 165, 116, 0.55);
+        }
+
+        .orbe {
+            position: fixed;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            background: radial-gradient(circle, rgba(196, 165, 116, 0.16), transparent 68%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .orbe.on {
+            opacity: 1;
+        }
+
+        .particulas {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particulas span {
+            position: absolute;
+            bottom: -20px;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--oro);
+            opacity: 0;
+            animation: floatDust 14s linear infinite;
+        }
+
+        .particulas span:nth-child(1) { left: 8%; animation-delay: 0s; }
+        .particulas span:nth-child(2) { left: 18%; width: 2px; height: 2px; animation-delay: 2s; animation-duration: 16s; }
+        .particulas span:nth-child(3) { left: 32%; animation-delay: 4s; }
+        .particulas span:nth-child(4) { left: 47%; width: 4px; height: 4px; animation-delay: 1.2s; animation-duration: 18s; }
+        .particulas span:nth-child(5) { left: 61%; animation-delay: 6s; }
+        .particulas span:nth-child(6) { left: 73%; width: 2px; height: 2px; animation-delay: 3.4s; }
+        .particulas span:nth-child(7) { left: 84%; animation-delay: 7.5s; animation-duration: 15s; }
+        .particulas span:nth-child(8) { left: 93%; animation-delay: 5s; }
 
         .wrap {
             position: relative;
-            z-index: 1;
+            z-index: 3;
             max-width: 1080px;
             margin: 0 auto;
             padding: 28px 20px 64px;
@@ -67,6 +221,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 36px;
+            animation: enterUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
         .brand {
@@ -75,6 +230,11 @@
             text-transform: uppercase;
             color: var(--gorras);
             text-decoration: none;
+            transition: color 0.25s ease;
+        }
+
+        .brand:hover {
+            color: var(--oro);
         }
 
         .back {
@@ -86,13 +246,14 @@
             border-radius: 999px;
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(10px);
-            transition: 0.2s ease;
+            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
         }
 
         .back:hover {
             background: var(--oro);
             color: var(--visera);
             border-color: var(--oro);
+            transform: translateY(-2px);
         }
 
         .hero {
@@ -100,12 +261,14 @@
             grid-template-columns: 1.05fr 1fr;
             gap: 48px;
             align-items: center;
-            margin-bottom: 56px;
+            margin-bottom: 48px;
         }
 
         .foto-wrap {
             position: relative;
+            width: min(100%, 380px);
             justify-self: center;
+            animation: photoIn 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
         .foto-wrap::after {
@@ -113,29 +276,108 @@
             position: absolute;
             inset: -18px;
             border-radius: 32px;
-            background: radial-gradient(circle at 50% 35%, rgba(196, 165, 116, 0.28), transparent 68%);
+            background: radial-gradient(circle at 50% 35%, rgba(196, 165, 116, 0.38), transparent 68%);
             z-index: -1;
             filter: blur(8px);
+            animation: glowPulse 4.2s ease-in-out infinite;
         }
 
+        .foto-inner {
+            position: relative;
+            border-radius: 22px;
+            overflow: hidden;
+            isolation: isolate;
+            box-shadow:
+                0 28px 70px rgba(0, 0, 0, 0.55),
+                0 0 0 1.5px rgba(196, 165, 116, 0.55);
+            transition: transform 0.45s ease, box-shadow 0.45s ease;
+        }
+
+        .foto-wrap:hover .foto-inner {
+            transform: translateY(-4px);
+            box-shadow:
+                0 36px 80px rgba(0, 0, 0, 0.62),
+                0 0 0 1.5px rgba(196, 165, 116, 0.8);
+        }
+
+        .marco {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            border: 1.5px solid var(--oro);
+            z-index: 4;
+            pointer-events: none;
+            opacity: 0.9;
+        }
+
+        .marco.tl { top: 16px; left: 16px; border-right: 0; border-bottom: 0; }
+        .marco.tr { top: 16px; right: 16px; border-left: 0; border-bottom: 0; }
+        .marco.bl { bottom: 16px; left: 16px; border-right: 0; border-top: 0; }
+        .marco.br { bottom: 16px; right: 16px; border-left: 0; border-top: 0; }
+
         .foto {
-            width: min(100%, 400px);
+            width: 100%;
             aspect-ratio: 4 / 5;
             object-fit: cover;
             object-position: center 12%;
-            border-radius: 22px;
-            box-shadow:
-                0 28px 70px rgba(0, 0, 0, 0.55),
-                0 0 0 1px rgba(243, 239, 232, 0.12);
             display: block;
         }
 
+        .brillo {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .brillo::after {
+            content: "";
+            position: absolute;
+            top: -20%;
+            left: 0;
+            width: 38%;
+            height: 140%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+            animation: shine 6.5s ease-in-out infinite;
+        }
+
+        .foto-badge {
+            position: absolute;
+            left: 50%;
+            bottom: 18px;
+            transform: translateX(-50%);
+            z-index: 5;
+            font-size: 0.68rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: rgba(11, 11, 13, 0.78);
+            border: 1px solid rgba(196, 165, 116, 0.45);
+            backdrop-filter: blur(10px);
+            color: var(--pelaje);
+            white-space: nowrap;
+        }
+
         .kicker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 0.78rem;
             letter-spacing: 0.28em;
             text-transform: uppercase;
             color: var(--oro);
             margin-bottom: 14px;
+            animation: enterUp 0.8s 0.18s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .kicker i {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--oro);
+            animation: pulseDot 2.2s ease-out infinite;
         }
 
         h1 {
@@ -144,13 +386,43 @@
             font-weight: 700;
             line-height: 1.12;
             margin-bottom: 14px;
+            animation: enterUp 0.85s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        h1::after {
+            content: "";
+            display: block;
+            height: 2px;
+            width: 72px;
+            margin: 14px 0 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--oro), transparent);
+            animation: lineDraw 0.9s 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
         .subtitulo {
             color: rgba(244, 234, 216, 0.72);
             font-weight: 300;
             font-size: 1.08rem;
-            margin-bottom: 28px;
+            margin-bottom: 18px;
+            animation: enterUp 0.85s 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .metas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 22px;
+            animation: enterUp 0.85s 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .meta {
+            font-size: 0.75rem;
+            color: var(--gorras);
+            border: 1px solid rgba(216, 196, 164, 0.2);
+            padding: 6px 11px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.03);
         }
 
         .pills {
@@ -166,22 +438,69 @@
             background: rgba(201, 163, 106, 0.14);
             border: 1px solid rgba(201, 163, 106, 0.35);
             color: var(--pelaje);
+            animation: enterUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+            transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+        }
+
+        .pill:nth-child(1) { animation-delay: 0.55s; }
+        .pill:nth-child(2) { animation-delay: 0.65s; }
+        .pill:nth-child(3) { animation-delay: 0.75s; }
+
+        .pill:hover {
+            transform: translateY(-3px);
+            background: rgba(201, 163, 106, 0.28);
+            border-color: var(--oro);
+        }
+
+        .sec-head {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .sec-num {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: var(--oro);
+            opacity: 0.7;
         }
 
         .sobre {
+            position: relative;
             background: rgba(18, 18, 20, 0.78);
             border: 1px solid rgba(216, 196, 164, 0.16);
             border-radius: 24px;
-            padding: 32px;
+            padding: 32px 32px 32px 36px;
             margin-bottom: 28px;
             backdrop-filter: blur(16px);
+            overflow: hidden;
+        }
+
+        .sobre::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 18px;
+            bottom: 18px;
+            width: 3px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--oro), transparent);
+        }
+
+        .comilla {
+            font-family: "Fraunces", Georgia, serif;
+            font-size: 4.2rem;
+            line-height: 0.6;
+            color: rgba(196, 165, 116, 0.22);
+            margin-bottom: 10px;
         }
 
         .sobre h2,
         .bloque h2 {
             font-family: "Fraunces", Georgia, serif;
             font-size: 1.45rem;
-            margin-bottom: 12px;
+            margin-bottom: 0;
         }
 
         .sobre p {
@@ -203,12 +522,13 @@
             border: 1px solid rgba(216, 196, 164, 0.16);
             border-radius: 20px;
             padding: 22px 18px;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .stat:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
             border-color: var(--oro);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
         }
 
         .stat span {
@@ -224,6 +544,31 @@
             font-family: "Fraunces", Georgia, serif;
             font-size: 1.15rem;
             font-weight: 500;
+        }
+
+        .cinta-wrap {
+            overflow: hidden;
+            border-top: 1px solid rgba(216, 196, 164, 0.14);
+            border-bottom: 1px solid rgba(216, 196, 164, 0.14);
+            margin: 8px 0 32px;
+            padding: 14px 0;
+            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+        }
+
+        .cinta {
+            display: flex;
+            width: max-content;
+            gap: 0;
+            animation: cinta 28s linear infinite;
+        }
+
+        .cinta p {
+            padding: 0 28px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            color: var(--gorras);
+            white-space: nowrap;
         }
 
         .bloque {
@@ -243,6 +588,12 @@
             color: var(--asfalto);
             font-weight: 500;
             font-size: 0.88rem;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .tech span:hover {
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
         }
 
         .tech span:nth-child(even) {
@@ -255,7 +606,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 12px;
-            margin-bottom: 28px;
+            margin-bottom: 8px;
         }
 
         .contacto a {
@@ -266,12 +617,14 @@
             border-radius: 18px;
             padding: 18px 20px;
             background: rgba(18, 18, 20, 0.72);
-            transition: 0.2s ease;
+            transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
         }
 
         .contacto a:hover {
             border-color: var(--oro);
-            transform: translateY(-3px);
+            transform: translateY(-5px);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.32);
+            background: rgba(196, 165, 116, 0.08);
         }
 
         .contacto small {
@@ -294,20 +647,38 @@
             text-decoration: none;
             border-radius: 22px;
             padding: 26px;
-            min-height: 180px;
+            min-height: 196px;
             background: var(--crema);
             color: var(--asfalto);
-            transition: transform 0.2s ease;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .proy::after {
+            content: "";
+            position: absolute;
+            inset: auto -30% -40% auto;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: rgba(196, 165, 116, 0.16);
+            pointer-events: none;
         }
 
         .proy:hover {
-            transform: translateY(-4px);
+            transform: translateY(-8px) scale(1.015);
+            box-shadow: 0 22px 40px rgba(0, 0, 0, 0.35);
         }
 
         .proy:nth-child(even) {
             background: transparent;
             color: var(--crema);
             border: 1px solid rgba(216, 196, 164, 0.28);
+        }
+
+        .proy:nth-child(even)::after {
+            background: rgba(196, 165, 116, 0.1);
         }
 
         .proy small {
@@ -330,12 +701,32 @@
             opacity: 0.82;
         }
 
+        .proy-go {
+            display: inline-block;
+            margin-top: 16px;
+            font-size: 0.78rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 600;
+            opacity: 0.7;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+
+        .proy:hover .proy-go {
+            transform: translateX(6px);
+            opacity: 1;
+        }
+
         footer {
-            margin-top: 40px;
+            margin-top: 48px;
             text-align: center;
             font-size: 0.8rem;
             color: rgba(216, 196, 164, 0.55);
             letter-spacing: 0.08em;
+        }
+
+        footer span {
+            color: var(--oro);
         }
 
         @media (max-width: 800px) {
@@ -346,20 +737,60 @@
                 grid-template-columns: 1fr;
             }
 
-            .foto {
-                width: 100%;
-                max-width: 340px;
+            .foto-wrap {
+                width: min(100%, 340px);
                 margin: 0 auto;
             }
 
             h1 {
                 font-size: 2.1rem;
             }
+
+            .orbe {
+                display: none;
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+
+            .orbe,
+            .particulas {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
     <div class="fondo"></div>
+    <div class="grano"></div>
+    <div class="particulas" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="orbe" id="orbe"></div>
+    <div class="progreso" id="progreso"></div>
 
     <div class="wrap">
         <div class="topbar">
@@ -369,12 +800,25 @@
 
         <section class="hero">
             <div class="foto-wrap">
-                <img class="foto" src="foto.jpg" alt="Foto de perfil de Bryan Alexander Ramirez Benavides">
+                <div class="foto-inner">
+                    <span class="marco tl"></span>
+                    <span class="marco tr"></span>
+                    <span class="marco bl"></span>
+                    <span class="marco br"></span>
+                    <img class="foto" src="foto.jpg" alt="Foto de perfil de Bryan Alexander Ramirez Benavides">
+                    <span class="brillo"></span>
+                    <span class="foto-badge">6B · Pasto</span>
+                </div>
             </div>
-            <div>
-                <p class="kicker">Perfil estudiante</p>
+            <div class="hero-copy">
+                <p class="kicker"><i></i> Perfil estudiante</p>
                 <h1>Bryan Alexander Ramirez Benavides</h1>
                 <p class="subtitulo">Ingeniería de Software · 6B · Pasto, Colombia.</p>
+                <div class="metas">
+                    <span class="meta">UCC Pasto</span>
+                    <span class="meta">Sexto semestre</span>
+                    <span class="meta">Frontend</span>
+                </div>
                 <div class="pills">
                     <span class="pill">React / Next.js</span>
                     <span class="pill">TypeScript</span>
@@ -383,8 +827,12 @@
             </div>
         </section>
 
-        <section class="sobre">
-            <h2>Sobre mí</h2>
+        <section class="sobre reveal">
+            <div class="comilla">“</div>
+            <div class="sec-head">
+                <span class="sec-num">01</span>
+                <h2>Sobre mí</h2>
+            </div>
             <p>
                 Estudiante de sexto semestre de Ingeniería de Software en la
                 Universidad Cooperativa de Colombia, sede Pasto. En el programa he
@@ -397,7 +845,7 @@
             </p>
         </section>
 
-        <section class="stats">
+        <section class="stats reveal">
             <article class="stat">
                 <span>Formación</span>
                 <strong>Ing. de Software</strong>
@@ -412,8 +860,18 @@
             </article>
         </section>
 
-        <section class="bloque">
-            <h2>Contacto</h2>
+        <div class="cinta-wrap reveal" aria-hidden="true">
+            <div class="cinta">
+                <p>React · Next.js · TypeScript · Tailwind · Phaser 3 · Vercel · Git · Frontend</p>
+                <p>React · Next.js · TypeScript · Tailwind · Phaser 3 · Vercel · Git · Frontend</p>
+            </div>
+        </div>
+
+        <section class="bloque reveal">
+            <div class="sec-head">
+                <span class="sec-num">02</span>
+                <h2>Contacto</h2>
+            </div>
             <div class="contacto">
                 <a href="mailto:vxillaxl4@gmail.com">
                     <small>Correo</small>
@@ -430,8 +888,11 @@
             </div>
         </section>
 
-        <section class="bloque">
-            <h2>Tecnologías</h2>
+        <section class="bloque reveal">
+            <div class="sec-head">
+                <span class="sec-num">03</span>
+                <h2>Tecnologías</h2>
+            </div>
             <div class="tech">
                 <span>HTML</span>
                 <span>CSS</span>
@@ -446,33 +907,67 @@
             </div>
         </section>
 
-        <section class="bloque">
-            <h2>Proyectos</h2>
+        <section class="bloque reveal">
+            <div class="sec-head">
+                <span class="sec-num">04</span>
+                <h2>Proyectos</h2>
+            </div>
             <div class="proyectos">
                 <a class="proy" href="https://umbra-eta.vercel.app" target="_blank" rel="noopener noreferrer">
                     <small>Juego · Phaser 3</small>
                     <h3>UMBRA</h3>
                     <p>Aventura épica El Último Guardián: intro cinematográfica, niveles, enemigos y jefe. Demo en Vercel.</p>
+                    <span class="proy-go">Ver demo →</span>
                 </a>
                 <a class="proy" href="https://portafolio-8wqb.vercel.app" target="_blank" rel="noopener noreferrer">
                     <small>Next.js · TypeScript</small>
                     <h3>Portafolio</h3>
                     <p>Sitio personal en React 19, Next.js y Tailwind, con foto y proyectos. Publicado en Vercel.</p>
+                    <span class="proy-go">Ver demo →</span>
                 </a>
                 <a class="proy" href="https://banco-frontend-seven.vercel.app" target="_blank" rel="noopener noreferrer">
                     <small>React · AWS</small>
                     <h3>Banco frontend</h3>
                     <p>Interfaz bancaria en React con Axios y AWS SDK. Demo en Vercel.</p>
+                    <span class="proy-go">Ver demo →</span>
                 </a>
                 <a class="proy" href="https://checkout-inky-three.vercel.app" target="_blank" rel="noopener noreferrer">
                     <small>Next.js · TypeScript</small>
                     <h3>Checkout</h3>
                     <p>Flujo de pago en Next.js y Tailwind: carrito, tarjeta y checkout. Demo en Vercel.</p>
+                    <span class="proy-go">Ver demo →</span>
                 </a>
             </div>
         </section>
 
-        <footer>TEAM 6B · Bryan Alexander Ramirez Benavides</footer>
+        <footer class="reveal">TEAM 6B · <span>Bryan Alexander Ramirez Benavides</span></footer>
     </div>
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.16, rootMargin: "0px 0px -40px 0px" });
+
+        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+        const progreso = document.getElementById("progreso");
+        const orbe = document.getElementById("orbe");
+
+        window.addEventListener("scroll", () => {
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+            progreso.style.width = pct + "%";
+        }, { passive: true });
+
+        window.addEventListener("pointermove", (event) => {
+            orbe.classList.add("on");
+            orbe.style.left = event.clientX + "px";
+            orbe.style.top = event.clientY + "px";
+        }, { passive: true });
+    </script>
 </body>
 </html>
