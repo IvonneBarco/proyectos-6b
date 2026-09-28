@@ -84,54 +84,6 @@
             color: #fff;
         }
 
-        .fittrack-card {
-            width: 100%;
-            max-width: 18rem;
-            overflow: hidden;
-            border: 1px solid #d7e8dc;
-            border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(25, 67, 42, 0.1);
-        }
-
-        .fittrack-card-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 1.25rem;
-            background-color: #eef7ef;
-            color: #315740;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .fittrack-symbol {
-            display: grid;
-            width: 42px;
-            height: 42px;
-            place-items: center;
-            border-radius: 10px;
-            background-color: #1e5032;
-            color: #d7f58a;
-            font-size: 0.95rem;
-        }
-
-        .fittrack-card .card-title {
-            color: #1e5032;
-        }
-
-        .fittrack-button {
-            border-color: #1e633b;
-            background-color: #1e633b;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .fittrack-button:hover,
-        .fittrack-button:focus {
-            border-color: #174b2d;
-            background-color: #174b2d;
-            color: #fff;
-        }
     </style>
 </head>
 
@@ -244,15 +196,15 @@
                 Column
             </div>
             <div class="col-12 col-md-4 d-flex justify-content-center">
-                <div class="card m-2 fittrack-card">
-                    <div class="fittrack-card-header">
-                        <span class="fittrack-symbol" aria-hidden="true">FT</span>
+                <div class="card m-2" style="width: 100%; max-width: 18rem; overflow: hidden; border: 1px solid #d7e8dc; border-radius: 12px; box-shadow: 0 6px 18px rgba(25, 67, 42, 0.1);">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.25rem; background-color: #eef7ef; color: #315740; font-size: 0.75rem; font-weight: 700;">
+                        <span aria-hidden="true" style="display: grid; width: 42px; height: 42px; place-items: center; border-radius: 10px; background-color: #1e5032; color: #d7f58a; font-size: 0.95rem;">FT</span>
                         <span>ENTRENAMIENTO</span>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">FitTrack</h5>
+                        <h5 class="card-title" style="color: #1e5032;">FitTrack</h5>
                         <p class="card-text">Es una aplicación web que permite registrar, visualizar y analizar el progreso del entrenamiento físico en un solo dashboard, de forma simple y motivadora.</p>
-                        <a href="#" class="btn fittrack-button">Ver proyecto</a>
+                        <a href="#" class="btn" style="border-color: #1e633b; background-color: #1e633b; color: #fff; font-weight: 600;">Ver proyecto</a>
                     </div>
                 </div>
             </div>
