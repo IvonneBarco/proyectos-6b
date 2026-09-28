@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Estudiante | Sebastian coral</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* PROPUESTA 2 — Moderno tecnológico (fondo oscuro, azul/morado, brillos sutiles) */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+        :root {
+            --p2-bg: #070b16;
+            --p2-surface: #0d1324;
+            --p2-surface-2: #121a30;
+            --p2-line: rgba(139, 152, 255, 0.16);
+            --p2-text: #e8ecff;
+            --p2-muted: #8b94b8;
+            --p2-blue: #4f7cff;
+            --p2-violet: #9b5cff;
+            --p2-glow: rgba(79, 124, 255, 0.35);
+        }
+
+        body.bg-light {
+            background-color: var(--p2-bg) !important;
+            background-image:
+                radial-gradient(900px 500px at 15% -10%, rgba(79,124,255,0.18), transparent 60%),
+                radial-gradient(700px 400px at 90% 10%, rgba(155,92,255,0.16), transparent 60%),
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: auto, auto, 40px 40px, 40px 40px;
+            background-attachment: fixed;
+            color: var(--p2-text);
+            font-family: 'Inter', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h4, h5, h6, .navbar-brand { font-family: 'Space Grotesk', 'Inter', sans-serif; }
+
+        /* Barra superior */
+        .navbar.bg-dark {
+            background-color: rgba(7, 11, 22, 0.7) !important;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--p2-line);
+            box-shadow: none !important;
+            position: sticky; top: 0; z-index: 10;
+        }
+        .navbar-dark .navbar-brand {
+            color: var(--p2-text) !important;
+            letter-spacing: 0.1em;
+            font-size: 0.85rem;
+        }
+        .navbar .badge.text-bg-light {
+            background: linear-gradient(90deg, var(--p2-blue), var(--p2-violet)) !important;
+            color: #fff !important;
+            border-radius: 999px;
+            font-weight: 600;
+            padding: 0.5rem 0.9rem;
+            box-shadow: 0 0 20px var(--p2-glow);
+        }
+
+        /* Tarjeta principal */
+        main.container { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+        section.card {
+            background-color: var(--p2-surface);
+            border: 1px solid var(--p2-line) !important;
+            border-radius: 1.5rem !important;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 40px 90px -40px rgba(79,124,255,0.45) !important;
+            position: relative;
+        }
+        section.card::before {
+            content: '';
+            position: absolute; inset: 0 0 auto 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--p2-blue), var(--p2-violet), transparent);
+            z-index: 2;
+        }
+
+        /* Encabezado */
+        section.card > .bg-dark {
+            background:
+                radial-gradient(600px 260px at 50% 0%, rgba(155,92,255,0.25), transparent 70%),
+                linear-gradient(180deg, var(--p2-surface-2), var(--p2-surface)) !important;
+            border-bottom: 1px solid var(--p2-line);
+            padding: 4rem 2rem 3rem !important;
+        }
+        section.card > .bg-dark .rounded-circle {
+            background: linear-gradient(135deg, var(--p2-blue), var(--p2-violet)) !important;
+            color: #fff !important;
+            font-weight: 700 !important;
+            font-family: 'Space Grotesk', sans-serif;
+            box-shadow: 0 0 0 4px var(--p2-surface), 0 0 0 5px rgba(139,152,255,0.35), 0 0 50px var(--p2-glow) !important;
+            animation: p2-pulse 4s ease-in-out infinite;
+        }
+        @keyframes p2-pulse {
+            0%, 100% { box-shadow: 0 0 0 4px var(--p2-surface), 0 0 0 5px rgba(139,152,255,0.35), 0 0 40px var(--p2-glow); }
+            50% { box-shadow: 0 0 0 4px var(--p2-surface), 0 0 0 5px rgba(139,152,255,0.6), 0 0 70px var(--p2-glow); }
+        }
+        section.card > .bg-dark .text-uppercase {
+            color: var(--p2-blue) !important;
+            opacity: 1 !important;
+            letter-spacing: 0.25em;
+            font-size: 0.7rem;
+        }
+        section.card > .bg-dark h1 {
+            font-weight: 700 !important;
+            letter-spacing: -0.02em;
+            font-size: clamp(2rem, 4vw, 2.9rem);
+            background: linear-gradient(90deg, #ffffff, #b9c6ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent !important;
+        }
+        section.card > .bg-dark p.mb-0 { color: var(--p2-muted) !important; opacity: 1 !important; }
+
+        /* Sobre mí */
+        .badge.rounded-pill.text-bg-dark {
+            background-color: rgba(79,124,255,0.12) !important;
+            color: #b9c6ff !important;
+            border: 1px solid rgba(79,124,255,0.35);
+            letter-spacing: 0.16em;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+        .lead { color: var(--p2-text); font-weight: 500; line-height: 1.55; }
+        .text-secondary { color: var(--p2-muted) !important; line-height: 1.6; }
+
+        /* Información académica */
+        .row.g-3 .border.rounded-4.bg-light {
+            background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)) !important;
+            border: 1px solid var(--p2-line) !important;
+            border-radius: 1.1rem !important;
+            color: var(--p2-text);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .row.g-3 .border.rounded-4.bg-light:hover {
+            transform: translateY(-4px);
+            border-color: rgba(155,92,255,0.6) !important;
+            box-shadow: 0 20px 40px -24px var(--p2-glow);
+        }
+        h6.fw-bold { color: var(--p2-text); }
+
+        /* Títulos de sección */
+        h4.fw-bold {
+            color: var(--p2-text);
+            letter-spacing: -0.01em;
+            display: inline-flex; align-items: center; gap: 0.6rem;
+        }
+        h4.fw-bold::before {
+            content: '';
+            width: 8px; height: 8px; border-radius: 2px;
+            background: linear-gradient(135deg, var(--p2-blue), var(--p2-violet));
+            box-shadow: 0 0 12px var(--p2-glow);
+        }
+
+        /* Tecnologías */
+        .d-flex.flex-wrap .badge {
+            font-weight: 500;
+            font-size: 0.78rem;
+            border-radius: 8px !important;
+            transition: all 0.2s ease;
+        }
+        .d-flex.flex-wrap .badge.text-bg-dark {
+            background: rgba(79,124,255,0.14) !important;
+            color: #c4d0ff !important;
+            border: 1px solid rgba(79,124,255,0.35);
+        }
+        .d-flex.flex-wrap .badge.text-bg-secondary {
+            background: rgba(155,92,255,0.12) !important;
+            color: #dcc9ff !important;
+            border: 1px solid rgba(155,92,255,0.32);
+        }
+        .d-flex.flex-wrap .badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -10px var(--p2-glow);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        /* Redes sociales */
+        a.text-decoration-none.text-dark { color: var(--p2-text) !important; }
+        a.text-decoration-none .border.rounded-4 {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--p2-line) !important;
+            border-radius: 1.1rem !important;
+            transition: all 0.3s ease;
+        }
+        a.text-decoration-none:hover .border.rounded-4 {
+            background: linear-gradient(135deg, rgba(79,124,255,0.25), rgba(155,92,255,0.25));
+            border-color: rgba(155,92,255,0.7) !important;
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -24px var(--p2-glow);
+        }
+        a.text-decoration-none .fs-3 {
+            color: #b9c6ff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .card-footer.bg-dark {
+            background: var(--p2-surface-2) !important;
+            color: var(--p2-muted) !important;
+            border-top: 1px solid var(--p2-line) !important;
+            letter-spacing: 0.06em;
+            font-size: 0.8rem;
+        }
+
+        /* Entrada */
+        @keyframes p2-rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+        section.card { animation: p2-rise 0.8s cubic-bezier(.2,.8,.2,1) both; }
+
+        @media (max-width: 576px) {
+            section.card > .bg-dark { padding: 3rem 1.25rem 2.25rem !important; }
+            .card-body.p-4 { padding: 1.5rem !important; }
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <!-- Barra superior -->
+    <nav class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                ◯ PROYECTOS ESTUDIANTES
+            </a>
+            <span class="badge text-bg-light">Ingeniería de Software</span>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+
+        <!-- Perfil principal -->
+        <section class="card border-0 shadow-lg rounded-4 overflow-hidden mx-auto" style="max-width: 850px;">
+
+            <!-- Encabezado visual -->
+            <div class="bg-dark text-white text-center p-5">
+                 <div class="mx-auto mb-3 rounded-circle bg-white text-dark d-flex align-items-center justify-content-center shadow"
+                     style="width: 130px; height: 130px; font-size: 42px; font-weight: 700;">
+                    SC
+                 </div>
+
+                <p class="text-uppercase small fw-semibold mb-1 opacity-75">
+                    Perfil estudiante
+                </p>
+
+                <h1 class="display-6 fw-bold mb-2">
+                    sebastian coral
+                </h1>
+
+                <p class="mb-0 opacity-75">
+                    Estudiante de Ingeniería de Software · Semestre Vl
+                </p>
+            </div>
+
+            <div class="card-body p-4 p-md-5">
+
+                <!-- Sobre mí -->
+                <div class="text-center mb-5">
+                    <span class="badge rounded-pill text-bg-dark px-3 py-2 mb-3">
+                        SOBRE MÍ
+                    </span>
+
+                    <p class="lead mb-2">
+                        Estudiante de la Universidad Cooperativa de Colombia,
+                    apasionado por la programación, el desarrollo web y la tecnología. 
+                    Me gustan los videojuegos, aprender cosas nuevas y compartir mis conocimientos.
+                    </p>
+
+                    <p class="text-secondary mb-0">
+                        Desarrollo soluciones digitales combinando programación, 
+                        diseño y tecnología para crear experiencias modernas y 
+                        funcionales.
+                    </p>
+                </div>
+
+                <!-- Información académica -->
+                <div class="row g-3 mb-5">
+
+                    <div class="col-md-4">
+                        <div class="border rounded-4 p-4 h-100 text-center bg-light">
+                            <div class="fs-2 mb-2">🎓</div>
+                            <h6 class="fw-bold">Formación</h6>
+                            <p class="small text-secondary mb-0">
+                                Ingeniería de Software
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="border rounded-4 p-4 h-100 text-center bg-light">
+                            <div class="fs-2 mb-2">💻</div>
+                            <h6 class="fw-bold">Enfoque</h6>
+                            <p class="small text-secondary mb-0">
+                                Desarrollo web y aplicaciones
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="border rounded-4 p-4 h-100 text-center bg-light">
+                            <div class="fs-2 mb-2">🎨</div>
+                            <h6 class="fw-bold">Creatividad</h6>
+                            <p class="small text-secondary mb-0">
+                                Diseño digital y gráfico
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Tecnologías -->
+                <div class="mb-5">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h4 class="fw-bold mb-0">Tecnologías</h4>
+                        <span class="text-secondary small">Mis herramientas</span>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge rounded-pill text-bg-dark px-3 py-2">Java</span>
+                        <span class="badge rounded-pill text-bg-secondary px-3 py-2">Python</span>
+                        <span class="badge rounded-pill text-bg-dark px-3 py-2">JavaScript</span>
+                        <span class="badge rounded-pill text-bg-secondary px-3 py-2">TypeScript</span>
+                        <span class="badge rounded-pill text-bg-dark px-3 py-2">React</span>
+                        <span class="badge rounded-pill text-bg-secondary px-3 py-2">Next.js</span>
+                        <span class="badge rounded-pill text-bg-dark px-3 py-2">Spring Boot</span>
+                        <span class="badge rounded-pill text-bg-secondary px-3 py-2">Django</span>
+                        <span class="badge rounded-pill text-bg-dark px-3 py-2">HTML</span>
+                        <span class="badge rounded-pill text-bg-secondary px-3 py-2">CSS</span>
+                        <span class="badge rounded-pill text-bg-dark px-3 py-2">TailwindCSS</span>
+                        <span class="badge rounded-pill text-bg-secondary px-3 py-2">Node.js</span>
+                        <span class="badge rounded-pill text-bg-dark px-3 py-2">SQL</span>
+                        <span class="badge rounded-pill text-bg-secondary px-3 py-2">Git / GitHub</span>
+                        <span class="badge rounded-pill text-bg-dark px-3 py-2">AWS</span>
+                    </div>
+                </div>
+
+                <!-- Redes sociales -->
+                <div>
+                    <h4 class="fw-bold mb-3">Redes sociales</h4>
+
+                    <div class="row g-3">
+
+                        <div class="col-sm-4">
+                            <a href="#" class="text-decoration-none text-dark">
+                                <div class="border rounded-4 p-3 text-center h-100">
+                                    <div class="fs-3">◎</div>
+                                    <div class="fw-bold">Instagram</div>
+                                    <small class="text-secondary">Mi perfil</small>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <a href="#" class="text-decoration-none text-dark">
+                                <div class="border rounded-4 p-3 text-center h-100">
+                                    <div class="fs-3">◉</div>
+                                    <div class="fw-bold">GitHub</div>
+                                    <small class="text-secondary">Mis proyectos</small>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <a href="#" class="text-decoration-none text-dark">
+                                <div class="border rounded-4 p-3 text-center h-100">
+                                    <div class="fs-3">in</div>
+                                    <div class="fw-bold">LinkedIn</div>
+                                    <small class="text-secondary">Perfil profesional</small>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Pie -->
+            <div class="card-footer bg-dark text-white text-center border-0 py-3">
+                <small>Proyectos Estudiantes · Perfil de Sebastian coral</small>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
