@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#04151e">
+	<meta name="description" content="Portafolio de Bayron Felipe Jaramillo Galindres, estudiante de Ingeniería de Software en Pasto, Colombia.">
+	<title>Bayron Felipe Jaramillo | Portafolio</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			color-scheme: dark;
+			--ink: #04151e;
+			--ink-raised: #071d28;
+			--panel: #071a25;
+			--line: #0d5367;
+			--cyan: #00d9f5;
+			--cyan-soft: #73eaff;
+			--white: #e7f2f7;
+			--muted: #7196a3;
+			--mono: "IBM Plex Mono", Consolas, monospace;
+			--display: "Barlow Condensed", "Arial Narrow", sans-serif;
+		}
+
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; scroll-padding-top: 82px; overflow-x: clip; }
+		body {
+			margin: 0;
+			color: var(--white);
+			background:
+				radial-gradient(ellipse at 82% 9%, rgba(0, 217, 245, .09), transparent 30rem),
+				radial-gradient(ellipse at 15% 57%, rgba(24, 109, 132, .15), transparent 36rem),
+				repeating-linear-gradient(0deg, transparent 0 79px, rgba(77, 153, 171, .025) 80px),
+				var(--ink);
+			font-family: var(--mono);
+			font-size: 13px;
+			line-height: 1.7;
+			overflow-x: hidden;
+		}
+
+		a { color: inherit; }
+		a:focus-visible, button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
+		.wrap { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+		.topbar {
+			position: sticky;
+			z-index: 10;
+			top: 0;
+			border-bottom: 1px solid rgba(0, 217, 245, .27);
+			background: rgba(3, 16, 24, .92);
+			backdrop-filter: blur(14px);
+		}
+		.nav-inner { min-height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+		.brand { color: var(--cyan); font-size: 11px; font-weight: 600; text-decoration: none; letter-spacing: .04em; }
+		.nav-links { display: flex; gap: clamp(16px, 4vw, 42px); align-items: center; }
+		.nav-links a { color: #92b5c1; font-size: 10px; text-decoration: none; transition: color .2s; }
+		.nav-links a:hover { color: var(--cyan); }
+		.clock { color: var(--muted); font-size: 9px; }
+
+		.hero { position: relative; min-height: 590px; display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 54px; padding-block: 74px 90px; }
+		.hero::after {
+			content: "BFJ";
+			position: absolute;
+			z-index: -1;
+			right: -11vw;
+			bottom: -10px;
+			color: rgba(0, 7, 14, .58);
+			font: 800 clamp(200px, 40vw, 500px)/.8 var(--display);
+			letter-spacing: .01em;
+			pointer-events: none;
+		}
+		.eyebrow, .section-kicker { color: var(--cyan); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+		.eyebrow { display: flex; align-items: center; gap: 12px; }
+		.eyebrow::after { content: ""; width: 120px; height: 1px; background: var(--line); }
+		.location { margin: 4px 0 22px; color: var(--muted); font-size: 10px; }
+		h1, h2, h3, p { margin-top: 0; }
+		h1 {
+			max-width: 660px;
+			margin-bottom: 12px;
+			font: 700 clamp(62px, 8vw, 104px)/.79 var(--display);
+			letter-spacing: .012em;
+			text-transform: uppercase;
+		}
+		h1 span { display: block; }
+		h1 .first { color: var(--white); }
+		h1 .middle { color: var(--cyan); }
+		.role { margin-bottom: 20px; color: var(--muted); font-size: 10px; text-transform: uppercase; }
+		.intro { max-width: 540px; margin-bottom: 26px; padding-left: 15px; border-left: 2px solid var(--cyan); color: #9bbac4; font-size: 11px; }
+		.intro strong { color: var(--cyan-soft); font-weight: 500; }
+		.tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 26px; padding: 0; list-style: none; }
+		.tag-list li { border: 1px solid #103c4b; background: rgba(7, 29, 40, .82); padding: 4px 10px; color: #75b5c4; font-size: 9px; }
+		.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+		.button { display: inline-flex; min-height: 40px; align-items: center; gap: 10px; padding: 0 15px; border: 1px solid var(--cyan); color: var(--cyan); font-size: 10px; text-decoration: none; transition: background .2s, color .2s; }
+		.button:hover { color: var(--ink); background: var(--cyan); }
+		.button.secondary { border-color: #143b49; color: #83aeb9; }
+		.button.secondary:hover { border-color: var(--cyan); color: var(--cyan); background: transparent; }
+		.portrait-wrap { position: relative; width: min(100%, 390px); justify-self: center; padding: 10px; }
+		.portrait-wrap::before, .portrait-wrap::after { position: absolute; width: 20px; height: 20px; content: ""; border-color: var(--cyan); border-style: solid; }
+		.portrait-wrap::before { top: 0; left: 0; border-width: 2px 0 0 2px; }
+		.portrait-wrap::after { right: 0; bottom: 0; border-width: 0 2px 2px 0; }
+		.portrait { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 42%; border: 1px solid #1d6776; filter: saturate(.78) contrast(1.04); }
+		.portrait-label { position: absolute; right: 18px; bottom: 18px; padding: 7px 10px; background: rgba(3, 16, 24, .9); color: var(--cyan); font-size: 9px; }
+
+		.section { position: relative; padding-block: 72px; border-top: 1px solid rgba(15, 81, 98, .42); }
+		.section::before { position: absolute; top: -5px; left: 50%; padding: 0 14px; content: "—  BFJ / 06  —"; transform: translateX(-50%); background: var(--ink); color: #397b8c; font-size: 8px; }
+		.section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 25px; }
+		.section-title { margin: 4px 0 0; font: 600 34px/.95 var(--display); text-transform: uppercase; letter-spacing: .015em; }
+		.section-note { max-width: 360px; margin: 0; color: var(--muted); font-size: 10px; }
+		.project-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; grid-template-rows: 210px 210px; gap: 12px; }
+		.project {
+			position: relative;
+			min-width: 0;
+			overflow: hidden;
+			border: 1px solid #0c4354;
+			background: #071923;
+			text-decoration: none;
+			transition: border-color .25s, transform .25s;
+		}
+		.project:hover { border-color: var(--cyan); transform: translateY(-3px); }
+		.project:first-child { grid-row: span 2; }
+		.project-art { position: absolute; inset: 0 0 66px; display: grid; place-items: center; overflow: hidden; background: #05121b; }
+		.project-copy { position: absolute; inset: auto 0 0; min-height: 76px; padding: 10px 13px; background: linear-gradient(90deg, rgba(4, 21, 30, .98), rgba(4, 21, 30, .88)); }
+		.project-type { color: var(--cyan); font-size: 8px; text-transform: uppercase; }
+		.project h3 { margin: 3px 0 2px; font: 600 22px/.95 var(--display); }
+		.project p { margin: 0; color: #82a3ae; font-size: 9px; }
+		.open-mark { position: absolute; top: 9px; right: 12px; color: var(--cyan); font-size: 15px; }
+		.orbit { position: relative; width: 150px; height: 150px; border: 2px solid #8cecff; border-radius: 50%; transform: rotate(-28deg) scaleY(.42); box-shadow: 0 0 18px rgba(0, 217, 245, .6), inset 0 0 20px rgba(0, 217, 245, .2); }
+		.orbit::before, .orbit::after { position: absolute; inset: 16px -12px; content: ""; border: 2px solid rgba(99, 212, 255, .8); border-radius: 50%; transform: rotate(48deg); }
+		.orbit::after { inset: 33px -22px; transform: rotate(-54deg); }
+		.planet { position: absolute; width: 42px; height: 42px; border: 1px solid #a8f4ff; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #eaffff, #3989b1 34%, #0b2341 70%); box-shadow: 0 0 24px #21c9ed; }
+		.flower-art { background: radial-gradient(ellipse at 50% 50%, #431c2d 0, #160d18 42%, #050d16 78%); }
+		.flower { position: relative; width: 90px; height: 90px; border-radius: 50%; background: repeating-conic-gradient(from 8deg, #bb6341 0 12deg, #522b31 13deg 24deg, transparent 25deg 30deg); filter: drop-shadow(0 0 17px rgba(224, 87, 51, .4)); }
+		.flower::after { position: absolute; inset: 31px; content: ""; border-radius: 50%; background: #e1b274; }
+		.flor-title { position: absolute; top: 24px; color: #f8e6d4; font: 600 18px var(--display); letter-spacing: .12em; }
+		.circuit-art { background: linear-gradient(135deg, #09232b, #06121b); }
+		.circuit-board { width: 72%; height: 66%; border: 1px solid #2b8692; background: repeating-linear-gradient(0deg, transparent 0 19px, rgba(0, 217, 245, .2) 20px), repeating-linear-gradient(90deg, transparent 0 24px, rgba(0, 217, 245, .14) 25px); }
+		.circuit-board::before { display: block; width: 54px; height: 37px; margin: 20px auto; content: ""; border: 2px solid var(--cyan); background: #102631; box-shadow: 0 0 0 8px rgba(0, 217, 245, .08); }
+		.circuit-board::after { display: block; width: 88px; height: 20px; margin: -13px auto; content: ""; border-top: 2px solid #ed7169; transform: rotate(-13deg); }
+		.trajectory-art { background: radial-gradient(ellipse at 50% 100%, #0b3440, #06141d 70%); }
+		.chart { position: relative; width: 72%; height: 62%; border-left: 1px solid #347587; border-bottom: 1px solid #347587; background: repeating-linear-gradient(0deg, transparent 0 24px, rgba(61, 128, 147, .12) 25px), repeating-linear-gradient(90deg, transparent 0 34px, rgba(61, 128, 147, .12) 35px); }
+		.chart::before { position: absolute; inset: 15% 8% 17% 7%; content: ""; border-bottom: 2px solid var(--cyan); border-radius: 0 0 80% 0; transform: skewY(-22deg); box-shadow: 0 9px 14px -12px var(--cyan); }
+		.chart::after { position: absolute; top: 15%; right: 10%; width: 7px; height: 7px; content: ""; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+
+		.skills-layout { display: grid; grid-template-columns: 1fr 230px; gap: 24px; align-items: start; }
+		.skill-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 10px; }
+		.skill-table th, .skill-table td { padding: 10px 13px; border-bottom: 1px solid #102d39; }
+		.skill-table th { color: var(--cyan); background: rgba(8, 34, 45, .86); font-size: 9px; font-weight: 500; text-transform: uppercase; }
+		.skill-table td:first-child { color: #c1d4da; }
+		.skill-table td:nth-child(2) { color: #70c5d2; }
+		.skill-table td:last-child { color: var(--cyan); text-align: right; }
+		.data-panel { border: 1px solid #0d5367; padding: 16px; background: rgba(5, 20, 29, .82); }
+		.data-panel h3 { margin-bottom: 14px; color: var(--cyan); font-size: 9px; font-weight: 500; text-transform: uppercase; }
+		.data-row { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid #12313d; color: var(--muted); font-size: 9px; }
+		.data-row strong { color: var(--white); font-weight: 500; text-align: right; }
+		.status { display: inline-flex; align-items: center; gap: 7px; color: var(--cyan) !important; }
+		.status::after { width: 6px; height: 6px; content: ""; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 9px var(--cyan); }
+
+		.journey { display: grid; grid-template-columns: 1fr .85fr; gap: 36px; }
+		.timeline { position: relative; margin: 4px 0 0 28px; padding: 0 0 0 27px; border-left: 1px solid #16829a; list-style: none; }
+		.timeline li { position: relative; padding: 0 0 26px; }
+		.timeline li::before { position: absolute; top: 5px; left: -33px; width: 10px; height: 10px; content: ""; border: 1px solid var(--cyan); border-radius: 50%; background: var(--ink); }
+		.timeline time { color: var(--cyan); font-size: 8px; }
+		.timeline h3 { margin: 3px 0; font: 600 21px/.98 var(--display); }
+		.timeline p { margin: 0; color: var(--muted); font-size: 9px; }
+		.side-stack { display: grid; gap: 16px; align-content: start; }
+		.quote { border: 1px solid #0d5367; padding: 16px; background: rgba(5, 20, 29, .78); }
+		.quote h3 { margin-bottom: 10px; color: var(--cyan); font-size: 9px; font-weight: 500; text-transform: uppercase; }
+		.quote p { margin-bottom: 10px; color: #83a5af; font-size: 10px; }
+		.quote blockquote { margin: 0; padding-left: 12px; border-left: 2px solid var(--cyan); color: #cee2e8; font-size: 10px; }
+		.interest-list { display: flex; flex-wrap: wrap; gap: 7px; }
+		.interest-list span { border: 1px solid #153c49; padding: 5px 8px; color: #86b5c0; font-size: 9px; }
+
+		.contact-box { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 28px; border: 1px solid #0d5367; background: linear-gradient(110deg, rgba(7, 31, 42, .95), rgba(4, 19, 28, .75)); }
+		.contact-box h2 { margin-bottom: 5px; font: 600 37px/.95 var(--display); text-transform: uppercase; }
+		.contact-box p { max-width: 550px; margin: 0; color: #88aab5; font-size: 10px; }
+		.contact-code { color: var(--cyan); font-size: 10px; white-space: nowrap; }
+		footer { border-top: 1px solid #10303c; padding: 20px 0 26px; color: #648b97; font-size: 8px; }
+		.footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+		.reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; }
+		.reveal.visible { opacity: 1; transform: translateY(0); }
+
+		@media (max-width: 760px) {
+			.wrap { width: min(100% - 34px, 560px); }
+			.clock { display: none; }
+			.nav-inner { min-height: 52px; }
+			.nav-links { gap: 14px; }
+			.nav-links a { font-size: 9px; }
+			.hero { min-height: auto; grid-template-columns: 1fr; gap: 34px; padding-block: 55px 62px; }
+			.hero-copy { order: 1; }
+			.portrait-wrap { order: 0; width: min(72%, 290px); }
+			h1 { font-size: clamp(64px, 17vw, 90px); }
+			.hero::after { right: -20%; bottom: 2%; font-size: 55vw; }
+			.section { padding-block: 56px; }
+			.section-head { align-items: start; flex-direction: column; gap: 8px; }
+			.section-title { font-size: 31px; }
+			.project-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 210px 180px 180px; }
+			.project:first-child { grid-column: span 2; grid-row: auto; }
+			.project h3 { font-size: 19px; }
+			.project p { font-size: 8px; }
+			.skills-layout, .journey { grid-template-columns: 1fr; gap: 22px; }
+			.data-panel { display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 15px; }
+			.data-panel h3 { grid-column: 1 / -1; }
+			.contact-box { align-items: start; flex-direction: column; padding: 21px; }
+			.contact-code { white-space: normal; }
+		}
+		@media (max-width: 430px) {
+			body { font-size: 12px; }
+			.wrap { width: calc(100% - 28px); }
+			.brand { font-size: 9px; }
+			.nav-links { gap: 10px; }
+			.nav-links a { font-size: 8px; }
+			.portrait-wrap { width: min(76%, 255px); }
+			.project-grid { grid-template-columns: 1fr; grid-template-rows: 225px repeat(3, 175px); }
+			.project:first-child { grid-column: auto; }
+			.skill-table th, .skill-table td { padding: 9px 7px; font-size: 8px; }
+			.data-panel { padding: 12px; }
+			.footer-inner { flex-direction: column; gap: 5px; }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+			.reveal { opacity: 1; transform: none; }
+		}
+	</style>
+</head>
+<body>
+	<header class="topbar">
+		<nav class="wrap nav-inner" aria-label="Navegación principal">
+			<a class="brand" href="#inicio">~/felipe-jaramillo</a>
+			<div class="nav-links">
+				<a href="#proyectos">proyectos</a>
+				<a href="#perfil">perfil</a>
+				<a href="#trayectoria">trayectoria</a>
+				<a href="#contacto">contacto</a>
+			</div>
+			<span class="clock" aria-label="Hora local">6B / PORTAFOLIO</span>
+		</nav>
+	</header>
+
+	<main>
+		<section class="wrap hero" id="inicio">
+			<div class="hero-copy">
+				<div class="eyebrow">Portafolio personal / inicio</div>
+				<p class="location">Pasto, Nariño — Colombia</p>
+				<h1><span class="first">Bayron</span><span class="middle">Felipe</span><span>Jaramillo</span></h1>
+				<p class="role">// Estudiante de Ingeniería de Software</p>
+				<p class="intro">Me interesa convertir ideas en soluciones útiles: exploro la tecnología con curiosidad, pensamiento analítico y disposición para aprender en equipo. <strong>De la programación a la realidad virtual, cada proyecto es una oportunidad para crear y mejorar.</strong></p>
+				<ul class="tag-list" aria-label="Tecnologías destacadas">
+					<li>Python</li><li>Java</li><li>Django</li><li>Unity</li><li>Blender</li><li>Arduino</li><li>HTML / CSS</li>
+				</ul>
+				<div class="actions">
+					<a class="button" href="#proyectos">$ ver_proyectos <span aria-hidden="true">↓</span></a>
+					<a class="button secondary" href="#contacto">$ conocer_mas</a>
+				</div>
+			</div>
+			<div class="portrait-wrap">
+				<img class="portrait" src="foto%20de%20perfil%20(2).jpeg" alt="Bayron Felipe Jaramillo en su silla de estudio">
+				<span class="portrait-label">BFJ / PASTO, CO</span>
+			</div>
+		</section>
+
+		<section class="section" id="proyectos">
+			<div class="wrap">
+				<div class="section-head reveal">
+					<div><div class="section-kicker">Proceso_001 / proyectos</div><h2 class="section-title">Ideas en movimiento</h2></div>
+					<p class="section-note">Experiencias interactivas, herramientas de aprendizaje y soluciones que conectan software con el mundo real.</p>
+				</div>
+				<div class="project-grid reveal">
+					<article class="project" aria-label="GestArte: experiencia de realidad virtual para aprender sobre la gestación">
+						<div class="project-art"><div class="orbit"><span class="planet"></span></div></div>
+						<div class="project-copy"><span class="project-type">VR / experiencia educativa</span><h3>GestArte</h3><p>Realidad virtual para el estudio de la gestación.</p></div>
+					</article>
+					<article class="project" aria-label="Mediana Naranja: sitio web para una floristería">
+						<div class="project-art flower-art"><span class="flor-title">MEDIANA NARANJA</span><span class="flower"></span></div>
+						<div class="project-copy"><span class="project-type">Web / diseño responsive</span><h3>Mediana Naranja</h3><p>Una presencia digital para una floristería.</p></div>
+					</article>
+					<article class="project" aria-label="Juego de recorrido en circuito con Arduino y sensores">
+						<div class="project-art circuit-art"><div class="circuit-board"></div></div>
+						<div class="project-copy"><span class="project-type">Arduino / C++ / electrónica</span><h3>Recorrido en circuito</h3><p>Juego físico con sensores y lógica embebida.</p></div>
+					</article>
+					<article class="project" aria-label="Simulación de trayectoria y cálculo de fuerza">
+						<div class="project-art trajectory-art"><div class="chart"></div></div>
+						<div class="project-copy"><span class="project-type">Python / NumPy / Matplotlib</span><h3>Trayectoria y fuerza</h3><p>Simulación y visualización de movimiento.</p></div>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="section" id="perfil">
+			<div class="wrap">
+				<div class="section-head reveal">
+					<div><div class="section-kicker">Proceso_002 / habilidades</div><h2 class="section-title">Herramientas para crear</h2></div>
+					<p class="section-note">Una base multidisciplinaria en desarrollo, simulación y prototipado.</p>
+				</div>
+				<div class="skills-layout reveal">
+					<table class="skill-table">
+						<thead><tr><th scope="col">Tecnología</th><th scope="col">Enfoque</th><th scope="col">Uso</th></tr></thead>
+						<tbody>
+							<tr><td>Python</td><td>Programación y análisis</td><td>[ACTIVO]</td></tr>
+							<tr><td>Java</td><td>Lógica de programación</td><td>[ACTIVO]</td></tr>
+							<tr><td>HTML5 / CSS3</td><td>Desarrollo web</td><td>[ACTIVO]</td></tr>
+							<tr><td>Django</td><td>Desarrollo backend</td><td>[ACTIVO]</td></tr>
+							<tr><td>Pandas / NumPy</td><td>Análisis y cálculo</td><td>[ACTIVO]</td></tr>
+							<tr><td>Unity</td><td>Experiencias interactivas</td><td>[ACTIVO]</td></tr>
+							<tr><td>Blender</td><td>Modelado 3D</td><td>[ACTIVO]</td></tr>
+							<tr><td>Git / GitHub</td><td>Control de versiones</td><td>[ACTIVO]</td></tr>
+							<tr><td>Arduino</td><td>Prototipado electrónico</td><td>[ACTIVO]</td></tr>
+						</tbody>
+					</table>
+					<aside class="data-panel" aria-label="Información académica">
+						<h3>// En contexto</h3>
+						<div class="data-row"><span>base</span><strong>Ingeniería de Software</strong></div>
+						<div class="data-row"><span>institución</span><strong>UCC · Campus Pasto</strong></div>
+						<div class="data-row"><span>formación técnica</span><strong>SENA</strong></div>
+						<div class="data-row"><span>enfoque</span><strong>Aprendizaje continuo</strong></div>
+						<div class="data-row"><span>estado</span><strong class="status">En formación</strong></div>
+					</aside>
+				</div>
+			</div>
+		</section>
+
+		<section class="section" id="trayectoria">
+			<div class="wrap">
+				<div class="section-head reveal">
+					<div><div class="section-kicker">Proceso_003 / sobre mí</div><h2 class="section-title">Aprender, practicar, avanzar</h2></div>
+					<p class="section-note">Mi recorrido combina formación académica, bases técnicas y curiosidad por construir.</p>
+				</div>
+				<div class="journey reveal">
+					<ol class="timeline">
+						<li><time>FORMACIÓN TÉCNICA</time><h3>Desarrollo de Software — SENA</h3><p>Formación en fundamentos y etapas del desarrollo de software.</p></li>
+						<li><time>FORMACIÓN COMPLEMENTARIA</time><h3>Técnico en Contabilización de Operaciones</h3><p>Fundamentos de procesos administrativos y financieros.</p></li>
+						<li><time>ACTUALMENTE</time><h3>Ingeniería de Software — UCC</h3><p>Universidad Cooperativa de Colombia, Campus Pasto. Explorando desarrollo, experiencias interactivas y tecnología aplicada.</p></li>
+					</ol>
+					<div class="side-stack">
+						<aside class="quote">
+							<h3>// Mi manera de trabajar</h3>
+							<p>Me gusta entender el problema antes de proponer una solución. Disfruto aprender herramientas nuevas, colaborar y llevar las ideas del boceto a algo que se pueda probar.</p>
+							<blockquote>Curiosidad para explorar. Constancia para construir.</blockquote>
+						</aside>
+						<aside class="quote">
+							<h3>// Fuera del código</h3>
+							<div class="interest-list"><span>Deporte</span><span>Tecnología</span><span>Realidad virtual</span><span>Aprender haciendo</span><span>Prototipado</span></div>
+						</aside>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="section" id="contacto">
+			<div class="wrap contact-box reveal">
+				<div><div class="section-kicker">Proceso_004 / siguiente paso</div><h2>Hagamos algo útil.</h2><p>Estoy abierto a aprender, colaborar en proyectos y conversar sobre tecnología, desarrollo de software y nuevas ideas.</p></div>
+				<a class="contact-code" href="../estudiantes-v2.html">$ volver_al_equipo_6B <span aria-hidden="true">↗</span></a>
+			</div>
+		</section>
+	</main>
+
+	<footer>
+		<div class="wrap footer-inner"><span>© 2025 · Bayron Felipe Jaramillo Galindres · Portafolio personal</span><span>PASTO, NARIÑO · COLOMBIA</span></div>
+	</footer>
+	<script>
+		const revealItems = document.querySelectorAll(".reveal");
+		if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+			const observer = new IntersectionObserver((entries, activeObserver) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add("visible");
+						activeObserver.unobserve(entry.target);
+					}
+				});
+			}, { threshold: 0.12 });
+			revealItems.forEach((item) => observer.observe(item));
+		} else {
+			revealItems.forEach((item) => item.classList.add("visible"));
+		}
+	</script>
+</body>
+</html>
