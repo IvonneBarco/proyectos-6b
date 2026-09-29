@@ -108,6 +108,225 @@
             70% { box-shadow: 0 0 0 8px rgba(196, 165, 116, 0); }
         }
 
+        @keyframes fotoReveal {
+            from {
+                opacity: 0;
+                clip-path: inset(48% 18% 48% 18%);
+                filter: blur(10px);
+                transform: scale(1.12);
+            }
+            to {
+                opacity: 1;
+                clip-path: inset(0);
+                filter: none;
+                transform: none;
+            }
+        }
+
+        @keyframes ringDraw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes wordIn {
+            from { opacity: 0; transform: translateY(22px); filter: blur(6px); }
+            to { opacity: 1; transform: none; filter: none; }
+        }
+
+        @keyframes barraIn {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        @keyframes letterboxIn {
+            from { transform: translateY(0); }
+        }
+
+        @keyframes dustUp {
+            0% { transform: translateY(30px); opacity: 0; }
+            20% { opacity: 0.7; }
+            100% { transform: translateY(-80px); opacity: 0; }
+        }
+
+        .intro {
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #070708;
+            overflow: hidden;
+            clip-path: circle(150% at 50% 50%);
+            transition: clip-path 0.95s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        .intro-bg {
+            position: absolute;
+            inset: -10%;
+            background: url("foto.jpg") center 16% / cover;
+            filter: blur(46px) saturate(0.9) brightness(0.42);
+            opacity: 0.7;
+            animation: kenburns 10s ease-out both;
+        }
+
+        .intro-vignette {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 42%, rgba(196, 165, 116, 0.22), transparent 42%),
+                radial-gradient(ellipse at center, transparent 22%, #070708 78%);
+            pointer-events: none;
+        }
+
+        .intro-particulas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .letterbox {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 7vh;
+            background: #050506;
+            z-index: 3;
+            transition: transform 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        .letterbox.top { top: 0; }
+        .letterbox.bot { bottom: 0; }
+
+        .intro-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 24px;
+            transition: opacity 0.45s ease, transform 0.45s ease;
+        }
+
+        .intro-marco {
+            position: relative;
+            width: 164px;
+            height: 206px;
+            margin: 0 auto 26px;
+        }
+
+        .intro-marco svg {
+            position: absolute;
+            inset: -7px;
+            width: calc(100% + 14px);
+            height: calc(100% + 14px);
+            fill: none;
+            stroke: var(--oro);
+            stroke-width: 1.4;
+            stroke-dasharray: 760;
+            stroke-dashoffset: 760;
+            animation: ringDraw 1.35s 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .intro-foto {
+            width: 164px;
+            height: 206px;
+            object-fit: cover;
+            object-position: center 12%;
+            border-radius: 18px;
+            display: block;
+            box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55);
+            animation: fotoReveal 1.2s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .intro-kicker {
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            font-size: 0.68rem;
+            color: var(--oro);
+            margin-bottom: 14px;
+            animation: wordIn 0.8s 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .intro-nombre {
+            font-family: "Fraunces", Georgia, serif;
+            font-size: clamp(1.75rem, 4.4vw, 2.7rem);
+            font-weight: 700;
+            line-height: 1.12;
+        }
+
+        .intro-nombre span {
+            display: block;
+            animation: wordIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .intro-nombre span:first-child { animation-delay: 0.95s; }
+        .intro-nombre span:last-child { animation-delay: 1.12s; }
+
+        .intro-line {
+            display: block;
+            height: 1.5px;
+            width: 88px;
+            margin: 18px auto 14px;
+            transform-origin: center;
+            background: linear-gradient(90deg, transparent, var(--oro), transparent);
+            animation: barraIn 0.8s 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .intro-sub {
+            color: rgba(244, 234, 216, 0.68);
+            font-weight: 300;
+            font-size: 0.92rem;
+            letter-spacing: 0.04em;
+            animation: wordIn 0.8s 1.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .intro-skip-wrap {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 9vh;
+            z-index: 4;
+            display: flex;
+            justify-content: center;
+        }
+
+        .intro-skip {
+            border: 1px solid rgba(244, 234, 216, 0.18);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--gorras);
+            font: inherit;
+            font-size: 0.68rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border-radius: 999px;
+            cursor: pointer;
+            animation: wordIn 0.6s 1.8s both;
+        }
+
+        .intro-skip:hover {
+            color: var(--crema);
+            border-color: var(--oro);
+        }
+
+        .intro.out {
+            clip-path: circle(0% at 50% 48%);
+            pointer-events: none;
+        }
+
+        .intro.out .intro-content {
+            opacity: 0;
+            transform: scale(1.06);
+        }
+
+        .intro.out .letterbox.top { transform: translateY(-100%); }
+        .intro.out .letterbox.bot { transform: translateY(100%); }
+
+        body.intro-on {
+            overflow: hidden;
+        }
+
         .fondo {
             position: fixed;
             inset: 0;
@@ -776,13 +995,39 @@
             }
 
             .orbe,
-            .particulas {
+            .particulas,
+            .intro {
                 display: none;
             }
         }
     </style>
 </head>
-<body>
+<body class="intro-on">
+    <div class="intro" id="intro">
+        <div class="intro-bg"></div>
+        <div class="intro-vignette"></div>
+        <canvas class="intro-particulas" id="intro-particulas"></canvas>
+        <div class="letterbox top"></div>
+        <div class="letterbox bot"></div>
+        <div class="intro-content">
+            <div class="intro-marco">
+                <svg viewBox="0 0 178 220" aria-hidden="true">
+                    <rect x="4" y="4" width="170" height="212" rx="20"></rect>
+                </svg>
+                <img class="intro-foto" src="foto.jpg" alt="">
+            </div>
+            <p class="intro-kicker">Team 6B · Pasto</p>
+            <h2 class="intro-nombre">
+                <span>Bryan Alexander</span>
+                <span>Ramirez Benavides</span>
+            </h2>
+            <span class="intro-line"></span>
+            <p class="intro-sub">Ingeniería de Software</p>
+        </div>
+        <div class="intro-skip-wrap">
+            <button type="button" class="intro-skip" id="intro-skip">Saltar</button>
+        </div>
+    </div>
     <div class="fondo"></div>
     <div class="grano"></div>
     <div class="particulas" aria-hidden="true">
@@ -943,6 +1188,113 @@
         <footer class="reveal">TEAM 6B · <span>Bryan Alexander Ramirez Benavides</span></footer>
     </div>
     <script>
+        function prenderParticulas(canvas, cantidad) {
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+            const ajustar = () => {
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                canvas.width = canvas.clientWidth * dpr;
+                canvas.height = canvas.clientHeight * dpr;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            };
+            ajustar();
+
+            const punto = () => ({
+                x: Math.random() * canvas.clientWidth,
+                y: Math.random() * canvas.clientHeight,
+                r: Math.random() * 2.8 + 0.8,
+                vy: -(Math.random() * 0.7 + 0.25),
+                vx: (Math.random() - 0.5) * 0.4,
+                a: Math.random() * 0.45 + 0.4,
+                tw: Math.random() * Math.PI * 2,
+                tipo: Math.random() > 0.82 ? "brillo" : "polvo"
+            });
+
+            const puntos = Array.from({ length: cantidad }, punto);
+            const cometas = Array.from({ length: 5 }, () => ({
+                x: Math.random() * canvas.clientWidth,
+                y: Math.random() * canvas.clientHeight * 0.6,
+                vx: Math.random() * 2.4 + 1.2,
+                vy: Math.random() * 1.1 + 0.4,
+                vida: Math.random()
+            }));
+
+            let viva = true;
+            const dibujar = () => {
+                if (!viva || !canvas.isConnected) return;
+                const w = canvas.clientWidth;
+                const h = canvas.clientHeight;
+                ctx.clearRect(0, 0, w, h);
+
+                puntos.forEach((p) => {
+                    p.tw += p.tipo === "brillo" ? 0.08 : 0.03;
+                    p.y += p.vy;
+                    p.x += p.vx + Math.sin(p.tw) * 0.28;
+                    if (p.y < -12) {
+                        p.y = h + 10;
+                        p.x = Math.random() * w;
+                    }
+                    if (p.x < -12) p.x = w + 10;
+                    if (p.x > w + 12) p.x = -10;
+
+                    const pulso = 0.45 + Math.abs(Math.sin(p.tw)) * p.a;
+                    const radio = p.tipo === "brillo" ? p.r * (1.4 + Math.sin(p.tw) * 0.5) : p.r;
+                    ctx.beginPath();
+                    ctx.fillStyle = p.tipo === "brillo"
+                        ? `rgba(243, 239, 232, ${pulso})`
+                        : `rgba(196, 165, 116, ${pulso})`;
+                    ctx.shadowColor = "rgba(196, 165, 116, 0.95)";
+                    ctx.shadowBlur = p.tipo === "brillo" ? 18 : 10;
+                    ctx.arc(p.x, p.y, radio, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                cometas.forEach((c) => {
+                    c.x += c.vx;
+                    c.y += c.vy;
+                    c.vida += 0.012;
+                    if (c.x > w + 40 || c.y > h + 40 || c.vida > 1) {
+                        c.x = -20;
+                        c.y = Math.random() * h * 0.7;
+                        c.vida = 0;
+                    }
+                    const grad = ctx.createLinearGradient(c.x - 46, c.y - 18, c.x, c.y);
+                    grad.addColorStop(0, "rgba(196, 165, 116, 0)");
+                    grad.addColorStop(1, "rgba(243, 239, 232, 0.85)");
+                    ctx.shadowBlur = 16;
+                    ctx.strokeStyle = grad;
+                    ctx.lineWidth = 1.6;
+                    ctx.beginPath();
+                    ctx.moveTo(c.x - 46, c.y - 18);
+                    ctx.lineTo(c.x, c.y);
+                    ctx.stroke();
+                });
+
+                requestAnimationFrame(dibujar);
+            };
+            window.addEventListener("resize", ajustar);
+            dibujar();
+        }
+
+        const intro = document.getElementById("intro");
+        const skip = document.getElementById("intro-skip");
+
+        function cerrarIntro() {
+            if (!intro || intro.classList.contains("out")) return;
+            intro.classList.add("out");
+            document.body.classList.remove("intro-on");
+            setTimeout(() => intro.remove(), 1000);
+        }
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            intro?.remove();
+            document.body.classList.remove("intro-on");
+        } else {
+            skip?.addEventListener("click", cerrarIntro);
+            setTimeout(cerrarIntro, 4200);
+            prenderParticulas(document.getElementById("intro-particulas"), 140);
+        }
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
