@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Recomendaciones IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="design-system.css">
+<style>
+.ia-layout {
+  display: grid;
+  grid-template-columns: 292px 1fr;
+  gap: 18px;
+  height: calc(100vh - 116px);
+}
+
+/* ── LEFT PANEL ── */
+.cultivo-panel {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.cp-head {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--gray-100);
+  background: var(--gray-50);
+}
+.cp-title { font-family: var(--font-display); font-size: var(--text-sm); font-weight: 700; color: var(--gray-900); }
+.cp-sub   { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+
+.cp-search { padding: 10px 10px 8px; border-bottom: 1px solid var(--gray-100); }
+.cp-search-inner {
+  display: flex; align-items: center; gap: 7px;
+  background: var(--gray-50); border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md); padding: 7px 11px;
+  transition: var(--transition);
+}
+.cp-search-inner:focus-within { border-color: var(--green-400); background: var(--white); }
+.cp-search-inner i { font-size: 14px; color: var(--gray-400); flex-shrink: 0; }
+.cp-search-inner input {
+  border: none; outline: none; background: none;
+  font-size: 12px; color: var(--gray-700);
+  font-family: var(--font-body); width: 100%;
+}
+.cp-search-inner input::placeholder { color: var(--gray-400); }
+
+.cp-list { flex: 1; overflow-y: auto; }
+.cp-list::-webkit-scrollbar { width: 3px; }
+.cp-list::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 3px; }
+
+.cultivo-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px;
+  cursor: pointer; transition: var(--transition);
+  border-left: 3px solid transparent;
+  position: relative;
+}
+.cultivo-item:hover { background: var(--gray-50); }
+.cultivo-item.active {
+  background: var(--green-50);
+  border-left-color: var(--green-500);
+}
+.ci-icon {
+  width: 38px; height: 38px;
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--gray-600); flex-shrink: 0;
+  transition: var(--transition);
+}
+.cultivo-item.active .ci-icon { background: var(--green-100); color: var(--green-700); }
+.ci-name  { font-size: var(--text-sm); font-weight: 600; color: var(--gray-800); }
+.ci-stage { font-size: 11px; color: var(--gray-500); margin-top: 2px; display: flex; align-items: center; gap: 4px; }
+.ci-stage i { font-size: 11px; color: var(--gray-400); }
+
+/* Context summary */
+.ctx-box {
+  margin: 10px;
+  background: linear-gradient(135deg, var(--green-900), var(--green-800));
+  border-radius: var(--radius-lg);
+  padding: 14px;
+}
+.ctx-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--green-400); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.ctx-label i { font-size: 12px; }
+.ctx-crop-name {
+  font-family: var(--font-display);
+  font-size: var(--text-sm); font-weight: 800;
+  color: var(--white); margin-bottom: 8px;
+}
+.ctx-row { display: flex; justify-content: space-between; }
+.ctx-cell .ctx-val { font-size: 11px; font-weight: 700; color: rgba(255,255,255,.85); }
+.ctx-cell .ctx-k   { font-size: 10px; color: rgba(255,255,255,.38); margin-top: 1px; }
+
+/* ── RIGHT CHAT PANEL ── */
+.chat-panel {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-top {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--gray-100);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  background: var(--white);
+}
+.ai-ident { display: flex; align-items: center; gap: 12px; }
+.ai-avatar {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--green-700), var(--green-500));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: var(--white);
+  position: relative; flex-shrink: 0;
+}
+.ai-avatar-status {
+  position: absolute; bottom: 1px; right: 1px;
+  width: 11px; height: 11px;
+  background: var(--green-400);
+  border: 2px solid var(--white);
+  border-radius: 50%;
+}
+.ai-name  { font-family: var(--font-display); font-size: var(--text-base); font-weight: 700; color: var(--gray-900); }
+.ai-status { font-size: 11px; color: var(--green-600); display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+.ai-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green-500); flex-shrink: 0; }
+
+.ctx-badge {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--green-50); border: 1px solid var(--green-200);
+  border-radius: var(--radius-full); padding: 5px 12px;
+  font-size: 11px; font-weight: 600; color: var(--green-700);
+}
+.ctx-badge i { font-size: 13px; }
+
+/* Messages area */
+.chat-msgs {
+  flex: 1; overflow-y: auto;
+  padding: 20px;
+  display: flex; flex-direction: column;
+  gap: 18px;
+  background: var(--gray-50);
+}
+.chat-msgs::-webkit-scrollbar { width: 4px; }
+.chat-msgs::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 4px; }
+
+.msg-row { display: flex; gap: 10px; align-items: flex-end; }
+.msg-row.user { flex-direction: row-reverse; }
+.msg-av {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.msg-av.ai   { background: linear-gradient(135deg, var(--green-700), var(--green-500)); color: var(--white); }
+.msg-av.user { background: var(--green-600); color: var(--white); font-size: 11px; font-weight: 700; font-family: var(--font-display); }
+
+.msg-bubble {
+  max-width: 70%;
+  padding: 11px 14px;
+  border-radius: var(--radius-xl);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+.msg-bubble.ai {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  color: var(--gray-800);
+  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-xl) 4px;
+  box-shadow: var(--shadow-xs);
+}
+.msg-bubble.user {
+  background: var(--green-600);
+  color: var(--white);
+  border-radius: var(--radius-xl) var(--radius-xl) 4px var(--radius-xl);
+}
+.msg-time { font-size: 10px; color: var(--gray-400); margin-top: 4px; }
+.msg-row.user .msg-time { text-align: right; }
+
+/* Rec cards inside AI bubble */
+.ai-rec-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; margin-top: 10px;
+}
+.ai-rec-card {
+  background: var(--green-50);
+  border: 1px solid var(--green-200);
+  border-radius: var(--radius-lg);
+  padding: 10px;
+}
+.arc-icon { font-size: 18px; color: var(--green-700); margin-bottom: 5px; }
+.arc-title { font-size: 11px; font-weight: 700; color: var(--green-800); margin-bottom: 3px; }
+.arc-text  { font-size: 11px; color: var(--green-700); line-height: 1.5; }
+
+/* Typing dots */
+.typing-dots { display: flex; gap: 4px; padding: 5px 2px; align-items: center; }
+.typing-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green-400);
+  animation: typeBounce 1.2s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: .2s; }
+.typing-dot:nth-child(3) { animation-delay: .4s; }
+@keyframes typeBounce {
+  0%,80%,100% { transform: translateY(0); opacity: .5; }
+  40% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* Quick prompts */
+.quick-prompts {
+  padding: 10px 16px;
+  border-top: 1px solid var(--gray-100);
+  display: flex; gap: 7px; flex-wrap: wrap;
+  background: var(--white);
+}
+.qp-chip {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 11px; font-weight: 500;
+  background: var(--gray-50);
+  border: 1.5px solid var(--gray-200);
+  color: var(--gray-600);
+  cursor: pointer; transition: var(--transition);
+  white-space: nowrap;
+}
+.qp-chip i { font-size: 12px; }
+.qp-chip:hover { background: var(--green-50); border-color: var(--green-300); color: var(--green-700); }
+
+/* Input bar */
+.chat-footer { padding: 12px 16px; border-top: 1px solid var(--gray-100); background: var(--white); }
+.chat-input-row {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--gray-50); border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-xl); padding: 9px 12px;
+  transition: var(--transition);
+}
+.chat-input-row:focus-within {
+  border-color: var(--green-400); background: var(--white);
+  box-shadow: 0 0 0 3px rgba(46,158,79,.08);
+}
+.chat-input-row input {
+  flex: 1; border: none; outline: none; background: none;
+  font-size: var(--text-sm); color: var(--gray-800); font-family: var(--font-body);
+}
+.chat-input-row input::placeholder { color: var(--gray-400); }
+.chat-input-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--gray-400); font-size: 18px; padding: 3px;
+  display: flex; align-items: center; transition: var(--transition);
+}
+.chat-input-btn:hover { color: var(--gray-700); }
+.send-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--green-600); color: var(--white);
+  border: none; cursor: pointer; font-size: 17px;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition); flex-shrink: 0;
+}
+.send-btn:hover { background: var(--green-700); transform: scale(1.05); }
+.chat-disclaimer {
+  text-align: center; font-size: 10px; color: var(--gray-400); margin-top: 6px;
+}
+</style>
+</head>
+<body>
+<div class="screen-label">06 — Recomendaciones IA · AgriGo</div>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="ph ph-plant"></i></div>
+      <div><div class="logo-text">Agri<span>Go</span></div><span class="logo-sub">Plataforma AgTech</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="03-dashboard-agricultor.html"><span class="nav-icon"><i class="ph ph-gauge"></i></span> Dashboard</a>
+      <a href="04-mis-cultivos.html"><span class="nav-icon"><i class="ph ph-plant"></i></span> Mis cultivos</a>
+      <a href="07-mis-productos-agricultor.html"><span class="nav-icon"><i class="ph ph-package"></i></span> Mis productos</a>
+      <a href="06-recomendaciones-ia.html" class="active"><span class="nav-icon"><i class="ph ph-robot"></i></span> Recomendaciones IA</a>
+      <div class="sidebar-section-label">Comercio</div>
+      <a href="#"><span class="nav-icon"><i class="ph ph-receipt"></i></span> Mis órdenes</a>
+      <a href="09-marketplace.html"><span class="nav-icon"><i class="ph ph-storefront"></i></span> Marketplace</a>
+      <a href="19-asistente-compras.html"><span class="nav-icon"><i class="ph ph-chat-teardrop-dots"></i></span> Asistente de compras</a>
+      <div class="sidebar-section-label">Cuenta</div>
+      <a href="21-perfil-agricultor.html"><span class="nav-icon"><i class="ph ph-user-circle"></i></span> Perfil</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-gear"></i></span> Configuración</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" style="width:34px;height:34px;background:var(--green-600);color:white;font-size:12px;">CR</div>
+        <div class="user-info"><div class="user-name">Carlos Rodríguez</div><div class="user-role">Agricultor</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Asistente agrícola IA</span>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <button class="btn btn-secondary btn-sm" style="display:flex;align-items:center;gap:5px;">
+          <i class="ph ph-trash" style="font-size:14px;"></i> Nueva conversación
+        </button>
+        <div class="icon-btn"><i class="ph ph-bell"></i><div class="notif-dot"></div></div>
+        <div class="avatar" style="width:34px;height:34px;background:var(--green-600);color:white;font-size:12px;border-radius:50%;">CR</div>
+      </div>
+    </header>
+
+    <div class="page-body" style="gap:16px;">
+      <div class="page-header">
+        <div>
+          <h1>Asistente agrícola IA</h1>
+          <p class="page-subtitle">Consulta especializada sobre tus cultivos · Respuestas basadas en datos agronómicos reales</p>
+        </div>
+      </div>
+
+      <div class="ia-layout">
+        <!-- LEFT: cultivo selector -->
+        <div class="cultivo-panel">
+          <div class="cp-head">
+            <div class="cp-title">Seleccionar cultivo</div>
+            <div class="cp-sub">El contexto se adapta al cultivo elegido</div>
+          </div>
+          <div class="cp-search">
+            <div class="cp-search-inner">
+              <i class="ph ph-magnifying-glass"></i>
+              <input type="text" placeholder="Buscar cultivo…">
+            </div>
+          </div>
+          <div class="cp-list">
+            <div class="cultivo-item active">
+              <div class="ci-icon"><i class="ph ph-flower-tulip"></i></div>
+              <div>
+                <div class="ci-name">Tomate Cherry</div>
+                <div class="ci-stage"><i class="ph-fill ph-circle" style="font-size:7px;color:var(--green-500);"></i> Fructificando · Parcela A</div>
+              </div>
+            </div>
+            <div class="cultivo-item">
+              <div class="ci-icon"><i class="ph ph-leaf"></i></div>
+              <div>
+                <div class="ci-name">Lechuga Batavia</div>
+                <div class="ci-stage"><i class="ph-fill ph-circle" style="font-size:7px;color:var(--status-info);"></i> Crecimiento · Parcela B</div>
+              </div>
+            </div>
+            <div class="cultivo-item">
+              <div class="ci-icon"><i class="ph ph-grains"></i></div>
+              <div>
+                <div class="ci-name">Maíz Amarillo</div>
+                <div class="ci-stage"><i class="ph-fill ph-circle" style="font-size:7px;color:var(--amber-500);"></i> Floreciendo · Parcela C</div>
+              </div>
+            </div>
+            <div class="cultivo-item">
+              <div class="ci-icon"><i class="ph ph-potted-plant"></i></div>
+              <div>
+                <div class="ci-name">Papa Pastusa</div>
+                <div class="ci-stage"><i class="ph-fill ph-circle" style="font-size:7px;color:#0D9488;"></i> Lista cosecha · Parcela D</div>
+              </div>
+            </div>
+            <div class="cultivo-item">
+              <div class="ci-icon"><i class="ph ph-coffee"></i></div>
+              <div>
+                <div class="ci-name">Café Arábica</div>
+                <div class="ci-stage"><i class="ph-fill ph-circle" style="font-size:7px;color:var(--status-info);"></i> Crecimiento · Parcela E</div>
+              </div>
+            </div>
+            <div class="cultivo-item">
+              <div class="ci-icon"><i class="ph ph-grains"></i></div>
+              <div>
+                <div class="ci-name">Fríjol Radical</div>
+                <div class="ci-stage"><i class="ph-fill ph-circle" style="font-size:7px;color:var(--green-500);"></i> Fructificando · Parcela F</div>
+              </div>
+            </div>
+          </div>
+          <!-- Context box -->
+          <div class="ctx-box">
+            <div class="ctx-label"><i class="ph ph-broadcast"></i> Contexto activo</div>
+            <div class="ctx-crop-name">Tomate Cherry</div>
+            <div class="ctx-row">
+              <div class="ctx-cell"><div class="ctx-val">Fructificando</div><div class="ctx-k">Etapa</div></div>
+              <div class="ctx-cell"><div class="ctx-val">2.5 ha</div><div class="ctx-k">Área</div></div>
+              <div class="ctx-cell"><div class="ctx-val">Seco</div><div class="ctx-k">Clima</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: CHAT -->
+        <div class="chat-panel">
+          <div class="chat-top">
+            <div class="ai-ident">
+              <div class="ai-avatar">
+                <i class="ph ph-robot"></i>
+                <div class="ai-avatar-status"></div>
+              </div>
+              <div>
+                <div class="ai-name">AgroIA</div>
+                <div class="ai-status">Activo · Especializado en tomate</div>
+              </div>
+            </div>
+            <div class="ctx-badge">
+              <i class="ph ph-flower-tulip"></i>
+              Contexto: Tomate Cherry · Fructificando
+            </div>
+          </div>
+
+          <div class="chat-msgs">
+            <!-- AI Welcome -->
+            <div class="msg-row">
+              <div class="msg-av ai"><i class="ph ph-robot"></i></div>
+              <div>
+                <div class="msg-bubble ai">
+                  ¡Hola, Carlos! Soy <strong>AgroIA</strong>, tu asistente agrícola especializado. <br><br>
+                  Estoy listo para ayudarte con tu cultivo de <strong>Tomate Cherry</strong>, actualmente en etapa de <strong>fructificación</strong> en la Parcela A (2.5 ha).<br><br>
+                  Puedo orientarte sobre riego, fertilización, control de plagas, estimación de cosecha y mucho más. ¿Qué necesitas hoy?
+                </div>
+                <div class="msg-time">09:00 · Hoy</div>
+              </div>
+            </div>
+
+            <!-- User -->
+            <div class="msg-row user">
+              <div class="msg-av user">CR</div>
+              <div>
+                <div class="msg-bubble user">¿Cómo debo regar este cultivo en esta etapa? Llevamos días con calor intenso.</div>
+                <div class="msg-time" style="text-align:right;">09:14 · Hoy</div>
+              </div>
+            </div>
+
+            <!-- AI response with rec cards -->
+            <div class="msg-row">
+              <div class="msg-av ai"><i class="ph ph-robot"></i></div>
+              <div style="max-width:75%;">
+                <div class="msg-bubble ai">
+                  En <strong>fructificación</strong> con temperaturas &gt;26°C, el tomate necesita riego consistente para prevenir <em>pudrición apical</em> (blossom end rot).
+                  <div class="ai-rec-grid">
+                    <div class="ai-rec-card">
+                      <div class="arc-icon"><i class="ph ph-drop"></i></div>
+                      <div class="arc-title">Frecuencia</div>
+                      <div class="arc-text">2 veces/día: 6–7am y 5–6pm</div>
+                    </div>
+                    <div class="ai-rec-card">
+                      <div class="arc-icon"><i class="ph ph-ruler"></i></div>
+                      <div class="arc-title">Cantidad</div>
+                      <div class="arc-text">1.5–2 L por planta/día con goteo</div>
+                    </div>
+                    <div class="ai-rec-card">
+                      <div class="arc-icon"><i class="ph ph-thermometer-simple"></i></div>
+                      <div class="arc-title">Humedad suelo</div>
+                      <div class="arc-text">Mantener entre 60–70%</div>
+                    </div>
+                    <div class="ai-rec-card">
+                      <div class="arc-icon"><i class="ph ph-warning-circle"></i></div>
+                      <div class="arc-title">Alerta</div>
+                      <div class="arc-text">Evitar riego al mediodía — quemaduras foliares</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="msg-time">09:15 · Hoy</div>
+              </div>
+            </div>
+
+            <!-- User 2 -->
+            <div class="msg-row user">
+              <div class="msg-av user">CR</div>
+              <div>
+                <div class="msg-bubble user">¿Qué fertilización necesita ahora que está fructificando?</div>
+                <div class="msg-time" style="text-align:right;">09:22 · Hoy</div>
+              </div>
+            </div>
+
+            <!-- AI typing -->
+            <div class="msg-row">
+              <div class="msg-av ai"><i class="ph ph-robot"></i></div>
+              <div class="msg-bubble ai" style="padding:12px 14px;">
+                <div class="typing-dots">
+                  <div class="typing-dot"></div>
+                  <div class="typing-dot"></div>
+                  <div class="typing-dot"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick prompts -->
+          <div class="quick-prompts">
+            <span style="font-size:11px;color:var(--gray-400);font-weight:600;padding:5px 0;white-space:nowrap;">Preguntas rápidas:</span>
+            <div class="qp-chip"><i class="ph ph-flask"></i> ¿Qué fertilización necesita?</div>
+            <div class="qp-chip"><i class="ph ph-bug"></i> ¿Cómo identificar una plaga?</div>
+            <div class="qp-chip"><i class="ph ph-calendar-check"></i> ¿Cuándo cosechar?</div>
+            <div class="qp-chip"><i class="ph ph-leaf"></i> Cuidados en esta etapa</div>
+          </div>
+
+          <!-- Input -->
+          <div class="chat-footer">
+            <div class="chat-input-row">
+              <button class="chat-input-btn"><i class="ph ph-paperclip"></i></button>
+              <input type="text" placeholder="Escribe tu consulta sobre Tomate Cherry…">
+              <button class="chat-input-btn"><i class="ph ph-microphone"></i></button>
+              <button class="send-btn"><i class="ph ph-paper-plane-tilt"></i></button>
+            </div>
+            <div class="chat-disclaimer">AgroIA usa datos agronómicos reales. Verifica con un agrónomo local para decisiones críticas.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
