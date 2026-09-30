@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="design-system.css">
+<style>
+/* Buyer sidebar is blue-tinted variant */
+  .sidebar { background: #0C1B33; }
+  .sidebar-logo .logo-text span { color: #60A5FA; }
+  .sidebar-nav a.active { background: rgba(59,130,246,.15); }
+  .sidebar-nav a.active::before { background: #60A5FA; }
+  .sidebar-nav .nav-badge { background: #3B82F6; }
+  .sidebar-logo .logo-sub { color: #93C5FD; opacity: .7; }
+  .sidebar-user .user-role { color: #93C5FD; }
+
+  /* Marketplace hero banner */
+  .market-hero {
+    background: linear-gradient(135deg, #0C1B33 0%, #1A3A5C 60%, #14401F 100%);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+  }
+  .market-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 50% 80% at 80% 50%, rgba(61,189,99,.12) 0%, transparent 60%);
+  }
+  .hero-left { z-index: 1; }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(61,189,99,.15);
+    border: 1px solid rgba(61,189,99,.25);
+    border-radius: var(--radius-full);
+    padding: 4px 12px;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--green-400);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-3);
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.15;
+    letter-spacing: -.03em;
+    margin-bottom: var(--space-3);
+  }
+  .hero-title em { font-style: normal; color: var(--green-400); }
+  .hero-subtitle { font-size: var(--text-sm); color: rgba(255,255,255,.6); max-width: 420px; line-height: 1.7; margin-bottom: var(--space-5); }
+
+  /* Big search bar in hero */
+  .hero-search {
+    display: flex;
+    align-items: center;
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    max-width: 540px;
+  }
+  .hero-search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 14px 18px;
+    font-size: var(--text-sm);
+    color: var(--gray-800);
+    background: none;
+  }
+  .hero-search input::placeholder { color: var(--gray-400); }
+  .hero-search-btn {
+    background: var(--green-600);
+    color: var(--white);
+    border: none;
+    padding: 12px 24px;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex; align-items: center; gap: 8px;
+    white-space: nowrap;
+  }
+  .hero-search-btn:hover { background: var(--green-700); }
+
+  .hero-stats-row {
+    display: flex;
+    gap: var(--space-6);
+    margin-top: var(--space-5);
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .hs-num { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--white); display: block; }
+  .hero-stat .hs-label { font-size: var(--text-xs); color: rgba(255,255,255,.5); }
+
+  /* Right floating card in hero */
+  .hero-right {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    flex-shrink: 0;
+  }
+  .hero-card-mini {
+    background: rgba(255,255,255,.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: var(--radius-lg);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-width: 220px;
+  }
+  .hero-card-mini .hcm-icon { font-size: 24px; }
+  .hero-card-mini .hcm-text { font-size: var(--text-xs); font-weight: 600; color: rgba(255,255,255,.8); }
+  .hero-card-mini .hcm-sub  { font-size: 10px; color: rgba(255,255,255,.4); margin-top: 2px; }
+
+  /* Categories scroll */
+  .categories-row {
+    display: flex;
+    gap: var(--space-3);
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .categories-row::-webkit-scrollbar { height: 0; }
+  .cat-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: var(--space-3) var(--space-4);
+    background: var(--white);
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    cursor: pointer;
+    transition: var(--transition);
+    flex-shrink: 0;
+    min-width: 80px;
+  }
+  .cat-chip:hover { border-color: var(--green-400); background: var(--green-50); }
+  .cat-chip.active { border-color: var(--green-500); background: var(--green-50); box-shadow: 0 0 0 3px rgba(46,158,79,.1); }
+  .cat-chip .cat-icon { font-size: 22px; }
+  .cat-chip .cat-name { font-size: 11px; font-weight: 600; color: var(--gray-700); text-align: center; white-space: nowrap; }
+  .cat-chip.active .cat-name { color: var(--green-700); }
+
+  /* Toolbar */
+  .market-toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--gray-600);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
+  .filter-btn.active { border-color: var(--green-500); background: var(--green-50); color: var(--green-700); font-weight: 600; }
+
+  /* Products grid */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
+  }
+
+  /* MP Product Card */
+  .mp-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .mp-card:hover { box-shadow: var(--shadow-xl); transform: translateY(-3px); }
+  .mp-card-img {
+    height: 170px;
+    background: linear-gradient(135deg, var(--green-50), #E8F8ED);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 64px;
+    position: relative;
+  }
+  .mp-card-badge {
+    position: absolute;
+    top: 10px; left: 10px;
+  }
+  .mp-card-fav {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 32px; height: 32px;
+    border-radius: var(--radius-full);
+    background: rgba(255,255,255,.9);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: var(--shadow-xs);
+    transition: var(--transition);
+  }
+  .mp-card-fav:hover { background: var(--white); transform: scale(1.1); }
+  .mp-card-body { padding: var(--space-4); flex: 1; }
+  .mp-vendor-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-xs);
+    color: var(--gray-500);
+    margin-bottom: 6px;
+  }
+  .mp-vendor-avatar {
+    width: 18px; height: 18px;
+    border-radius: var(--radius-full);
+    background: var(--green-600);
+    color: var(--white);
+    font-size: 9px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mp-card-name {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .mp-card-desc {
+    font-size: var(--text-xs);
+    color: var(--gray-500);
+    line-height: 1.5;
+    margin-bottom: var(--space-3);
+  }
+  .mp-card-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  .mp-card-price { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 800; color: var(--green-700); }
+  .mp-card-unit  { font-size: var(--text-xs); color: var(--gray-500); }
+  .mp-card-footer {
+    padding: var(--space-3) var(--space-4);
+    border-top: 1px solid var(--gray-100);
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  /* Toast notification */
+  .add-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-left: 4px solid var(--green-500);
+    border-radius: var(--radius-lg);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    box-shadow: var(--shadow-xl);
+    z-index: 500;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--gray-800);
+    animation: slideInRight .3s ease;
+  }
+  @keyframes slideInRight {
+    from { transform: translateX(100px); opacity: 0; }
+    to   { transform: translateX(0); opacity: 1; }
+  }
+
+  /* Cart badge in topbar */
+  .cart-btn {
+    position: relative;
+    width: 38px; height: 38px;
+    border-radius: var(--radius-md);
+    background: var(--gray-100);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .cart-btn:hover { background: var(--gray-200); }
+  .cart-count {
+    position: absolute;
+    top: -4px; right: -4px;
+    background: var(--status-error);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 700;
+    width: 18px; height: 18px;
+    border-radius: var(--radius-full);
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--white);
+  }
+</style>
+</head>
+<body>
+<div class="screen-label">09 — Marketplace · AgriGo</div>
+
+<div class="app-shell">
+  <!-- BUYER SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="ph ph-plant"></i></div>
+      <div>
+        <div class="logo-text">Agri<span>Go</span></div>
+        <span class="logo-sub">Plataforma AgTech</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="#"><span class="nav-icon"><i class="ph ph-chart-bar"></i></span> Mi Dashboard</a>
+      <a href="09-marketplace.html" class="active"><span class="nav-icon"><i class="ph ph-storefront"></i></span> Marketplace</a>
+      <a href="11-carrito.html"><span class="nav-icon"><i class="ph ph-shopping-cart"></i></span> Mi carrito <span class="nav-badge">3</span></a>
+      <a href="14-mis-ordenes.html"><span class="nav-icon"><i class="ph ph-receipt"></i></span> Mis órdenes</a>
+      <a href="19-asistente-compras.html"><span class="nav-icon"><i class="ph ph-chat-circle"></i></span> Asistente IA</a>
+      <div class="sidebar-section-label">Cuenta</div>
+      <a href="#"><span class="nav-icon"><i class="ph ph-user"></i></span> Perfil</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-gear"></i></span> Configuración</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" style="width:36px;height:36px;background:#1D4ED8;color:white;font-weight:700;font-size:14px;">ML</div>
+        <div class="user-info">
+          <div class="user-name">María López</div>
+          <div class="user-role"><i class="ph ph-shopping-cart"></i> Compradora</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Marketplace</span>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-search" style="width:320px;">
+        <span style="color:var(--gray-400);"><i class="ph ph-magnifying-glass"></i></span>
+        <input type="text" placeholder="¿Qué producto estás buscando?">
+      </div>
+      <div class="topbar-actions">
+        <div class="icon-btn"><i class="ph ph-bell"></i><div class="notif-dot"></div></div>
+        <a href="11-carrito.html" class="cart-btn"><i class="ph ph-shopping-cart"></i><div class="cart-count">3</div></a>
+        <div class="avatar avatar-sm" style="background:#1D4ED8;color:white;font-weight:700;width:38px;height:38px;font-size:13px;">ML</div>
+      </div>
+    </header>
+
+    <div class="page-body">
+
+      <!-- HERO BANNER -->
+      <div class="market-hero">
+        <div class="hero-left">
+          <div class="hero-eyebrow"><i class="ph ph-grains"></i> AgriGo Marketplace</div>
+          <h1 class="hero-title">Del campo a tu <em>mesa,</em><br>sin intermediarios.</h1>
+          <p class="hero-subtitle">Compra directamente a agricultores colombianos. Productos frescos, orgánicos y con trazabilidad garantizada.</p>
+          <div class="hero-search">
+            <span style="font-size:18px;padding:0 12px;color:var(--gray-400);"><i class="ph ph-magnifying-glass"></i></span>
+            <input type="text" placeholder="Busca tomate, lechuga, café, papas…" value="">
+            <select style="border:none;border-left:1px solid var(--gray-200);padding:14px 12px;font-size:var(--text-sm);color:var(--gray-600);background:none;outline:none;cursor:pointer;">
+              <option>Todos</option>
+              <option>Verduras</option>
+              <option>Frutas</option>
+            </select>
+            <button class="hero-search-btn"><i class="ph ph-magnifying-glass"></i> Buscar</button>
+          </div>
+          <div class="hero-stats-row">
+            <div class="hero-stat"><span class="hs-num">2.400+</span><span class="hs-label">Productos</span></div>
+            <div class="hero-stat"><span class="hs-num">380+</span><span class="hs-label">Agricultores</span></div>
+            <div class="hero-stat"><span class="hs-num">18 dpts.</span><span class="hs-label">Cobertura</span></div>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-card-mini">
+            <span class="hcm-icon"><i class="ph ph-truck"></i></span>
+            <div><div class="hcm-text">Envío a todo Colombia</div><div class="hcm-sub">Despacho en 24–48h</div></div>
+          </div>
+          <div class="hero-card-mini">
+            <span class="hcm-icon"><i class="ph ph-leaf"></i></span>
+            <div><div class="hcm-text">Productos verificados</div><div class="hcm-sub">Trazabilidad origen</div></div>
+          </div>
+          <div class="hero-card-mini">
+            <span class="hcm-icon"><i class="ph ph-lock-simple"></i></span>
+            <div><div class="hcm-text">Pago seguro</div><div class="hcm-sub">Nequi · Tarjeta · Efectivo</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CATEGORIES -->
+      <div>
+        <div style="font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;color:var(--gray-900);margin-bottom:var(--space-4);">Explorar por categoría</div>
+        <div class="categories-row">
+          <div class="cat-chip active">
+            <span class="cat-icon"><i class="ph ph-shopping-cart"></i></span>
+            <span class="cat-name">Todos</span>
+          </div>
+          <div class="cat-chip">
+            <span class="cat-icon"><i class="ph ph-basket"></i></span>
+            <span class="cat-name">Frutas y verduras</span>
+          </div>
+          <div class="cat-chip">
+            <span class="cat-icon"><i class="ph ph-grains"></i></span>
+            <span class="cat-name">Granos</span>
+          </div>
+          <div class="cat-chip">
+            <span class="cat-icon"><i class="ph ph-flower-lotus"></i></span>
+            <span class="cat-name">Hortalizas</span>
+          </div>
+          <div class="cat-chip">
+            <span class="cat-icon"><i class="ph ph-potted-plant"></i></span>
+            <span class="cat-name">Tubérculos</span>
+          </div>
+          <div class="cat-chip">
+            <span class="cat-icon"><i class="ph ph-coffee"></i></span>
+            <span class="cat-name">Café y cacao</span>
+          </div>
+          <div class="cat-chip">
+            <span class="cat-icon"><i class="ph ph-grains"></i></span>
+            <span class="cat-name">Leguminosas</span>
+          </div>
+          <div class="cat-chip">
+            <span class="cat-icon"><i class="ph ph-leaf"></i></span>
+            <span class="cat-name">Hierbas</span>
+          </div>
+          <div class="cat-chip">
+            <span class="cat-icon"><i class="ph ph-jar-label"></i></span>
+            <span class="cat-name">Apícola</span>
+          </div>
+          <div class="cat-chip">
+            <span class="cat-icon"><i class="ph ph-dot-outline"></i></span>
+            <span class="cat-name">Huevos</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="market-toolbar">
+        <span style="font-size:var(--text-sm);color:var(--gray-500);">2.412 productos encontrados</span>
+        <div style="flex:1;"></div>
+        <div class="filter-btn active"><i class="ph ph-leaf"></i> Orgánico</div>
+        <div class="filter-btn"><i class="ph ph-map-pin"></i> Cundinamarca</div>
+        <div class="filter-btn"><i class="ph ph-currency-dollar"></i> Precio: $0 – $50.000</div>
+        <div class="filter-btn"><i class="ph ph-star"></i> +4.0</div>
+        <div class="filter-btn">✕ Limpiar filtros</div>
+        <div style="width:1px;height:24px;background:var(--gray-200);margin:0 4px;"></div>
+        <select class="form-select" style="width:auto;font-size:var(--text-xs);padding:8px 14px;">
+          <option>Más relevantes</option>
+          <option>Precio: menor</option>
+          <option>Precio: mayor</option>
+          <option>Más vendidos</option>
+          <option>Más nuevos</option>
+        </select>
+      </div>
+
+      <!-- PRODUCTS GRID -->
+      <div class="products-grid">
+
+        <!-- 1 -->
+        <div class="mp-card">
+          <div class="mp-card-img">
+            <span><i class="ph ph-flower-tulip"></i></span>
+            <div class="mp-card-badge"><span class="badge badge-green">Orgánico</span></div>
+            <div class="mp-card-fav">🤍</div>
+          </div>
+          <div class="mp-card-body">
+            <div class="mp-vendor-row">
+              <div class="mp-vendor-avatar">CR</div>
+              <span>Carlos Rodríguez · Cundinamarca</span>
+            </div>
+            <div class="mp-card-name">Tomate Cherry Orgánico</div>
+            <div class="mp-card-desc">Cultivado sin pesticidas, fresco y dulce. Cosechado esta semana.</div>
+            <div class="mp-card-price-row">
+              <span class="mp-card-price">$8.500</span>
+              <span class="mp-card-unit">/ kg</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:var(--text-xs);color:var(--gray-400);">
+              <span style="color:var(--amber-400);">★★★★★</span> 4.9 (127)
+            </div>
+          </div>
+          <div class="mp-card-footer">
+            <a href="09-marketplace.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-shopping-cart"></i> Al carrito</a>
+            <a href="10-detalle-producto.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">⚡ Comprar</a>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="mp-card">
+          <div class="mp-card-img" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);">
+            <span><i class="ph ph-leaf"></i></span>
+            <div class="mp-card-badge"><span class="badge badge-blue">Hidropónico</span></div>
+            <div class="mp-card-fav">❤️</div>
+          </div>
+          <div class="mp-card-body">
+            <div class="mp-vendor-row">
+              <div class="mp-vendor-avatar">CR</div>
+              <span>Carlos Rodríguez · Cundinamarca</span>
+            </div>
+            <div class="mp-card-name">Lechuga Batavia Hidropónica</div>
+            <div class="mp-card-desc">Sistema NFT, sin tierra. Alta pureza y sabor uniforme.</div>
+            <div class="mp-card-price-row">
+              <span class="mp-card-price">$5.200</span>
+              <span class="mp-card-unit">/ kg</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:var(--text-xs);color:var(--gray-400);">
+              <span style="color:var(--amber-400);">★★★★★</span> 4.8 (89)
+            </div>
+          </div>
+          <div class="mp-card-footer">
+            <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-shopping-cart"></i> Al carrito</button>
+            <a href="10-detalle-producto.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">⚡ Comprar</a>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="mp-card">
+          <div class="mp-card-img" style="background:linear-gradient(135deg,#FFFBEB,#FEF3C7);">
+            <span><i class="ph ph-coffee"></i></span>
+            <div class="mp-card-badge"><span class="badge badge-amber">Especial</span></div>
+            <div class="mp-card-fav">🤍</div>
+          </div>
+          <div class="mp-card-body">
+            <div class="mp-vendor-row">
+              <div class="mp-vendor-avatar">CR</div>
+              <span>Carlos Rodríguez · Cundinamarca</span>
+            </div>
+            <div class="mp-card-name">Café Arábica Especial Altitude</div>
+            <div class="mp-card-desc">Tostado artesanal, notas frutales. Altura 1.800 msnm.</div>
+            <div class="mp-card-price-row">
+              <span class="mp-card-price">$42.000</span>
+              <span class="mp-card-unit">/ kg</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:var(--text-xs);color:var(--gray-400);">
+              <span style="color:var(--amber-400);">★★★★★</span> 5.0 (43)
+            </div>
+          </div>
+          <div class="mp-card-footer">
+            <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-shopping-cart"></i> Al carrito</button>
+            <a href="10-detalle-producto.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">⚡ Comprar</a>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="mp-card">
+          <div class="mp-card-img" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);">
+            <span><i class="ph ph-dot-outline"></i></span>
+            <div class="mp-card-badge"><span class="badge badge-green">Fresco</span></div>
+            <div class="mp-card-fav">🤍</div>
+          </div>
+          <div class="mp-card-body">
+            <div class="mp-vendor-row">
+              <div class="mp-vendor-avatar">CR</div>
+              <span>Carlos Rodríguez · Cundinamarca</span>
+            </div>
+            <div class="mp-card-name">Papa Pastusa Criolla</div>
+            <div class="mp-card-desc">Papa criolla recién cosechada. Ideal para sopas y ensaladas.</div>
+            <div class="mp-card-price-row">
+              <span class="mp-card-price">$3.200</span>
+              <span class="mp-card-unit">/ kg</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:var(--text-xs);color:var(--gray-400);">
+              <span style="color:var(--amber-400);">★★★★☆</span> 4.7 (62)
+            </div>
+          </div>
+          <div class="mp-card-footer">
+            <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-shopping-cart"></i> Al carrito</button>
+            <a href="10-detalle-producto.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">⚡ Comprar</a>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="mp-card">
+          <div class="mp-card-img" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);">
+            <span><i class="ph ph-grains"></i></span>
+            <div class="mp-card-badge"><span class="badge badge-green">Cosecha nueva</span></div>
+            <div class="mp-card-fav">🤍</div>
+          </div>
+          <div class="mp-card-body">
+            <div class="mp-vendor-row">
+              <div class="mp-vendor-avatar">JM</div>
+              <span>José Martínez · Boyacá</span>
+            </div>
+            <div class="mp-card-name">Mazorca de Maíz Amarillo</div>
+            <div class="mp-card-desc">Maíz tierno cosechado esta semana. Dulce y jugoso.</div>
+            <div class="mp-card-price-row">
+              <span class="mp-card-price">$1.800</span>
+              <span class="mp-card-unit">/ unidad</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:var(--text-xs);color:var(--gray-400);">
+              <span style="color:var(--amber-400);">★★★★☆</span> 4.6 (34)
+            </div>
+          </div>
+          <div class="mp-card-footer">
+            <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-shopping-cart"></i> Al carrito</button>
+            <a href="10-detalle-producto.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">⚡ Comprar</a>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="mp-card">
+          <div class="mp-card-img" style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE);">
+            <span><i class="ph ph-dot-outline"></i></span>
+            <div class="mp-card-badge"><span class="badge badge-purple">ICA Cert.</span></div>
+            <div class="mp-card-fav">🤍</div>
+          </div>
+          <div class="mp-card-body">
+            <div class="mp-vendor-row">
+              <div class="mp-vendor-avatar">CR</div>
+              <span>Carlos Rodríguez · Cundinamarca</span>
+            </div>
+            <div class="mp-card-name">Fríjol Radical ICA Certificado</div>
+            <div class="mp-card-desc">Grano seleccionado, libre de plagas. Empacado al vacío.</div>
+            <div class="mp-card-price-row">
+              <span class="mp-card-price">$6.800</span>
+              <span class="mp-card-unit">/ kg</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:var(--text-xs);color:var(--gray-400);">
+              <span style="color:var(--amber-400);">★★★★★</span> 4.8 (78)
+            </div>
+          </div>
+          <div class="mp-card-footer">
+            <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-shopping-cart"></i> Al carrito</button>
+            <a href="10-detalle-producto.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">⚡ Comprar</a>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="mp-card">
+          <div class="mp-card-img" style="background:linear-gradient(135deg,#FFF0F0,#FFE4E6);">
+            <span><i class="ph ph-pepper"></i></span>
+            <div class="mp-card-badge"><span class="badge badge-green">Orgánico</span></div>
+            <div class="mp-card-fav">🤍</div>
+          </div>
+          <div class="mp-card-body">
+            <div class="mp-vendor-row">
+              <div class="mp-vendor-avatar">AG</div>
+              <span>Ana García · Antioquia</span>
+            </div>
+            <div class="mp-card-name">Pimentón Rojo Grueso</div>
+            <div class="mp-card-desc">Pimentón rojo maduro, grueso y carnoso. Perfecto para ensaladas.</div>
+            <div class="mp-card-price-row">
+              <span class="mp-card-price">$7.400</span>
+              <span class="mp-card-unit">/ kg</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:var(--text-xs);color:var(--gray-400);">
+              <span style="color:var(--amber-400);">★★★★☆</span> 4.5 (21)
+            </div>
+          </div>
+          <div class="mp-card-footer">
+            <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-shopping-cart"></i> Al carrito</button>
+            <a href="10-detalle-producto.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">⚡ Comprar</a>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="mp-card">
+          <div class="mp-card-img" style="background:linear-gradient(135deg,#FFFBEB,#FEF9C3);">
+            <span><i class="ph ph-drop"></i></span>
+            <div class="mp-card-badge"><span class="badge badge-amber">Artesanal</span></div>
+            <div class="mp-card-fav">🤍</div>
+          </div>
+          <div class="mp-card-body">
+            <div class="mp-vendor-row">
+              <div class="mp-vendor-avatar">PV</div>
+              <span>Pedro Vargas · Santander</span>
+            </div>
+            <div class="mp-card-name">Miel de Abeja Pura Artesanal</div>
+            <div class="mp-card-desc">Miel cruda sin procesar. Apiario familiar en bosque nativo.</div>
+            <div class="mp-card-price-row">
+              <span class="mp-card-price">$28.000</span>
+              <span class="mp-card-unit">/ 500g</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:var(--text-xs);color:var(--gray-400);">
+              <span style="color:var(--amber-400);">★★★★★</span> 4.9 (56)
+            </div>
+          </div>
+          <div class="mp-card-footer">
+            <button class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-shopping-cart"></i> Al carrito</button>
+            <a href="10-detalle-producto.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">⚡ Comprar</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pagination -->
+      <div style="display:flex;justify-content:center;align-items:center;gap:var(--space-3);">
+        <span style="font-size:var(--text-sm);color:var(--gray-500);">Página 1 de 302</span>
+        <div class="pagination">
+          <div class="page-btn">‹</div>
+          <div class="page-btn active">1</div>
+          <div class="page-btn">2</div>
+          <div class="page-btn">3</div>
+          <div class="page-btn">…</div>
+          <div class="page-btn">302</div>
+          <div class="page-btn">›</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div class="add-toast">
+  <span style="font-size:20px;"><i class="ph ph-shopping-cart"></i></span>
+  <div>
+    <div style="font-weight:700;color:var(--gray-900);">¡Agregado al carrito!</div>
+    <div style="font-size:var(--text-xs);color:var(--gray-500);">Tomate Cherry · 1 kg</div>
+  </div>
+  <a href="11-carrito.html" style="font-size:var(--text-xs);font-weight:700;color:var(--green-600);margin-left:var(--space-4);">Ver carrito →</a>
+</div>
+</body>
+</html>

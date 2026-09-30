@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Perfil Agrotienda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="design-system.css">
+<style>
+.sidebar { background: #1C1200; }
+  .sidebar-logo .logo-text span { color: var(--amber-400); }
+  .sidebar-nav a.active { background: rgba(245,158,11,.15); }
+  .sidebar-nav a.active::before { background: var(--amber-400); }
+
+  .profile-cover {
+    height: 200px;
+    background: linear-gradient(135deg, #1C1200 0%, #2D2400 40%, #14401F 100%);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: var(--space-5);
+  }
+  .profile-cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 30% 50%, rgba(245,158,11,.1) 0%, transparent 60%);
+  }
+  .cover-badge {
+    background: rgba(255,255,255,.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: var(--radius-lg);
+    color: var(--white);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    padding: 7px 14px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    position: relative; z-index: 1;
+  }
+
+  .profile-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .profile-info-section { padding: 0 var(--space-8) var(--space-6); }
+
+  .profile-avatar-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: -52px;
+    margin-bottom: var(--space-4);
+    position: relative; z-index: 2;
+  }
+  .store-logo {
+    width: 100px; height: 100px;
+    border-radius: var(--radius-xl);
+    background: var(--amber-500);
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    border: 4px solid var(--white);
+    box-shadow: var(--shadow-md);
+    flex-shrink: 0;
+  }
+
+  .profile-name { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 800; color: var(--gray-900); letter-spacing: -.02em; margin-bottom: 4px; }
+  .profile-meta { font-size: var(--text-sm); color: var(--gray-500); display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+  .profile-desc { font-size: var(--text-sm); color: var(--gray-600); line-height: 1.7; margin-top: var(--space-4); max-width: 600px; }
+
+  .profile-stats-strip { display: flex; border-top: 1px solid var(--gray-100); margin-top: var(--space-5); }
+  .pstat { flex:1; padding: var(--space-4); text-align: center; border-right: 1px solid var(--gray-100); }
+  .pstat:last-child { border-right: none; }
+  .pstat-val { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--gray-900); display: block; }
+  .pstat-label { font-size: var(--text-xs); color: var(--gray-500); text-transform: uppercase; letter-spacing: .06em; }
+
+  .profile-layout { display: grid; grid-template-columns: 1fr 340px; gap: var(--space-6); align-items: flex-start; }
+
+  .info-section { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-xs); }
+  .is-header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--gray-100); background: var(--gray-50); }
+  .is-title { font-family: var(--font-display); font-size: var(--text-sm); font-weight: 700; color: var(--gray-800); }
+  .is-body { padding: var(--space-5); }
+
+  /* Inventory highlights */
+  .inv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+  .inv-item { display: flex; align-items: center; gap: var(--space-3); padding: 10px var(--space-3); background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: var(--radius-lg); }
+  .inv-icon { width: 36px; height: 36px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .inv-name { font-size: var(--text-xs); font-weight: 700; color: var(--gray-900); }
+  .inv-price { font-size: 10px; color: var(--green-700); font-weight: 700; }
+
+  /* Rating bar */
+  .stars { color: var(--amber-400); font-size: 14px; letter-spacing: 2px; }
+
+  /* Categories served */
+  .cat-grid { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .cat-tag { padding: 6px 12px; border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 600; background: var(--amber-50); border: 1px solid var(--amber-200); color: var(--amber-800); }
+</style>
+</head>
+<body>
+<div class="screen-label">22 — Perfil Agrotienda · AgriGo</div>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon" style="background:var(--amber-500);"><i class="ph ph-storefront"></i></div>
+      <div><div class="logo-text">Agri<span>Go</span></div><span class="logo-sub">Agrotienda</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="15-dashboard-agrotienda.html"><span class="nav-icon"><i class="ph ph-chart-bar"></i></span> Dashboard</a>
+      <a href="16-gestion-insumos.html"><span class="nav-icon"><i class="ph ph-flask"></i></span> Insumos</a>
+      <a href="16-gestion-insumos.html"><span class="nav-icon"><i class="ph ph-package"></i></span> Inventario</a>
+      <a href="18-comparador-precios.html"><span class="nav-icon"><i class="ph ph-arrow-fat-line-up"></i></span> Comparador</a>
+      <div class="sidebar-section-label">Comercio</div>
+      <a href="#"><span class="nav-icon"><i class="ph ph-receipt"></i></span> Pedidos</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-currency-dollar"></i></span> Ventas</a>
+      <div class="sidebar-section-label">Cuenta</div>
+      <a href="22-perfil-agrotienda.html" class="active"><span class="nav-icon"><i class="ph ph-storefront"></i></span> Perfil tienda</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-gear"></i></span> Configuración</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" style="width:36px;height:36px;background:var(--amber-600);color:white;font-weight:700;font-size:14px;">AI</div>
+        <div class="user-info"><div class="user-name">AgroInsumos Bogotá</div><div class="user-role" style="color:#FDE68A;"><i class="ph ph-storefront"></i> Agrotienda</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Perfil de la tienda</span>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <button class="btn btn-secondary btn-sm"><i class="ph ph-pencil-simple"></i> Editar perfil</button>
+        <div class="icon-btn"><i class="ph ph-bell"></i><div class="notif-dot"></div></div>
+        <div class="avatar avatar-sm" style="background:var(--amber-600);color:white;font-weight:700;width:38px;height:38px;font-size:13px;">AI</div>
+      </div>
+    </header>
+
+    <div class="page-body">
+
+      <!-- PROFILE CARD -->
+      <div class="profile-card">
+        <div class="profile-cover">
+          <button class="cover-badge"><i class="ph ph-pencil-simple"></i> Cambiar portada</button>
+        </div>
+        <div class="profile-info-section">
+          <div class="profile-avatar-row">
+            <div class="store-logo">AI</div>
+            <div style="display:flex;gap:var(--space-2);padding-bottom:var(--space-2);">
+              <div style="background:var(--amber-500);color:white;padding:6px 14px;border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:700;display:flex;align-items:center;gap:4px;"><i class="ph ph-check"></i> Tienda verificada</div>
+              <div class="badge badge-green"><i class="ph ph-star"></i> Top Agrotienda</div>
+              <div class="badge badge-amber"><i class="ph ph-package"></i> +1000 ventas</div>
+            </div>
+          </div>
+          <div class="profile-name">AgroInsumos Bogotá S.A.S.</div>
+          <div class="profile-meta">
+            <span><i class="ph ph-storefront"></i> Agrotienda certificada</span>
+            <span><i class="ph ph-map-pin"></i> Bogotá D.C., Colombia</span>
+            <span><i class="ph ph-calendar"></i> Activa desde Marzo 2020</span>
+            <span><i class="ph ph-globe"></i> agroinsumosbog.com</span>
+          </div>
+          <p class="profile-desc">
+            Somos una empresa especializada en insumos agrícolas de alta calidad para agricultores y productores colombianos. Ofrecemos fertilizantes, pesticidas, semillas certificadas, herbicidas y herramientas con asesoría técnica gratuita. Cobertura nacional con despacho en 24-48 horas.
+          </p>
+          <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4);flex-wrap:wrap;">
+            <span style="display:flex;align-items:center;gap:6px;font-size:var(--text-sm);color:var(--gray-600);"><i class="ph ph-star"></i> <strong style="color:var(--gray-900);">4.8</strong> (312 reseñas)</span>
+            <span style="color:var(--gray-300);">|</span>
+            <span style="font-size:var(--text-sm);color:var(--gray-600);"><i class="ph ph-package"></i> <strong style="color:var(--gray-900);">1.240</strong> ventas completadas</span>
+            <span style="color:var(--gray-300);">|</span>
+            <span style="font-size:var(--text-sm);color:var(--gray-600);"><i class="ph ph-flask"></i> <strong style="color:var(--gray-900);">48</strong> insumos activos</span>
+          </div>
+        </div>
+        <div class="profile-stats-strip">
+          <div class="pstat"><span class="pstat-val">$148M</span><div class="pstat-label">Ventas totales</div></div>
+          <div class="pstat"><span class="pstat-val">1.240</span><div class="pstat-label">Pedidos</div></div>
+          <div class="pstat"><span class="pstat-val">48</span><div class="pstat-label">Insumos activos</div></div>
+          <div class="pstat"><span class="pstat-val">99%</span><div class="pstat-label">Entregas a tiempo</div></div>
+          <div class="pstat"><span class="pstat-val">4.8 ★</span><div class="pstat-label">Calificación</div></div>
+          <div class="pstat"><span class="pstat-val">18 dpts.</span><div class="pstat-label">Cobertura</div></div>
+        </div>
+      </div>
+
+      <!-- MAIN LAYOUT -->
+      <div class="profile-layout">
+        <!-- LEFT -->
+        <div style="display:flex;flex-direction:column;gap:var(--space-5);">
+
+          <!-- Inventario destacado -->
+          <div class="info-section">
+            <div class="is-header">
+              <div class="is-title"><i class="ph ph-flask"></i> Inventario destacado</div>
+              <a href="16-gestion-insumos.html" class="btn btn-ghost btn-sm">Ver todo →</a>
+            </div>
+            <div class="is-body">
+              <div class="inv-grid">
+                <div class="inv-item"><div class="inv-icon" style="background:var(--amber-100);"><i class="ph ph-acorn"></i></div><div><div class="inv-name">Fertisol K+</div><div class="inv-price">$48.000/kg</div></div></div>
+                <div class="inv-item"><div class="inv-icon" style="background:var(--green-100);"><i class="ph ph-plant"></i></div><div><div class="inv-name">Semilla Tomate</div><div class="inv-price">$45.000/u</div></div></div>
+                <div class="inv-item"><div class="inv-icon" style="background:#EFF6FF;"><i class="ph ph-shield-check"></i></div><div><div class="inv-name">CalciMax Pro</div><div class="inv-price">$42.500/u</div></div></div>
+                <div class="inv-item"><div class="inv-icon" style="background:#EDE9FE;"><i class="ph ph-shovel"></i></div><div><div class="inv-name">Herbicida Total</div><div class="inv-price">$38.000/L</div></div></div>
+                <div class="inv-item"><div class="inv-icon" style="background:var(--green-50);"><i class="ph ph-grains"></i></div><div><div class="inv-name">Abono Orgánico</div><div class="inv-price">$35.000/2kg</div></div></div>
+                <div class="inv-item"><div class="inv-icon" style="background:#FEE2E2;"><i class="ph ph-warning-circle"></i></div><div><div class="inv-name">Cipermetrina</div><div class="inv-price">$22.000/u</div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categorías atendidas -->
+          <div class="info-section">
+            <div class="is-header"><div class="is-title">🗂️ Categorías de productos</div></div>
+            <div class="is-body">
+              <div class="cat-grid">
+                <div class="cat-tag"><i class="ph ph-test-tube"></i> Fertilizantes</div>
+                <div class="cat-tag"><i class="ph ph-bug-beetle"></i> Pesticidas</div>
+                <div class="cat-tag"><i class="ph ph-plant"></i> Semillas certificadas</div>
+                <div class="cat-tag"><i class="ph ph-shovel"></i> Herbicidas</div>
+                <div class="cat-tag"><i class="ph ph-shield-check"></i> Fungicidas</div>
+                <div class="cat-tag"><i class="ph ph-toolbox"></i> Herramientas</div>
+                <div class="cat-tag"><i class="ph ph-drop"></i> Riego</div>
+                <div class="cat-tag"><i class="ph ph-chart-bar"></i> Sustratos</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reseñas destacadas -->
+          <div class="info-section">
+            <div class="is-header"><div class="is-title"><i class="ph ph-star"></i> Reseñas recientes</div><span class="badge badge-amber">4.8 promedio</span></div>
+            <div class="is-body">
+              <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+                <div style="padding:var(--space-4);background:var(--gray-50);border-radius:var(--radius-lg);">
+                  <div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-2);">
+                    <div style="width:32px;height:32px;border-radius:50%;background:var(--green-600);color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;">CR</div>
+                    <div><div style="font-size:var(--text-xs);font-weight:700;color:var(--gray-900);">Carlos Rodríguez</div><div style="font-size:10px;color:var(--gray-500);">Hace 2 días</div></div>
+                    <div style="margin-left:auto;color:var(--amber-400);font-size:12px;">★★★★★</div>
+                  </div>
+                  <div style="font-size:var(--text-xs);color:var(--gray-700);line-height:1.6;">"Excelente calidad en el Fertisol K+. Mis tomates mejoraron notablemente. Envío rápido y producto en perfecto estado."</div>
+                </div>
+                <div style="padding:var(--space-4);background:var(--gray-50);border-radius:var(--radius-lg);">
+                  <div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-2);">
+                    <div style="width:32px;height:32px;border-radius:50%;background:var(--green-700);color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;">JM</div>
+                    <div><div style="font-size:var(--text-xs);font-weight:700;color:var(--gray-900);">José Martínez</div><div style="font-size:10px;color:var(--gray-500);">Hace 5 días</div></div>
+                    <div style="margin-left:auto;color:var(--amber-400);font-size:12px;">★★★★★</div>
+                  </div>
+                  <div style="font-size:var(--text-xs);color:var(--gray-700);line-height:1.6;">"La asesoría técnica que ofrecen es excelente. Me ayudaron a elegir el fungicida correcto para mi cultivo."</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div style="display:flex;flex-direction:column;gap:var(--space-5);">
+          <!-- Info de contacto -->
+          <div class="info-section">
+            <div class="is-header"><div class="is-title">📞 Contacto</div><button class="btn btn-ghost btn-sm"><i class="ph ph-pencil-simple"></i> Editar</button></div>
+            <div class="is-body">
+              <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+                <div style="display:flex;justify-content:space-between;font-size:var(--text-sm);"><span style="color:var(--gray-500);">Dirección</span><span style="font-weight:600;color:var(--gray-800);text-align:right;max-width:160px;">Av. El Dorado #68C-61, Bogotá</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:var(--text-sm);"><span style="color:var(--gray-500);">Teléfono</span><span style="font-weight:600;color:var(--gray-800);">+57 601 234 5678</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:var(--text-sm);"><span style="color:var(--gray-500);">WhatsApp</span><span style="font-weight:600;color:var(--green-600);">+57 310 987 6543</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:var(--text-sm);"><span style="color:var(--gray-500);">Correo</span><span style="font-weight:600;color:var(--gray-800);font-size:var(--text-xs);">ventas@agroinsumosbog.com</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:var(--text-sm);"><span style="color:var(--gray-500);">Horario</span><span style="font-weight:600;color:var(--gray-800);">L–V 8am–6pm</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calificación -->
+          <div class="info-section">
+            <div class="is-header"><div class="is-title"><i class="ph ph-star"></i> Calificación</div></div>
+            <div class="is-body">
+              <div style="text-align:center;margin-bottom:var(--space-4);">
+                <div style="font-family:var(--font-display);font-size:3rem;font-weight:800;color:var(--gray-900);line-height:1;">4.8</div>
+                <div class="stars" style="margin:4px 0;">★★★★★</div>
+                <div style="font-size:var(--text-xs);color:var(--gray-500);">312 reseñas verificadas</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);">
+                  <span style="color:var(--gray-500);width:12px;">5</span>
+                  <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:75%;background:var(--amber-400);"></div></div>
+                  <span style="color:var(--gray-500);width:28px;text-align:right;">234</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);">
+                  <span style="color:var(--gray-500);width:12px;">4</span>
+                  <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:18%;background:var(--amber-300);"></div></div>
+                  <span style="color:var(--gray-500);width:28px;text-align:right;">56</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);">
+                  <span style="color:var(--gray-500);width:12px;">3</span>
+                  <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:5%;background:var(--gray-300);"></div></div>
+                  <span style="color:var(--gray-500);width:28px;text-align:right;">16</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);">
+                  <span style="color:var(--gray-500);width:12px;">2</span>
+                  <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:2%;background:var(--status-error);"></div></div>
+                  <span style="color:var(--gray-500);width:28px;text-align:right;">6</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logros -->
+          <div class="info-section">
+            <div class="is-header"><div class="is-title"><i class="ph ph-trophy"></i> Reconocimientos</div></div>
+            <div class="is-body">
+              <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);">
+                <div style="display:flex;align-items:center;gap:6px;background:var(--amber-50);border:1px solid var(--amber-200);border-radius:var(--radius-lg);padding:7px 12px;font-size:var(--text-xs);font-weight:600;color:var(--amber-800);"><i class="ph ph-medal"></i> Top Agrotienda 2024</div>
+                <div style="display:flex;align-items:center;gap:6px;background:var(--amber-50);border:1px solid var(--amber-200);border-radius:var(--radius-lg);padding:7px 12px;font-size:var(--text-xs);font-weight:600;color:var(--amber-800);">✅ ICA Certificado</div>
+                <div style="display:flex;align-items:center;gap:6px;background:var(--amber-50);border:1px solid var(--amber-200);border-radius:var(--radius-lg);padding:7px 12px;font-size:var(--text-xs);font-weight:600;color:var(--amber-800);"><i class="ph ph-package"></i> 1000+ ventas</div>
+                <div style="display:flex;align-items:center;gap:6px;background:var(--amber-50);border:1px solid var(--amber-200);border-radius:var(--radius-lg);padding:7px 12px;font-size:var(--text-xs);font-weight:600;color:var(--amber-800);"><i class="ph ph-truck"></i> Envío express</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
