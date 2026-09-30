@@ -94,6 +94,32 @@
             background-color: #0d469d;
             color: #fff;
         }
+
+        .aurea-card {
+            width: 18rem;
+            margin: auto;
+            overflow: hidden;
+            border: 1px solid #ececec;
+            background: #fff;
+        }
+
+        .aurea-logo-area {
+            background: #08090a;
+            padding: 10px 12px 0;
+        }
+
+        .aurea-logo {
+            display: block;
+            width: 100%;
+            height: 160px;
+            object-fit: contain;
+        }
+
+        .aurea-line {
+            height: 3px;
+            margin: 0 -12px;
+            background: linear-gradient(90deg, #8d7348, #f0ddb8, #d4b483);
+        }
     </style>
 </head>
 
@@ -153,7 +179,24 @@
         </div>
         <div class="row my-3">
             <div class="col">
-                Column
+                <div class="card aurea-card">
+                    <div class="aurea-logo-area">
+                        <svg class="aurea-logo" viewBox="0 0 720 400" role="img" aria-label="Logo de Aurea">
+                            <rect width="720" height="400" fill="#08090a"/>
+                            <circle cx="360" cy="158" r="70" fill="none" stroke="#d4b483" stroke-width="2"/>
+                            <path d="M360 106 L394 210 H326 Z" fill="none" stroke="#d4b483" stroke-width="3" stroke-linejoin="round"/>
+                            <line x1="340" y1="170" x2="380" y2="170" stroke="#d4b483" stroke-width="2"/>
+                            <text x="360" y="286" text-anchor="middle" fill="#f3eee4" font-family="Georgia, serif" font-size="58" font-style="italic">Aurea</text>
+                            <text x="360" y="322" text-anchor="middle" fill="#d4b483" font-family="Georgia, serif" font-size="14" letter-spacing="6">SALUD  PASTO</text>
+                        </svg>
+                        <div class="aurea-line" aria-hidden="true"></div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Aurea</h5>
+                        <p class="card-text">Citas médicas y recordatorios de medicamentos para pacientes en Pasto.</p>
+                        <a href="./proyectos/Aurea/aurea.html" class="btn btn-primary">Ver proyecto</a>
+                    </div>
+                </div>
             </div>
             <div class="col">
                 <!-- AgroMarket DD -->
