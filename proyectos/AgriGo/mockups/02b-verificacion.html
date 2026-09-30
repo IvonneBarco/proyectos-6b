@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Verificación de correo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="design-system.css">
+<style>
+body {
+  background: var(--gray-950);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background texture */
+.bg-layer {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% -5%, rgba(46,158,79,.14) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 35% at 85% 80%, rgba(245,158,11,.06) 0%, transparent 55%);
+}
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+
+.verify-shell {
+  flex: 1; display: flex;
+  align-items: center; justify-content: center;
+  padding: 32px; position: relative; z-index: 2;
+}
+
+/* Card */
+.verify-card {
+  background: rgba(13,21,17,.75);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: var(--radius-2xl);
+  padding: 48px 44px;
+  width: 100%; max-width: 460px;
+  text-align: center;
+  box-shadow: 0 32px 80px rgba(0,0,0,.5);
+}
+
+/* Logo */
+.verify-logo {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-bottom: 32px;
+}
+.verify-logo-mark {
+  width: 36px; height: 36px;
+  background: var(--green-500); border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 18px;
+  box-shadow: 0 4px 14px rgba(46,158,79,.45);
+}
+.verify-logo-text {
+  font-family: var(--font-display);
+  font-size: var(--text-xl); font-weight: 800;
+  color: #fff; letter-spacing: var(--tracking-tight);
+}
+.verify-logo-text span { color: var(--green-400); }
+
+/* Step progress */
+.step-track {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; margin-bottom: 32px;
+}
+.step-node {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
+.step-circle {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.18);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  color: rgba(255,255,255,.35);
+  transition: var(--transition);
+}
+.step-circle.done   { background: var(--green-600); border-color: var(--green-600); color: #fff; }
+.step-circle.active { background: rgba(46,158,79,.15); border-color: var(--green-500); color: var(--green-400); }
+.step-node-label { font-size: 10px; color: rgba(255,255,255,.3); white-space: nowrap; }
+.step-node.done   .step-node-label  { color: var(--green-400); }
+.step-node.active .step-node-label  { color: rgba(255,255,255,.7); }
+.step-connector {
+  width: 32px; height: 2px;
+  background: rgba(255,255,255,.08);
+  margin: 0 4px; margin-bottom: 15px;
+}
+.step-connector.done { background: var(--green-600); }
+
+/* Email icon */
+.email-icon-wrap {
+  width: 76px; height: 76px;
+  border-radius: var(--radius-2xl);
+  background: rgba(46,158,79,.1);
+  border: 1.5px solid rgba(46,158,79,.22);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--green-400);
+  font-size: 34px;
+  margin: 0 auto 20px;
+  animation: floatY 3s ease-in-out infinite;
+}
+@keyframes floatY {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-7px); }
+}
+
+.verify-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl); font-weight: 800;
+  color: #fff; letter-spacing: var(--tracking-tight);
+  margin-bottom: 8px;
+}
+.verify-sub { font-size: var(--text-sm); color: rgba(255,255,255,.5); line-height: var(--leading-relaxed); margin-bottom: 6px; }
+.verify-email {
+  font-size: var(--text-sm); font-weight: 700;
+  color: var(--green-400); margin-bottom: 28px; display: block;
+}
+
+/* OTP section */
+.otp-label {
+  font-size: 11px; font-weight: 700;
+  color: rgba(255,255,255,.4);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  margin-bottom: 14px; display: block;
+}
+.otp-grid {
+  display: flex; justify-content: center; gap: 10px; margin-bottom: 22px;
+}
+.otp-input {
+  width: 54px; height: 62px;
+  border: 1.5px solid rgba(255,255,255,.12);
+  border-radius: var(--radius-lg);
+  background: rgba(255,255,255,.04);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl); font-weight: 700;
+  text-align: center; outline: none;
+  transition: var(--transition);
+  caret-color: var(--green-400);
+}
+.otp-input:focus {
+  border-color: var(--green-400);
+  background: rgba(46,158,79,.08);
+  box-shadow: 0 0 0 3px rgba(46,158,79,.18);
+}
+.otp-input.filled {
+  border-color: var(--green-500);
+  background: rgba(46,158,79,.1);
+  color: var(--green-400);
+}
+
+/* Timer */
+.timer-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-bottom: 22px;
+}
+.timer-ring {
+  position: relative; width: 34px; height: 34px;
+  flex-shrink: 0;
+}
+.timer-ring svg {
+  transform: rotate(-90deg);
+  width: 34px; height: 34px;
+}
+.timer-ring .bg { stroke: rgba(255,255,255,.1); fill: none; stroke-width: 3; }
+.timer-ring .prog { stroke: var(--green-500); fill: none; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 82; stroke-dashoffset: 20; }
+.timer-num {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+  font-family: var(--font-display);
+}
+.timer-text { font-size: var(--text-sm); color: rgba(255,255,255,.45); }
+.timer-text strong { color: var(--green-400); }
+
+/* Verify button */
+.btn-verify {
+  width: 100%; padding: 13px;
+  background: var(--green-600); color: #fff;
+  border: none; border-radius: var(--radius-lg);
+  font-size: var(--text-base); font-weight: 700;
+  font-family: var(--font-body); cursor: pointer;
+  transition: var(--transition); letter-spacing: -0.01em;
+  box-shadow: 0 2px 8px rgba(30,117,53,.35), 0 6px 20px rgba(30,117,53,.2);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 14px;
+}
+.btn-verify i { font-size: 18px; }
+.btn-verify:hover {
+  background: var(--green-700);
+  box-shadow: 0 4px 14px rgba(30,117,53,.45), 0 8px 24px rgba(30,117,53,.25);
+  transform: translateY(-1px);
+}
+
+.resend-row { font-size: var(--text-sm); color: rgba(255,255,255,.38); }
+.resend-row a { color: var(--green-400); font-weight: 600; cursor: pointer; }
+.resend-row a:hover { text-decoration: underline; }
+
+/* Back link */
+.back-link {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  margin-top: 20px;
+  font-size: var(--text-sm); color: rgba(255,255,255,.3);
+  text-decoration: none; transition: var(--transition);
+}
+.back-link i { font-size: 14px; }
+.back-link:hover { color: rgba(255,255,255,.65); }
+
+/* Security note */
+.security-note {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 20px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: var(--radius-lg);
+  font-size: 11px; color: rgba(255,255,255,.3);
+}
+.security-note i { font-size: 13px; color: var(--green-500); flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="screen-label">02b — Verificación de correo · AgriGo</div>
+
+<div class="bg-layer"></div>
+<div class="bg-grid"></div>
+
+<div class="verify-shell">
+  <div class="verify-card">
+
+    <!-- Logo -->
+    <div class="verify-logo">
+      <div class="verify-logo-mark"><i class="ph ph-plant"></i></div>
+      <div class="verify-logo-text">Agri<span>Go</span></div>
+    </div>
+
+    <!-- Steps -->
+    <div class="step-track">
+      <div class="step-node done">
+        <div class="step-circle done"><i class="ph ph-check" style="font-size:12px;"></i></div>
+        <span class="step-node-label">Registro</span>
+      </div>
+      <div class="step-connector done"></div>
+      <div class="step-node active">
+        <div class="step-circle active">2</div>
+        <span class="step-node-label">Verificar</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-node">
+        <div class="step-circle">3</div>
+        <span class="step-node-label">Listo</span>
+      </div>
+    </div>
+
+    <!-- Icon -->
+    <div class="email-icon-wrap">
+      <i class="ph ph-envelope-open"></i>
+    </div>
+
+    <h2 class="verify-title">Verifica tu correo</h2>
+    <p class="verify-sub">Enviamos un código de 6 dígitos a:</p>
+    <span class="verify-email">carlos.rodriguez@gmail.com</span>
+
+    <!-- OTP -->
+    <span class="otp-label">Código de verificación</span>
+    <div class="otp-grid">
+      <input class="otp-input filled" type="text" maxlength="1" value="4">
+      <input class="otp-input filled" type="text" maxlength="1" value="8">
+      <input class="otp-input filled" type="text" maxlength="1" value="2">
+      <input class="otp-input" type="text" maxlength="1" placeholder="·" autofocus>
+      <input class="otp-input" type="text" maxlength="1" placeholder="·">
+      <input class="otp-input" type="text" maxlength="1" placeholder="·">
+    </div>
+
+    <!-- Timer -->
+    <div class="timer-row">
+      <div class="timer-ring">
+        <svg viewBox="0 0 34 34">
+          <circle class="bg" cx="17" cy="17" r="13"/>
+          <circle class="prog" cx="17" cy="17" r="13"/>
+        </svg>
+        <div class="timer-num">27</div>
+      </div>
+      <span class="timer-text">El código vence en <strong>00:27</strong></span>
+    </div>
+
+    <!-- Button -->
+    <button class="btn-verify" onclick="window.location.href='03-dashboard-agricultor.html'">
+      Verificar y continuar
+      <i class="ph ph-arrow-right"></i>
+    </button>
+
+    <div class="resend-row">
+      ¿No recibiste el código? <a href="#">Reenviar código</a>
+    </div>
+
+    <a href="02-registro.html" class="back-link">
+      <i class="ph ph-arrow-left"></i> Volver al registro
+    </a>
+
+    <div class="security-note">
+      <i class="ph ph-shield-check"></i>
+      El código expira en 10 minutos. No lo compartas con nadie.
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
