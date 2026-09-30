@@ -88,8 +88,8 @@
         }
 
         @keyframes shine {
-            0% { transform: translateX(-140%) rotate(18deg); }
-            55%, 100% { transform: translateX(220%) rotate(18deg); }
+            0% { transform: translateX(-180%) rotate(18deg); }
+            100% { transform: translateX(320%) rotate(18deg); }
         }
 
         @keyframes floatDust {
@@ -495,15 +495,20 @@
             z-index: 2;
         }
 
+        .brillo::before,
         .brillo::after {
             content: "";
             position: absolute;
-            top: -20%;
+            top: -30%;
             left: 0;
-            width: 38%;
-            height: 140%;
+            width: 42%;
+            height: 160%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
-            animation: shine 6.5s ease-in-out infinite;
+            animation: shine 5s linear infinite;
+        }
+
+        .brillo::before {
+            animation-delay: -2.5s;
         }
 
         .foto-badge {
@@ -1024,14 +1029,14 @@
                 <h2>Sobre mí</h2>
             </div>
             <p>
-                Estudiante de sexto semestre de Ingeniería de Software en la
-                Universidad Cooperativa de Colombia, sede Pasto. En el programa he
-                reforzado fundamentos de programación, desarrollo web y trabajo en
-                equipo con Git. Me desempeño en frontend con React, Next.js,
-                TypeScript y Tailwind: diseño e implemento interfaces, las publico
-                en Vercel y las dejo listas para revisión. También desarrollo
-                experiencias interactivas en el navegador con Phaser 3, e integro
-                clientes web con servicios en la nube cuando el proyecto lo requiere.
+                Soy estudiante de sexto semestre de Ingeniería de Software en la
+                Universidad Cooperativa de Colombia, en Pasto. Me dedico al frontend:
+                construyo interfaces con React, Next.js, TypeScript y Tailwind, y me
+                importa que se vean bien, carguen rápido y funcionen en producción.
+                Fuera de lo convencional, hago juegos en el navegador con Phaser 3,
+                que es donde más disfruto probar ideas. Trabajo con Git y sé conectar
+                un frontend con servicios en la nube cuando hace falta. Busco mi
+                primera experiencia profesional en desarrollo web.
             </p>
         </section>
 
