@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Dashboard Agrotienda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="design-system.css">
+<style>
+/* Amber-tinted sidebar for Agrotienda */
+  .sidebar { background: #1C1200; }
+  .sidebar-logo .logo-text span { color: var(--amber-400); }
+  .sidebar-nav a.active { background: rgba(245,158,11,.15); }
+  .sidebar-nav a.active::before { background: var(--amber-400); }
+  .sidebar-nav .nav-badge { background: var(--amber-600); }
+  .sidebar-logo .logo-sub { color: #FDE68A; opacity: .6; }
+  .sidebar-user .user-role { color: #FDE68A; }
+
+  .greeting-banner {
+    background: linear-gradient(135deg, #1C1200 0%, #2D1E00 50%, #14401F 100%);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6) var(--space-8);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .greeting-banner::before {
+    content: '';
+    position: absolute; right: -30px; top: -30px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(245,158,11,.1);
+  }
+  .greeting-text h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -.02em;
+  }
+  .greeting-text h2 span { color: var(--amber-400); }
+  .greeting-text p { font-size: var(--text-sm); color: rgba(255,255,255,.6); margin-top: 4px; }
+  .greeting-actions { display: flex; gap: var(--space-3); z-index: 1; }
+  .btn-store-primary {
+    background: var(--amber-500);
+    color: var(--white);
+    border: none;
+    padding: 11px 20px;
+    border-radius: var(--radius-lg);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 4px 12px rgba(245,158,11,.3);
+  }
+  .btn-store-primary:hover { background: var(--amber-600); transform: translateY(-1px); }
+  .btn-store-sec {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    color: var(--white);
+    padding: 11px 20px;
+    border-radius: var(--radius-lg);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-store-sec:hover { background: rgba(255,255,255,.18); }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--space-5); }
+
+  /* Inventory value card - highlighted */
+  .stat-card.featured {
+    background: linear-gradient(135deg, var(--amber-500) 0%, var(--amber-600) 100%);
+    border-color: var(--amber-400);
+    color: var(--white);
+  }
+  .stat-card.featured .stat-value { color: var(--white); }
+  .stat-card.featured .stat-label { color: rgba(255,255,255,.8); }
+  .stat-card.featured .stat-trend { color: rgba(255,255,255,.9); }
+
+  /* Charts row */
+  .charts-row { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--space-5); }
+
+  /* Bar chart */
+  .bar-chart-h {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .bar-h-row { display: flex; align-items: center; gap: var(--space-3); }
+  .bar-h-label { font-size: var(--text-xs); color: var(--gray-600); width: 80px; text-align: right; flex-shrink: 0; font-weight: 500; }
+  .bar-h-track { flex: 1; height: 24px; background: var(--gray-100); border-radius: var(--radius-full); overflow: hidden; }
+  .bar-h-fill { height: 100%; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; }
+  .bar-h-val { font-size: 11px; font-weight: 700; color: var(--white); }
+
+  /* Low stock alerts */
+  .alert-list { display: flex; flex-direction: column; gap: var(--space-3); }
+  .alert-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 12px var(--space-4);
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius-lg);
+    transition: var(--transition);
+  }
+  .alert-item:hover { box-shadow: var(--shadow-sm); }
+  .alert-item.critical { border-left: 3px solid var(--status-error); }
+  .alert-item.warning  { border-left: 3px solid var(--amber-500); }
+  .ai-icon { width: 40px; height: 40px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .ai-name { font-size: var(--text-sm); font-weight: 600; color: var(--gray-900); }
+  .ai-stock { font-size: var(--text-xs); color: var(--gray-500); margin-top: 2px; }
+  .ai-action { margin-left: auto; flex-shrink: 0; }
+
+  /* Recent insumos table */
+  .insumo-row-quick {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .insumo-row-quick:last-child { border-bottom: none; }
+
+  /* Bottom 2-col */
+  .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+
+  /* Quick action buttons for store */
+  .quick-action-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--space-4); }
+</style>
+</head>
+<body>
+<div class="screen-label">15 — Dashboard Agrotienda · AgriGo</div>
+
+<div class="app-shell">
+  <!-- AMBER SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon" style="background:var(--amber-500);"><i class="ph ph-storefront"></i></div>
+      <div>
+        <div class="logo-text">Agri<span>Go</span></div>
+        <span class="logo-sub">Agrotienda</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="15-dashboard-agrotienda.html" class="active"><span class="nav-icon"><i class="ph ph-chart-bar"></i></span> Dashboard</a>
+      <a href="16-gestion-insumos.html"><span class="nav-icon"><i class="ph ph-flask"></i></span> Insumos <span class="nav-badge">48</span></a>
+      <a href="16-gestion-insumos.html"><span class="nav-icon"><i class="ph ph-package"></i></span> Inventario</a>
+      <a href="18-comparador-precios.html"><span class="nav-icon"><i class="ph ph-arrow-fat-line-up"></i></span> Comparador</a>
+      <div class="sidebar-section-label">Comercio</div>
+      <a href="#"><span class="nav-icon"><i class="ph ph-receipt"></i></span> Pedidos <span class="nav-badge" style="background:var(--status-error);">7</span></a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-currency-dollar"></i></span> Ventas</a>
+      <div class="sidebar-section-label">Cuenta</div>
+      <a href="22-perfil-agrotienda.html"><span class="nav-icon"><i class="ph ph-storefront"></i></span> Perfil tienda</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-gear"></i></span> Configuración</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" style="width:36px;height:36px;background:var(--amber-600);color:white;font-weight:700;font-size:14px;">AI</div>
+        <div class="user-info">
+          <div class="user-name">AgroInsumos Bogotá</div>
+          <div class="user-role"><i class="ph ph-storefront"></i> Agrotienda</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Dashboard</span>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-search"><span style="color:var(--gray-400);"><i class="ph ph-magnifying-glass"></i></span><input type="text" placeholder="Buscar insumo, pedido…"></div>
+      <div class="topbar-actions">
+        <div class="icon-btn"><i class="ph ph-bell"></i><div class="notif-dot"></div></div>
+        <div class="icon-btn"><i class="ph ph-question"></i></div>
+        <div class="avatar avatar-sm" style="background:var(--amber-600);color:white;font-weight:700;width:38px;height:38px;font-size:13px;">AI</div>
+      </div>
+    </header>
+
+    <div class="page-body">
+
+      <!-- GREETING -->
+      <div class="greeting-banner">
+        <div class="greeting-text" style="z-index:1;">
+          <h2>Buenos días, <span>AgroInsumos</span> <i class="ph ph-storefront"></i></h2>
+          <p>Lunes, 24 de agosto · 7 pedidos nuevos · 5 insumos con stock bajo</p>
+        </div>
+        <div class="greeting-actions">
+          <a href="17-crear-insumo.html" class="btn-store-primary">＋ Nuevo insumo</a>
+          <button class="btn-store-sec">🔄 Actualizar stock</button>
+          <a href="18-comparador-precios.html" class="btn-store-sec"><i class="ph ph-arrow-fat-line-up"></i> Comparar precios</a>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <div class="stat-icon" style="background:var(--amber-100);color:var(--amber-700);"><i class="ph ph-flask"></i></div>
+            <div class="stat-trend up">↑ +3</div>
+          </div>
+          <div class="stat-value">48</div>
+          <div class="stat-label">Total de insumos</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:80%;background:var(--amber-400);"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <div class="stat-icon" style="background:#FEE2E2;color:var(--status-error);"><i class="ph ph-warning"></i></div>
+            <div class="stat-trend down">↑ +2</div>
+          </div>
+          <div class="stat-value" style="color:var(--status-error);">5</div>
+          <div class="stat-label">Stock bajo</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:35%;background:var(--amber-400);"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <div class="stat-icon red">🚫</div>
+            <div class="stat-trend down" style="color:var(--status-error);">↑ +1</div>
+          </div>
+          <div class="stat-value" style="color:var(--status-error);">2</div>
+          <div class="stat-label">Sin stock</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:15%;background:var(--status-error);"></div></div>
+        </div>
+        <div class="stat-card featured">
+          <div class="stat-card-header">
+            <div class="stat-icon" style="background:rgba(255,255,255,.2);color:white;"><i class="ph ph-currency-dollar"></i></div>
+            <div class="stat-trend up" style="color:rgba(255,255,255,.9);">↑ +12%</div>
+          </div>
+          <div class="stat-value">$38.4M</div>
+          <div class="stat-label">Valor total inventario</div>
+          <div class="progress-bar" style="background:rgba(255,255,255,.2);"><div class="progress-fill" style="width:70%;background:rgba(255,255,255,.6);"></div></div>
+        </div>
+      </div>
+
+      <!-- ACCIONES RÁPIDAS -->
+      <div>
+        <div style="font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;color:var(--gray-900);margin-bottom:var(--space-4);">Acciones rápidas</div>
+        <div class="quick-action-grid">
+          <a href="17-crear-insumo.html" class="quick-action-card">
+            <div class="quick-action-icon" style="background:var(--amber-100);">➕</div>
+            <div class="quick-action-label">Nuevo insumo</div>
+          </a>
+          <a href="16-gestion-insumos.html" class="quick-action-card">
+            <div class="quick-action-icon" style="background:var(--green-100);">🔄</div>
+            <div class="quick-action-label">Actualizar stock</div>
+          </a>
+          <a href="18-comparador-precios.html" class="quick-action-card">
+            <div class="quick-action-icon" style="background:#DBEAFE);"><i class="ph ph-arrow-fat-line-up"></i></div>
+            <div class="quick-action-label">Comparar precios</div>
+          </a>
+          <a href="#" class="quick-action-card">
+            <div class="quick-action-icon" style="background:#EDE9FE;"><i class="ph ph-receipt"></i></div>
+            <div class="quick-action-label">Ver pedidos</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- CHARTS ROW -->
+      <div class="charts-row">
+        <!-- Ventas por categoría -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Ventas por categoría</span>
+            <div class="tabs"><div class="tab active">Este mes</div><div class="tab">3M</div></div>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;align-items:center;gap:var(--space-5);margin-bottom:var(--space-5);">
+              <div>
+                <div style="font-family:var(--font-display);font-size:var(--text-2xl);font-weight:800;color:var(--gray-900);">$12.8M</div>
+                <div style="font-size:var(--text-xs);color:var(--gray-500);">Ventas agosto</div>
+              </div>
+              <div class="badge badge-green">↑ +22% vs julio</div>
+            </div>
+            <div class="bar-chart-h">
+              <div class="bar-h-row">
+                <span class="bar-h-label">Fertilizantes</span>
+                <div class="bar-h-track"><div class="bar-h-fill" style="width:82%;background:linear-gradient(90deg,var(--amber-400),var(--amber-500));"><span class="bar-h-val">$4.2M</span></div></div>
+              </div>
+              <div class="bar-h-row">
+                <span class="bar-h-label">Pesticidas</span>
+                <div class="bar-h-track"><div class="bar-h-fill" style="width:60%;background:linear-gradient(90deg,var(--green-400),var(--green-500));"><span class="bar-h-val">$3.1M</span></div></div>
+              </div>
+              <div class="bar-h-row">
+                <span class="bar-h-label">Semillas</span>
+                <div class="bar-h-track"><div class="bar-h-fill" style="width:45%;background:linear-gradient(90deg,#60A5FA,#3B82F6);"><span class="bar-h-val">$2.3M</span></div></div>
+              </div>
+              <div class="bar-h-row">
+                <span class="bar-h-label">Herbicidas</span>
+                <div class="bar-h-track"><div class="bar-h-fill" style="width:30%;background:linear-gradient(90deg,#A78BFA,#7C3AED);"><span class="bar-h-val">$1.5M</span></div></div>
+              </div>
+              <div class="bar-h-row">
+                <span class="bar-h-label">Herramientas</span>
+                <div class="bar-h-track"><div class="bar-h-fill" style="width:18%;background:linear-gradient(90deg,var(--gray-400),var(--gray-500));"><span class="bar-h-val">$1.7M</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pedidos recientes -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Pedidos recientes</span>
+            <span class="badge badge-red">7 nuevos</span>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <!-- pedido rows -->
+            <div style="display:flex;flex-direction:column;">
+              <div style="display:flex;align-items:center;gap:var(--space-3);padding:12px var(--space-5);border-bottom:1px solid var(--gray-100);">
+                <div style="width:36px;height:36px;background:var(--green-100);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;"><i class="ph ph-grains"></i></div>
+                <div style="flex:1;"><div style="font-size:var(--text-xs);font-weight:700;color:var(--gray-900);">Carlos Rodríguez</div><div style="font-size:10px;color:var(--gray-400);">Fertisol K+ · 5 kg</div></div>
+                <span class="badge badge-blue">Nuevo</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:var(--space-3);padding:12px var(--space-5);border-bottom:1px solid var(--gray-100);">
+                <div style="width:36px;height:36px;background:var(--amber-100);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;"><i class="ph ph-flower-tulip"></i></div>
+                <div style="flex:1;"><div style="font-size:var(--text-xs);font-weight:700;color:var(--gray-900);">Finca La Esperanza</div><div style="font-size:10px;color:var(--gray-400);">Semilla Tomate · 2 unid</div></div>
+                <span class="badge badge-blue">Nuevo</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:var(--space-3);padding:12px var(--space-5);border-bottom:1px solid var(--gray-100);">
+                <div style="width:36px;height:36px;background:var(--green-100);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;"><i class="ph ph-grains"></i></div>
+                <div style="flex:1;"><div style="font-size:var(--text-xs);font-weight:700;color:var(--gray-900);">José Martínez</div><div style="font-size:10px;color:var(--gray-400);">Herbicida Total · 1 L</div></div>
+                <span class="badge badge-purple">Preparando</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:var(--space-3);padding:12px var(--space-5);">
+                <div style="width:36px;height:36px;background:var(--green-100);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;"><i class="ph ph-shield-check"></i></div>
+                <div style="flex:1;"><div style="font-size:var(--text-xs);font-weight:700;color:var(--gray-900);">AgroFinca Norte</div><div style="font-size:10px;color:var(--gray-400);">Pack Fungicidas · 10 und</div></div>
+                <span class="badge badge-green">Enviado</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer"><a href="#" class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;">Ver todos los pedidos →</a></div>
+        </div>
+      </div>
+
+      <!-- BOTTOM: Alertas stock + Tabla insumos -->
+      <div class="bottom-row">
+
+        <!-- Stock alerts -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i class="ph ph-warning"></i> Alertas de stock</span>
+            <span class="badge badge-red">7 alertas</span>
+          </div>
+          <div class="card-body">
+            <div class="alert-list">
+              <div class="alert-item critical">
+                <div class="ai-icon" style="background:#FEE2E2;">🚫</div>
+                <div>
+                  <div class="ai-name">Fungicida Mancozeb 80%</div>
+                  <div class="ai-stock" style="color:var(--status-error);font-weight:600;">Sin stock · 0 unidades</div>
+                </div>
+                <div class="ai-action"><a href="17-crear-insumo.html" class="btn btn-primary btn-sm">Reponer</a></div>
+              </div>
+              <div class="alert-item critical">
+                <div class="ai-icon" style="background:#FEE2E2;">🚫</div>
+                <div>
+                  <div class="ai-name">Herbicida Glifosato 1L</div>
+                  <div class="ai-stock" style="color:var(--status-error);font-weight:600;">Sin stock · 0 unidades</div>
+                </div>
+                <div class="ai-action"><a href="17-crear-insumo.html" class="btn btn-primary btn-sm">Reponer</a></div>
+              </div>
+              <div class="alert-item warning">
+                <div class="ai-icon" style="background:var(--amber-100);"><i class="ph ph-warning"></i></div>
+                <div>
+                  <div class="ai-name">Semilla Tomate Milano</div>
+                  <div class="ai-stock" style="color:var(--amber-600);font-weight:600;">Stock bajo · 3 unidades</div>
+                </div>
+                <div class="ai-action"><a href="17-crear-insumo.html" class="btn btn-secondary btn-sm">Actualizar</a></div>
+              </div>
+              <div class="alert-item warning">
+                <div class="ai-icon" style="background:var(--amber-100);"><i class="ph ph-warning"></i></div>
+                <div>
+                  <div class="ai-name">Fertisol K+ Potasio Alto</div>
+                  <div class="ai-stock" style="color:var(--amber-600);font-weight:600;">Stock bajo · 5 kg</div>
+                </div>
+                <div class="ai-action"><a href="17-crear-insumo.html" class="btn btn-secondary btn-sm">Actualizar</a></div>
+              </div>
+              <div class="alert-item warning">
+                <div class="ai-icon" style="background:var(--amber-100);"><i class="ph ph-bug"></i></div>
+                <div>
+                  <div class="ai-name">Insecticida Cipermetrina</div>
+                  <div class="ai-stock" style="color:var(--amber-600);font-weight:600;">Stock bajo · 7 unidades</div>
+                </div>
+                <div class="ai-action"><a href="17-crear-insumo.html" class="btn btn-secondary btn-sm">Actualizar</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insumos recientes -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Insumos más vendidos</span>
+            <a href="16-gestion-insumos.html" class="btn btn-ghost btn-sm">Ver todos →</a>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;">
+
+              <div class="insumo-row-quick">
+                <div style="width:38px;height:38px;background:var(--amber-100);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;"><i class="ph ph-test-tube"></i></div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:var(--text-sm);font-weight:600;color:var(--gray-900);">Fertisol K+ Potasio Alto</div>
+                  <div style="font-size:var(--text-xs);color:var(--gray-500);">Fertilizante · 1 kg</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:var(--text-sm);font-weight:700;color:var(--green-700);">$48.000</div>
+                  <div class="stock-indicator" style="justify-content:flex-end;margin-top:2px;"><div class="stock-dot medium"></div><span style="font-size:10px;color:var(--gray-500);">5 kg</span></div>
+                </div>
+              </div>
+
+              <div class="insumo-row-quick">
+                <div style="width:38px;height:38px;background:var(--green-100);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;"><i class="ph ph-plant"></i></div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:var(--text-sm);font-weight:600;color:var(--gray-900);">Semilla Tomate Milano</div>
+                  <div style="font-size:var(--text-xs);color:var(--gray-500);">Semilla · Sobre 10g</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:var(--text-sm);font-weight:700;color:var(--green-700);">$45.000</div>
+                  <div class="stock-indicator" style="justify-content:flex-end;margin-top:2px;"><div class="stock-dot medium"></div><span style="font-size:10px;color:var(--gray-500);">3 unid</span></div>
+                </div>
+              </div>
+
+              <div class="insumo-row-quick">
+                <div style="width:38px;height:38px;background:#F5F3FF;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;"><i class="ph ph-shield-check"></i></div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:var(--text-sm);font-weight:600;color:var(--gray-900);">CalciMax Pro Tomate</div>
+                  <div style="font-size:var(--text-xs);color:var(--gray-500);">Fertilizante · 500g</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:var(--text-sm);font-weight:700;color:var(--green-700);">$42.500</div>
+                  <div class="stock-indicator" style="justify-content:flex-end;margin-top:2px;"><div class="stock-dot high"></div><span style="font-size:10px;color:var(--gray-500);">40 unid</span></div>
+                </div>
+              </div>
+
+              <div class="insumo-row-quick">
+                <div style="width:38px;height:38px;background:#EFF6FF;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;"><i class="ph ph-grains"></i></div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:var(--text-sm);font-weight:600;color:var(--gray-900);">Abono Orgánico Premium</div>
+                  <div style="font-size:var(--text-xs);color:var(--gray-500);">Fertilizante orgánico · 2 kg</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:var(--text-sm);font-weight:700;color:var(--green-700);">$35.000</div>
+                  <div class="stock-indicator" style="justify-content:flex-end;margin-top:2px;"><div class="stock-dot high"></div><span style="font-size:10px;color:var(--gray-500);">28 unid</span></div>
+                </div>
+              </div>
+
+              <div class="insumo-row-quick">
+                <div style="width:38px;height:38px;background:#FEF2F2;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;"><i class="ph ph-bug-beetle"></i></div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:var(--text-sm);font-weight:600;color:var(--gray-900);">Insecticida Cipermetrina</div>
+                  <div style="font-size:var(--text-xs);color:var(--gray-500);">Pesticida · 250 mL</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:var(--text-sm);font-weight:700;color:var(--green-700);">$22.000</div>
+                  <div class="stock-indicator" style="justify-content:flex-end;margin-top:2px;"><div class="stock-dot medium"></div><span style="font-size:10px;color:var(--gray-500);">7 unid</span></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

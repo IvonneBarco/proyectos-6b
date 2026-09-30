@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Registro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="design-system.css">
+<style>
+body { background: var(--gray-100); min-height: 100vh; display: flex; flex-direction: column; }
+
+.auth-shell {
+  display: grid;
+  grid-template-columns: 1fr 600px;
+  min-height: 100vh;
+}
+
+/* LEFT */
+.hero-panel {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  justify-content: center; padding: 52px 56px;
+  background: var(--green-900);
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(160deg, rgba(8,13,11,.45) 0%, rgba(8,13,11,.82) 100%),
+    url('https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=1200&q=80') center/cover no-repeat;
+}
+.hero-content { position: relative; z-index: 2; }
+
+.hero-logo {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 44px;
+}
+.hero-logo-mark {
+  width: 40px; height: 40px;
+  background: var(--green-500);
+  border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 20px;
+  box-shadow: 0 4px 16px rgba(46,158,79,.4);
+}
+.hero-logo-text {
+  font-family: var(--font-display);
+  font-size: var(--text-xl); font-weight: 800;
+  color: #fff; letter-spacing: var(--tracking-tight);
+}
+.hero-logo-text span { color: var(--green-400); }
+
+.hero-tagline {
+  font-family: var(--font-display);
+  font-size: 2.2rem; font-weight: 800;
+  color: #fff; line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  margin-bottom: 16px;
+}
+.hero-tagline em { font-style: normal; color: var(--green-400); }
+
+.hero-features { display: flex; flex-direction: column; gap: 18px; margin-top: 28px; }
+.feat-item { display: flex; align-items: flex-start; gap: 14px; }
+.feat-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--radius-full);
+  background: rgba(61,189,99,.12);
+  border: 1px solid rgba(61,189,99,.22);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--green-400); font-size: 18px;
+  flex-shrink: 0;
+}
+.feat-text strong { display: block; font-size: var(--text-sm); font-weight: 600; color: #fff; }
+.feat-text span   { font-size: var(--text-xs); color: rgba(255,255,255,.48); margin-top: 2px; display: block; }
+
+/* RIGHT */
+.form-panel {
+  background: var(--white);
+  display: flex; flex-direction: column;
+  justify-content: center;
+  padding: 48px 48px;
+  overflow-y: auto;
+}
+
+.back-nav {
+  display: flex; align-items: center; gap: 6px;
+  font-size: var(--text-sm); color: var(--gray-500);
+  margin-bottom: 28px; text-decoration: none;
+  width: fit-content; transition: var(--transition);
+}
+.back-nav:hover { color: var(--green-600); }
+.back-nav i { font-size: 15px; }
+
+.form-header { margin-bottom: 20px; }
+.form-header h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl); font-weight: 800;
+  color: var(--gray-900); letter-spacing: var(--tracking-tight);
+}
+.form-header p { font-size: var(--text-sm); color: var(--gray-500); margin-top: 5px; }
+
+/* Step dots */
+.step-dots { display: flex; align-items: center; gap: 6px; margin-bottom: 22px; }
+.step-dot {
+  height: 5px; border-radius: var(--radius-full);
+  background: var(--gray-200);
+  transition: var(--transition);
+}
+.step-dot.active { width: 24px; background: var(--green-600); }
+.step-dot:not(.active) { width: 8px; }
+.step-dot.done { background: var(--green-400); }
+.step-label { font-size: 11px; color: var(--gray-400); margin-left: 4px; }
+
+.auth-form { display: flex; flex-direction: column; gap: 14px; }
+
+/* Input fields */
+.input-field { position: relative; }
+.input-field i.fi {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  font-size: 17px; color: var(--gray-400); pointer-events: none; transition: var(--transition);
+}
+.input-field:focus-within i.fi { color: var(--green-500); }
+.input-field input {
+  width: 100%; padding: 10px 13px 10px 40px;
+  border: 1.5px solid var(--gray-200); border-radius: var(--radius-lg);
+  font-size: var(--text-sm); color: var(--gray-800);
+  background: var(--gray-50); outline: none;
+  transition: var(--transition); font-family: var(--font-body);
+}
+.input-field input:focus {
+  border-color: var(--green-400); background: var(--white);
+  box-shadow: 0 0 0 3px rgba(46,158,79,.1);
+}
+.input-field input::placeholder { color: var(--gray-400); }
+
+.pwd-wrap { position: relative; }
+.pwd-wrap input {
+  width: 100%; padding: 10px 40px 10px 40px;
+  border: 1.5px solid var(--gray-200); border-radius: var(--radius-lg);
+  font-size: var(--text-sm); color: var(--gray-800);
+  background: var(--gray-50); outline: none;
+  transition: var(--transition); font-family: var(--font-body);
+}
+.pwd-wrap input:focus {
+  border-color: var(--green-400); background: var(--white);
+  box-shadow: 0 0 0 3px rgba(46,158,79,.1);
+}
+.pwd-wrap input::placeholder { color: var(--gray-400); }
+.pwd-icon-l { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 17px; color: var(--gray-400); pointer-events: none; }
+.pwd-toggle {
+  position: absolute; right: 11px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer;
+  color: var(--gray-400); font-size: 17px; padding: 4px;
+  display: flex; align-items: center;
+}
+.pwd-toggle:hover { color: var(--gray-600); }
+
+/* Password strength */
+.pwd-strength { display: flex; flex-direction: column; gap: 5px; }
+.pwd-bars { display: flex; gap: 3px; }
+.pwd-bar { flex: 1; height: 4px; border-radius: var(--radius-full); background: var(--gray-200); transition: var(--transition); }
+.pwd-bar.s1 { background: var(--status-error); }
+.pwd-bar.s2 { background: var(--amber-400); }
+.pwd-bar.s3 { background: var(--green-400); }
+.pwd-str-label { font-size: 11px; font-weight: 600; }
+
+/* Role selector */
+.role-label-text { font-size: var(--text-sm); font-weight: 600; color: var(--gray-700); margin-bottom: 8px; }
+.role-label-text span { color: var(--status-error); }
+
+.role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.role-option { position: relative; cursor: pointer; }
+.role-option input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+.role-card {
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: 16px 12px;
+  text-align: center;
+  transition: var(--transition);
+  background: var(--white); cursor: pointer;
+  position: relative;
+}
+.role-option input:checked + .role-card {
+  border-color: var(--green-500);
+  background: var(--green-50);
+  box-shadow: 0 0 0 3px rgba(46,158,79,.1);
+}
+.role-card:hover { border-color: var(--green-300); background: var(--green-50); }
+.role-card-icon {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin: 0 auto 10px;
+  transition: var(--transition);
+}
+.role-card-name { font-size: var(--text-sm); font-weight: 700; color: var(--gray-800); }
+.role-card-desc { font-size: 10px; color: var(--gray-400); margin-top: 3px; line-height: 1.4; }
+.role-option input:checked + .role-card .role-card-name { color: var(--green-700); }
+.check-mark {
+  position: absolute; top: 8px; right: 8px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--green-600); color: #fff;
+  font-size: 10px; display: none; align-items: center; justify-content: center;
+}
+.role-option input:checked + .role-card .check-mark { display: flex; }
+
+/* Terms */
+.terms-text { font-size: 11px; color: var(--gray-400); text-align: center; line-height: 1.7; }
+.terms-text a { color: var(--green-600); font-weight: 600; }
+
+.btn-register {
+  width: 100%; padding: 13px;
+  background: var(--green-600); color: #fff;
+  border: none; border-radius: var(--radius-lg);
+  font-size: var(--text-base); font-weight: 700;
+  font-family: var(--font-body); cursor: pointer;
+  transition: var(--transition); letter-spacing: -0.01em;
+  box-shadow: 0 2px 8px rgba(30,117,53,.3), 0 6px 20px rgba(30,117,53,.18);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-register i { font-size: 18px; }
+.btn-register:hover {
+  background: var(--green-700);
+  box-shadow: 0 4px 14px rgba(30,117,53,.4), 0 8px 24px rgba(30,117,53,.22);
+  transform: translateY(-1px);
+}
+
+.login-cta { text-align: center; font-size: var(--text-sm); color: var(--gray-500); }
+.login-cta a { font-weight: 700; color: var(--green-600); }
+.login-cta a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="screen-label">02 — Registro · AgriGo</div>
+
+<div class="auth-shell">
+  <!-- LEFT -->
+  <div class="hero-panel">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-logo">
+        <div class="hero-logo-mark"><i class="ph ph-plant"></i></div>
+        <div class="hero-logo-text">Agri<span>Go</span></div>
+      </div>
+      <h1 class="hero-tagline">Únete a la<br>revolución <em>AgTech</em></h1>
+      <div class="hero-features">
+        <div class="feat-item">
+          <div class="feat-icon"><i class="ph ph-plant"></i></div>
+          <div class="feat-text">
+            <strong>Gestión inteligente de cultivos</strong>
+            <span>Monitorea y planifica con IA en tiempo real</span>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon"><i class="ph ph-storefront"></i></div>
+          <div class="feat-text">
+            <strong>Marketplace agropecuario</strong>
+            <span>Compra y vende directamente sin intermediarios</span>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon"><i class="ph ph-robot"></i></div>
+          <div class="feat-text">
+            <strong>Asistente IA especializado</strong>
+            <span>Recomendaciones precisas para tu producción</span>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon"><i class="ph ph-chart-line-up"></i></div>
+          <div class="feat-text">
+            <strong>Análisis y reportes</strong>
+            <span>Datos que impulsan decisiones rentables</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="form-panel">
+    <a href="01-login.html" class="back-nav">
+      <i class="ph ph-arrow-left"></i> Volver al login
+    </a>
+
+    <div class="form-header">
+      <h1>Crear cuenta</h1>
+      <p>Completa el formulario para unirte a AgriGo</p>
+    </div>
+
+    <div class="step-dots">
+      <div class="step-dot active"></div>
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+      <span class="step-label">Paso 1 de 3 — Información básica</span>
+    </div>
+
+    <form class="auth-form" onsubmit="return false;">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group">
+          <label class="form-label">Nombre completo <span style="color:var(--status-error)">*</span></label>
+          <div class="input-field">
+            <i class="ph ph-user fi"></i>
+            <input type="text" placeholder="Carlos Rodríguez">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Usuario <span style="color:var(--status-error)">*</span></label>
+          <div class="input-field">
+            <i class="ph ph-at fi"></i>
+            <input type="text" placeholder="carlos_r">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Correo electrónico <span style="color:var(--status-error)">*</span></label>
+        <div class="input-field">
+          <i class="ph ph-envelope fi"></i>
+          <input type="email" placeholder="correo@ejemplo.com">
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group">
+          <label class="form-label">Contraseña <span style="color:var(--status-error)">*</span></label>
+          <div class="pwd-wrap">
+            <i class="ph ph-lock-simple pwd-icon-l"></i>
+            <input type="password" placeholder="Mínimo 8 caracteres">
+            <button class="pwd-toggle" type="button"><i class="ph ph-eye"></i></button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirmar contraseña <span style="color:var(--status-error)">*</span></label>
+          <div class="pwd-wrap">
+            <i class="ph ph-lock-simple pwd-icon-l"></i>
+            <input type="password" placeholder="Repetir contraseña">
+            <button class="pwd-toggle" type="button"><i class="ph ph-eye"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Password strength -->
+      <div class="pwd-strength">
+        <div class="pwd-bars">
+          <div class="pwd-bar s2"></div>
+          <div class="pwd-bar s2"></div>
+          <div class="pwd-bar s2"></div>
+          <div class="pwd-bar"></div>
+        </div>
+        <span class="pwd-str-label" style="color:var(--amber-600);">Contraseña media — añade caracteres especiales</span>
+      </div>
+
+      <!-- Role selector -->
+      <div>
+        <div class="role-label-text">Tipo de cuenta <span>*</span></div>
+        <div class="role-grid">
+
+          <label class="role-option">
+            <input type="radio" name="role" value="agricultor" checked>
+            <div class="role-card">
+              <div class="check-mark"><i class="ph-fill ph-check"></i></div>
+              <div class="role-card-icon" style="background:var(--green-100);color:var(--green-700);">
+                <i class="ph ph-plant" style="font-size:22px;"></i>
+              </div>
+              <div class="role-card-name">Agricultor</div>
+              <div class="role-card-desc">Gestiono cultivos y produzco alimentos</div>
+            </div>
+          </label>
+
+          <label class="role-option">
+            <input type="radio" name="role" value="agrotienda">
+            <div class="role-card">
+              <div class="check-mark"><i class="ph-fill ph-check"></i></div>
+              <div class="role-card-icon" style="background:var(--amber-100);color:var(--amber-700);">
+                <i class="ph ph-storefront" style="font-size:22px;"></i>
+              </div>
+              <div class="role-card-name">Agrotienda</div>
+              <div class="role-card-desc">Vendo insumos y productos agrícolas</div>
+            </div>
+          </label>
+
+          <label class="role-option">
+            <input type="radio" name="role" value="comprador">
+            <div class="role-card">
+              <div class="check-mark"><i class="ph-fill ph-check"></i></div>
+              <div class="role-card-icon" style="background:#DBEAFE;color:#1D4ED8;">
+                <i class="ph ph-shopping-cart" style="font-size:22px;"></i>
+              </div>
+              <div class="role-card-name">Comprador</div>
+              <div class="role-card-desc">Compro productos del campo</div>
+            </div>
+          </label>
+
+        </div>
+      </div>
+
+      <div class="terms-text">
+        Al registrarte aceptas los <a href="#">Términos de servicio</a> y la <a href="#">Política de privacidad</a> de AgriGo.
+      </div>
+
+      <button class="btn-register" type="submit">
+        Crear cuenta
+        <i class="ph ph-arrow-right"></i>
+      </button>
+
+      <div class="login-cta">
+        ¿Ya tienes cuenta? <a href="01-login.html">Inicia sesión</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+</body>
+</html>

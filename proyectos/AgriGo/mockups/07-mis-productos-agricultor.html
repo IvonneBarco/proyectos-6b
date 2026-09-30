@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Mis Productos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="design-system.css">
+<style>
+.products-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+
+/* Product card */
+.prod-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  display: flex; flex-direction: column;
+}
+.prod-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+
+.prod-img {
+  height: 136px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  font-size: 52px; color: var(--green-700);
+}
+.prod-img-bg { position: absolute; inset: 0; }
+.prod-img > i { position: relative; z-index: 1; filter: drop-shadow(0 2px 8px rgba(0,0,0,.08)); }
+.prod-status-badge { position: absolute; top: 10px; right: 10px; }
+
+.prod-body { padding: 14px; flex: 1; }
+.prod-cat {
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .08em;
+  color: var(--green-600); margin-bottom: 4px;
+}
+.prod-name {
+  font-family: var(--font-display);
+  font-size: var(--text-sm); font-weight: 700;
+  color: var(--gray-900); margin-bottom: 10px;
+  line-height: 1.3; letter-spacing: var(--tracking-snug);
+}
+.prod-price-row { display: flex; align-items: baseline; gap: 3px; margin-bottom: 10px; }
+.prod-price { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 800; color: var(--green-700); letter-spacing: var(--tracking-tight); }
+.prod-unit  { font-size: 11px; color: var(--gray-500); }
+
+.prod-stock { margin-bottom: 2px; }
+.stock-label-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+.stock-label-row .sk  { color: var(--gray-500); }
+.stock-label-row .sv  { font-weight: 700; }
+
+.prod-footer {
+  padding: 10px 14px;
+  border-top: 1px solid var(--gray-100);
+  display: flex; gap: 7px;
+}
+
+/* Summary strip */
+.summary-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.ss-box {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: 16px;
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: var(--shadow-xs);
+}
+.ss-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.ss-val { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--gray-900); letter-spacing: var(--tracking-tight); }
+.ss-lbl { font-size: 11px; color: var(--gray-500); margin-top: 1px; }
+
+/* Filter row */
+.filter-row { display: flex; align-items: center; gap: 8px; }
+.filter-chip {
+  display: flex; align-items: center; gap: 5px;
+  padding: 6px 13px; border-radius: var(--radius-full);
+  font-size: 12px; font-weight: 600;
+  background: var(--white); border: 1.5px solid var(--gray-200);
+  color: var(--gray-600); cursor: pointer; transition: var(--transition);
+  white-space: nowrap;
+}
+.filter-chip i { font-size: 13px; }
+.filter-chip.active { background: var(--green-600); border-color: var(--green-600); color: var(--white); }
+.filter-chip:hover:not(.active) { border-color: var(--green-400); color: var(--green-700); }
+</style>
+</head>
+<body>
+<div class="screen-label">07 — Mis Productos (Agricultor) · AgriGo</div>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="ph ph-plant"></i></div>
+      <div><div class="logo-text">Agri<span>Go</span></div><span class="logo-sub">Plataforma AgTech</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="03-dashboard-agricultor.html"><span class="nav-icon"><i class="ph ph-gauge"></i></span> Dashboard</a>
+      <a href="04-mis-cultivos.html"><span class="nav-icon"><i class="ph ph-plant"></i></span> Mis cultivos</a>
+      <a href="07-mis-productos-agricultor.html" class="active"><span class="nav-icon"><i class="ph ph-package"></i></span> Mis productos</a>
+      <a href="06-recomendaciones-ia.html"><span class="nav-icon"><i class="ph ph-robot"></i></span> Recomendaciones IA</a>
+      <div class="sidebar-section-label">Comercio</div>
+      <a href="#"><span class="nav-icon"><i class="ph ph-receipt"></i></span> Mis órdenes</a>
+      <a href="09-marketplace.html"><span class="nav-icon"><i class="ph ph-storefront"></i></span> Marketplace</a>
+      <a href="19-asistente-compras.html"><span class="nav-icon"><i class="ph ph-chat-teardrop-dots"></i></span> Asistente de compras</a>
+      <div class="sidebar-section-label">Cuenta</div>
+      <a href="21-perfil-agricultor.html"><span class="nav-icon"><i class="ph ph-user-circle"></i></span> Perfil</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-gear"></i></span> Configuración</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" style="width:34px;height:34px;background:var(--green-600);color:white;font-size:12px;">CR</div>
+        <div class="user-info"><div class="user-name">Carlos Rodríguez</div><div class="user-role">Agricultor</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Mis Productos</span>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-search">
+        <i class="ph ph-magnifying-glass"></i>
+        <input type="text" placeholder="Buscar producto…">
+      </div>
+      <div class="topbar-actions">
+        <div class="icon-btn"><i class="ph ph-bell"></i><div class="notif-dot"></div></div>
+        <div class="avatar" style="width:34px;height:34px;background:var(--green-600);color:white;font-size:12px;border-radius:50%;">CR</div>
+      </div>
+    </header>
+
+    <div class="page-body">
+      <div class="page-header">
+        <div>
+          <h1>Mis productos</h1>
+          <p class="page-subtitle">14 productos publicados en el marketplace</p>
+        </div>
+        <div class="page-header-actions">
+          <div class="tabs">
+            <div class="tab active">Grid</div>
+            <div class="tab">Lista</div>
+          </div>
+          <a href="08-publicar-producto.html" class="btn btn-primary" style="display:flex;align-items:center;gap:6px;">
+            <i class="ph ph-plus" style="font-size:15px;"></i> Publicar producto
+          </a>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="summary-strip">
+        <div class="ss-box">
+          <div class="ss-icon" style="background:var(--green-100);color:var(--green-700);"><i class="ph ph-package"></i></div>
+          <div><div class="ss-val">14</div><div class="ss-lbl">Publicados</div></div>
+        </div>
+        <div class="ss-box">
+          <div class="ss-icon" style="background:var(--green-100);color:var(--green-700);"><i class="ph ph-check-circle"></i></div>
+          <div><div class="ss-val">10</div><div class="ss-lbl">En stock</div></div>
+        </div>
+        <div class="ss-box">
+          <div class="ss-icon" style="background:var(--amber-100);color:var(--amber-700);"><i class="ph ph-warning"></i></div>
+          <div><div class="ss-val" style="color:var(--amber-700);">3</div><div class="ss-lbl">Stock bajo</div></div>
+        </div>
+        <div class="ss-box">
+          <div class="ss-icon" style="background:#FEE2E2;color:#DC2626;"><i class="ph ph-x-circle"></i></div>
+          <div><div class="ss-val" style="color:#DC2626;">1</div><div class="ss-lbl">Agotados</div></div>
+        </div>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="filter-row">
+        <div class="filter-chip active"><i class="ph ph-gauge"></i> Todos (14)</div>
+        <div class="filter-chip"><i class="ph ph-check-circle"></i> En stock (10)</div>
+        <div class="filter-chip"><i class="ph ph-warning"></i> Stock bajo (3)</div>
+        <div class="filter-chip"><i class="ph ph-x-circle"></i> Agotados (1)</div>
+        <div style="flex:1;"></div>
+        <select class="form-select" style="width:auto;font-size:12px;padding:6px 12px;">
+          <option>Todas las categorías</option>
+          <option>Frutas y verduras</option>
+          <option>Granos</option>
+          <option>Hortalizas</option>
+        </select>
+      </div>
+
+      <!-- GRID -->
+      <div class="products-grid">
+
+        <!-- 1 -->
+        <div class="prod-card">
+          <div class="prod-img" style="background:linear-gradient(135deg,var(--green-50),#E8F8ED);">
+            <div class="prod-img-bg"></div>
+            <i class="ph ph-flower-tulip" style="font-size:52px;"></i>
+            <div class="prod-status-badge"><span class="badge badge-green" style="font-size:10px;display:flex;align-items:center;gap:4px;"><i class="ph-fill ph-circle" style="font-size:7px;"></i> Activo</span></div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-cat">Frutas y verduras</div>
+            <div class="prod-name">Tomate Cherry Orgánico</div>
+            <div class="prod-price-row"><span class="prod-price">$8.500</span><span class="prod-unit">/ kg</span></div>
+            <div class="prod-stock">
+              <div class="stock-label-row"><span class="sk">Stock</span><span class="sv" style="color:var(--green-600);">50 kg</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:100%;"></div></div>
+            </div>
+          </div>
+          <div class="prod-footer">
+            <a href="08-publicar-producto.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;"><i class="ph ph-pencil-simple" style="font-size:13px;"></i> Editar</a>
+            <button class="btn btn-danger btn-sm" style="display:flex;align-items:center;justify-content:center;padding:6px 10px;"><i class="ph ph-trash" style="font-size:14px;"></i></button>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="prod-card">
+          <div class="prod-img" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);">
+            <div class="prod-img-bg"></div>
+            <i class="ph ph-leaf" style="font-size:52px;"></i>
+            <div class="prod-status-badge"><span class="badge badge-amber" style="font-size:10px;display:flex;align-items:center;gap:4px;"><i class="ph ph-warning" style="font-size:10px;"></i> Stock bajo</span></div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-cat">Hortalizas</div>
+            <div class="prod-name">Lechuga Hidropónica Batavia</div>
+            <div class="prod-price-row"><span class="prod-price">$5.200</span><span class="prod-unit">/ kg</span></div>
+            <div class="prod-stock">
+              <div class="stock-label-row"><span class="sk">Stock</span><span class="sv" style="color:var(--amber-700);">5 kg</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:10%;background:var(--amber-400);"></div></div>
+            </div>
+          </div>
+          <div class="prod-footer">
+            <a href="08-publicar-producto.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;"><i class="ph ph-pencil-simple" style="font-size:13px;"></i> Editar</a>
+            <button class="btn btn-danger btn-sm" style="display:flex;align-items:center;justify-content:center;padding:6px 10px;"><i class="ph ph-trash" style="font-size:14px;"></i></button>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="prod-card">
+          <div class="prod-img" style="background:linear-gradient(135deg,#FFFBEB,#FEF3C7);">
+            <div class="prod-img-bg"></div>
+            <i class="ph ph-grains" style="font-size:52px;color:var(--amber-700);"></i>
+            <div class="prod-status-badge"><span class="badge badge-green" style="font-size:10px;display:flex;align-items:center;gap:4px;"><i class="ph-fill ph-circle" style="font-size:7px;"></i> Activo</span></div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-cat">Granos y cereales</div>
+            <div class="prod-name">Mazorca de Maíz Amarillo</div>
+            <div class="prod-price-row"><span class="prod-price">$1.800</span><span class="prod-unit">/ unidad</span></div>
+            <div class="prod-stock">
+              <div class="stock-label-row"><span class="sk">Stock</span><span class="sv" style="color:var(--green-600);">200 u</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:80%;"></div></div>
+            </div>
+          </div>
+          <div class="prod-footer">
+            <a href="08-publicar-producto.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;"><i class="ph ph-pencil-simple" style="font-size:13px;"></i> Editar</a>
+            <button class="btn btn-danger btn-sm" style="display:flex;align-items:center;justify-content:center;padding:6px 10px;"><i class="ph ph-trash" style="font-size:14px;"></i></button>
+          </div>
+        </div>
+
+        <!-- 4 — Agotado -->
+        <div class="prod-card" style="opacity:.85;">
+          <div class="prod-img" style="background:linear-gradient(135deg,var(--gray-100),var(--gray-50));">
+            <div class="prod-img-bg"></div>
+            <i class="ph ph-leaf" style="font-size:52px;color:var(--gray-400);"></i>
+            <div class="prod-status-badge"><span class="badge badge-red" style="font-size:10px;display:flex;align-items:center;gap:4px;"><i class="ph ph-x" style="font-size:10px;"></i> Agotado</span></div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-cat">Tubérculos</div>
+            <div class="prod-name">Papa Pastusa Criolla</div>
+            <div class="prod-price-row"><span class="prod-price">$3.200</span><span class="prod-unit">/ kg</span></div>
+            <div class="prod-stock">
+              <div class="stock-label-row"><span class="sk">Stock</span><span class="sv" style="color:#DC2626;">0 kg</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:0%;background:#DC2626;"></div></div>
+            </div>
+          </div>
+          <div class="prod-footer">
+            <button class="btn btn-primary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;"><i class="ph ph-arrows-clockwise" style="font-size:13px;"></i> Reponer</button>
+            <button class="btn btn-danger btn-sm" style="display:flex;align-items:center;justify-content:center;padding:6px 10px;"><i class="ph ph-trash" style="font-size:14px;"></i></button>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="prod-card">
+          <div class="prod-img" style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE);">
+            <div class="prod-img-bg"></div>
+            <i class="ph ph-leaf" style="font-size:52px;color:#6D28D9;"></i>
+            <div class="prod-status-badge"><span class="badge badge-green" style="font-size:10px;display:flex;align-items:center;gap:4px;"><i class="ph-fill ph-circle" style="font-size:7px;"></i> Activo</span></div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-cat">Leguminosas</div>
+            <div class="prod-name">Fríjol Radical ICA</div>
+            <div class="prod-price-row"><span class="prod-price">$6.800</span><span class="prod-unit">/ kg</span></div>
+            <div class="prod-stock">
+              <div class="stock-label-row"><span class="sk">Stock</span><span class="sv" style="color:var(--green-600);">120 kg</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:90%;"></div></div>
+            </div>
+          </div>
+          <div class="prod-footer">
+            <a href="08-publicar-producto.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;"><i class="ph ph-pencil-simple" style="font-size:13px;"></i> Editar</a>
+            <button class="btn btn-danger btn-sm" style="display:flex;align-items:center;justify-content:center;padding:6px 10px;"><i class="ph ph-trash" style="font-size:14px;"></i></button>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="prod-card">
+          <div class="prod-img" style="background:linear-gradient(135deg,#FFFBEB,#FEF9C3);">
+            <div class="prod-img-bg"></div>
+            <i class="ph ph-coffee" style="font-size:52px;color:#92400E;"></i>
+            <div class="prod-status-badge"><span class="badge badge-amber" style="font-size:10px;display:flex;align-items:center;gap:4px;"><i class="ph ph-warning" style="font-size:10px;"></i> Stock bajo</span></div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-cat">Café y cacao</div>
+            <div class="prod-name">Café Arábica Especial</div>
+            <div class="prod-price-row"><span class="prod-price">$42.000</span><span class="prod-unit">/ kg</span></div>
+            <div class="prod-stock">
+              <div class="stock-label-row"><span class="sk">Stock</span><span class="sv" style="color:var(--amber-700);">8 kg</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:16%;background:var(--amber-400);"></div></div>
+            </div>
+          </div>
+          <div class="prod-footer">
+            <a href="08-publicar-producto.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;"><i class="ph ph-pencil-simple" style="font-size:13px;"></i> Editar</a>
+            <button class="btn btn-danger btn-sm" style="display:flex;align-items:center;justify-content:center;padding:6px 10px;"><i class="ph ph-trash" style="font-size:14px;"></i></button>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="prod-card">
+          <div class="prod-img" style="background:linear-gradient(135deg,#FFF0F0,#FFE4E6);">
+            <div class="prod-img-bg"></div>
+            <i class="ph ph-pepper" style="font-size:52px;color:#DC2626;"></i>
+            <div class="prod-status-badge"><span class="badge badge-green" style="font-size:10px;display:flex;align-items:center;gap:4px;"><i class="ph-fill ph-circle" style="font-size:7px;"></i> Activo</span></div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-cat">Frutas y verduras</div>
+            <div class="prod-name">Pimentón Rojo Grueso</div>
+            <div class="prod-price-row"><span class="prod-price">$7.400</span><span class="prod-unit">/ kg</span></div>
+            <div class="prod-stock">
+              <div class="stock-label-row"><span class="sk">Stock</span><span class="sv" style="color:var(--green-600);">35 kg</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:70%;"></div></div>
+            </div>
+          </div>
+          <div class="prod-footer">
+            <a href="08-publicar-producto.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;"><i class="ph ph-pencil-simple" style="font-size:13px;"></i> Editar</a>
+            <button class="btn btn-danger btn-sm" style="display:flex;align-items:center;justify-content:center;padding:6px 10px;"><i class="ph ph-trash" style="font-size:14px;"></i></button>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="prod-card">
+          <div class="prod-img" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);">
+            <div class="prod-img-bg"></div>
+            <i class="ph ph-leaf" style="font-size:52px;"></i>
+            <div class="prod-status-badge"><span class="badge badge-amber" style="font-size:10px;display:flex;align-items:center;gap:4px;"><i class="ph ph-warning" style="font-size:10px;"></i> Stock bajo</span></div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-cat">Hortalizas</div>
+            <div class="prod-name">Cebolla Cabezona Blanca</div>
+            <div class="prod-price-row"><span class="prod-price">$2.900</span><span class="prod-unit">/ kg</span></div>
+            <div class="prod-stock">
+              <div class="stock-label-row"><span class="sk">Stock</span><span class="sv" style="color:var(--amber-700);">7 kg</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:14%;background:var(--amber-400);"></div></div>
+            </div>
+          </div>
+          <div class="prod-footer">
+            <a href="08-publicar-producto.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;"><i class="ph ph-pencil-simple" style="font-size:13px;"></i> Editar</a>
+            <button class="btn btn-danger btn-sm" style="display:flex;align-items:center;justify-content:center;padding:6px 10px;"><i class="ph ph-trash" style="font-size:14px;"></i></button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pagination -->
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:var(--text-sm);color:var(--gray-500);">Mostrando 8 de 14 productos</span>
+        <div class="pagination">
+          <div class="page-btn"><i class="ph ph-caret-left" style="font-size:13px;"></i></div>
+          <div class="page-btn active">1</div>
+          <div class="page-btn">2</div>
+          <div class="page-btn"><i class="ph ph-caret-right" style="font-size:13px;"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

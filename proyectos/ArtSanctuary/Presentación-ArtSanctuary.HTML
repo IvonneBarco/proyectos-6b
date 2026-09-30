@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="ArtSanctuary, propuesta de plataforma digital para artistas y creadores de Nariño.">
+	<title>ArtSanctuary | Arte, territorio y memoria</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+		:root {
+			--night: #111a46;
+			--night-soft: #25316c;
+			--carnival-red: #1a2456;
+			--mustard: #1a2456;
+			--cream: #ffffff;
+			--paper: #ffffff;
+			--ink: #111111;
+			--muted: #687080;
+			--line: #e5e7ec;
+		}
+
+		html {
+			scroll-behavior: smooth;
+			scroll-padding-top: 76px;
+		}
+
+		body {
+			background: var(--night);
+			color: var(--ink);
+			font-family: "Inter", sans-serif;
+		}
+
+		h1, h2 {
+			font-family: "Anton", "Arial Narrow", sans-serif;
+			font-weight: 400;
+			letter-spacing: .015em;
+			text-transform: uppercase;
+		}
+
+		h3, .navbar-brand {
+			font-family: "Inter", sans-serif;
+		}
+
+		.navbar {
+			background: #ffffff;
+			border-radius: 999px;
+			box-shadow: 0 12px 28px rgba(8, 17, 54, .18);
+			left: 1rem;
+			padding: .45rem 0;
+			right: 1rem;
+			top: .85rem;
+		}
+
+		.navbar-brand {
+			color: var(--night) !important;
+			font-size: 1.05rem;
+			font-weight: 800;
+			letter-spacing: -.02em;
+		}
+
+		.brand-mark {
+			color: var(--night);
+			font-size: 1.1rem;
+		}
+
+		.nav-link {
+			color: #161616 !important;
+			font-size: .76rem;
+			font-weight: 600;
+			padding-left: .75rem !important;
+			padding-right: .75rem !important;
+			position: relative;
+		}
+
+		.nav-link:hover, .nav-link:focus {
+			color: var(--night) !important;
+		}
+
+		.nav-link:hover::after, .nav-link:focus::after, .nav-link[href="#inicio"]::after {
+			background: var(--night);
+			bottom: .15rem;
+			content: "";
+			height: 2px;
+			left: .75rem;
+			position: absolute;
+			right: .75rem;
+		}
+
+		.hero {
+			align-items: center;
+			background: var(--night);
+			color: #fff;
+			display: flex;
+			min-height: 100vh;
+		}
+
+		.hero-content {
+			max-width: 1320px;
+			padding-bottom: 4rem;
+			padding-top: 7.5rem;
+			width: 100%;
+		}
+
+		.hero-content-inner {
+			max-width: 58%;
+		}
+
+		.eyebrow {
+			color: #b8c4ff;
+			font-size: .75rem;
+			font-weight: 700;
+			letter-spacing: .18em;
+			text-transform: uppercase;
+		}
+
+		.hero h1 {
+			font-size: clamp(3.25rem, 6.6vw, 6.5rem);
+			line-height: 1.02;
+			margin-bottom: 2rem !important;
+			max-width: 760px;
+		}
+
+		.hero h1 span {
+			color: #ffffff;
+			display: block;
+			font-size: 1em;
+		}
+
+		.hero h1 .title-line {
+			display: block;
+			white-space: nowrap;
+		}
+
+		.hero-copy {
+			color: #b8c4ff;
+			font-size: 1rem;
+			line-height: 1.75;
+			margin-bottom: 2rem !important;
+			max-width: 600px;
+		}
+
+		.btn-carnival {
+			align-items: center;
+			background: #ffffff;
+			border: 1px solid #ffffff;
+			border-radius: 2px;
+			color: #111111;
+			display: inline-flex;
+			font-weight: 700;
+			padding: .8rem .8rem .8rem 1.25rem;
+			transition: background-color .2s ease, color .2s ease;
+		}
+
+		.btn-carnival:hover, .btn-carnival:focus {
+			background: #f0f0f0;
+			color: #111111;
+		}
+
+		.btn-carnival i {
+			align-items: center;
+			background: #111111;
+			color: #ffffff;
+			display: inline-flex;
+			font-size: 0;
+			height: 2.35rem;
+			justify-content: center;
+			margin-left: 1rem !important;
+			width: 2.35rem;
+		}
+
+		.btn-carnival i::before {
+			font-size: 1rem;
+		}
+
+		.section-padding { padding: 5.5rem 0; }
+
+		#sobre, #biblioteca { background: #ffffff; }
+
+		.section-label {
+			color: var(--night);
+			font-size: .75rem;
+			font-weight: 700;
+			letter-spacing: .14em;
+			text-transform: uppercase;
+		}
+
+		.section-title {
+			font-size: clamp(2.4rem, 5vw, 4.5rem);
+			line-height: .95;
+		}
+
+		.section-text {
+			color: #697181;
+			line-height: 1.8;
+		}
+
+		.about-icon {
+			align-items: center;
+			background: transparent;
+			border-radius: 50%;
+			border: 2px solid var(--night);
+			color: var(--night);
+			display: flex;
+			font-size: 5.5rem;
+			height: 190px;
+			justify-content: center;
+			margin: 0 auto;
+			width: 190px;
+		}
+
+		.tools-section { background: var(--night); }
+
+		.tools-section .section-title,
+		.tools-section .section-label { color: #ffffff; }
+
+		.tool-card, .library-card {
+			background: #ffffff;
+			border: 1px solid var(--line);
+			border-radius: 0;
+			height: 100%;
+		}
+
+		.tool-card { padding: 1.8rem; }
+
+		.tool-icon {
+			color: var(--night);
+			font-size: 2rem;
+		}
+
+		.tool-card h3 { font-size: 1.2rem; font-weight: 800; }
+
+		.tool-card p, .library-card p {
+			color: var(--muted);
+			font-size: .92rem;
+			line-height: 1.65;
+		}
+
+		.library-card { padding: 1.25rem; }
+
+		.library-card i {
+			color: var(--night);
+			font-size: 1.5rem;
+		}
+
+		.alliance-section {
+			background: var(--night);
+			color: #fff;
+		}
+
+		.alliance-section .section-label { color: rgba(255, 255, 255, .7); }
+
+		.alliance-section .section-text { color: rgba(255, 255, 255, .76); }
+|	
+		footer {
+			background: #111111;
+			color: rgba(255, 255, 255, .72);
+			font-size: .82rem;
+		}
+
+		footer a {
+			align-items: center;
+			border: 1px solid rgba(255, 255, 255, .65);
+			border-radius: 50%;
+			color: #ffffff;
+			display: inline-flex;
+			height: 2rem;
+			justify-content: center;
+			text-decoration: none;
+			width: 2rem;
+		}
+
+		@media (max-width: 991.98px) {
+			.navbar-collapse { background: #ffffff; border-radius: 0 0 1rem 1rem; padding: .75rem 0; }
+			.navbar-toggler i { color: var(--night) !important; }
+			.hero { min-height: 88vh; }
+			.hero-content-inner { max-width: 72%; }
+		}
+
+		@media (max-width: 575.98px) {
+			.navbar { left: .65rem; right: .65rem; }
+			.hero-content { padding-bottom: 3rem; padding-top: 7rem; }
+			.hero-content-inner { max-width: 100%; }
+			.hero h1 { font-size: clamp(2.8rem, 14vw, 4.6rem); }
+			.hero h1 .title-line { white-space: normal; }
+			.hero-copy { font-size: .95rem; }
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Navegación -->
+	<nav class="navbar navbar-expand-lg fixed-top" aria-label="Navegación principal">
+		<div class="container">
+			<a class="navbar-brand" href="#inicio"><i class="bi bi-stars brand-mark me-2" aria-hidden="true"></i>ArtSanctuary</a>
+			<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Abrir menú">
+				<i class="bi bi-list text-white fs-3" aria-hidden="true"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="mainNav">
+				<ul class="navbar-nav ms-auto gap-lg-2">
+					<li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+					<li class="nav-item"><a class="nav-link" href="#sobre">Sobre el proyecto</a></li>
+					<li class="nav-item"><a class="nav-link" href="#herramientas">Herramientas</a></li>
+					<li class="nav-item"><a class="nav-link" href="#biblioteca">Biblioteca</a></li>
+					<li class="nav-item"><a class="nav-link" href="#corpocarnaval">Corpocarnaval</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<main>
+		<!-- Hero -->
+		<section id="inicio" class="hero" aria-labelledby="hero-title">
+			<div class="container hero-content">
+				<div class="hero-content-inner">
+					<p class="eyebrow mb-3">Arte · territorio · memoria</p>
+					<h1 id="hero-title"><span class="title-line">La creación de</span><span class="title-line">Nariño</span><span class="title-line">encuentra su</span><span class="title-line">lugar.</span></h1>
+					<p class="hero-copy">Una propuesta de plataforma digital para visibilizar a artistas, preservar saberes y acercar el patrimonio del Carnaval de Negros y Blancos al mundo.</p>
+					<a class="btn btn-carnival" href="#sobre">Conoce el proyecto <i class="bi bi-arrow-up-right ms-1" aria-hidden="true"></i></a>
+				</div>
+			</div>
+		</section>
+
+		<!-- Sobre el proyecto -->
+		<section id="sobre" class="section-padding" aria-labelledby="about-title">
+			<div class="container">
+				<div class="row align-items-center g-5">
+					<div class="col-lg-7">
+						<p class="section-label mb-3">Una propuesta académica</p>
+						<h2 id="about-title" class="section-title mb-4">Conectar el talento con su territorio.</h2>
+						<p class="section-text mb-0">Regiones como Nariño todavía quedan fuera de muchos circuitos digitales del arte. ArtSanctuary propone una vitrina para que artistas y creadores compartan su obra con galerías, curadores y visitantes, mientras una biblioteca digital conserva las referencias y técnicas que hacen único al territorio.</p>
+					</div>
+					<div class="col-lg-5">
+						<div class="about-icon" aria-label="Icono de una estrella que representa la creatividad"><i class="bi bi-brush" aria-hidden="true"></i></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Herramientas -->
+		<section id="herramientas" class="section-padding tools-section" aria-labelledby="tools-title">
+			<div class="container">
+				<p class="section-label mb-3">El corazón de la propuesta</p>
+				<h2 id="tools-title" class="section-title mb-5">Herramientas para hacer visible lo propio.</h2>
+				<div class="row g-4">
+					<div class="col-md-4"><article class="tool-card"><i class="bi bi-person-badge tool-icon" aria-hidden="true"></i><h3 class="mt-4">Perfil de artista</h3><p class="mb-0">Una identidad digital para presentar trayectoria, disciplina, ubicación y proceso creativo.</p></article></div>
+					<div class="col-md-4"><article class="tool-card"><i class="bi bi-images tool-icon" aria-hidden="true"></i><h3 class="mt-4">Portafolio digital</h3><p class="mb-0">Un espacio para organizar obras, imágenes y relatos que acompañan cada creación.</p></article></div>
+					<div class="col-md-4"><article class="tool-card"><i class="bi bi-eye tool-icon" aria-hidden="true"></i><h3 class="mt-4">Vitrina pública</h3><p class="mb-0">Una puerta de encuentro con galerías, curadores y quienes visitan el carnaval.</p></article></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Biblioteca digital -->
+		<section id="biblioteca" class="section-padding" aria-labelledby="library-title">
+			<div class="container">
+				<div class="row align-items-end g-4 mb-5">
+					<div class="col-lg-7"><p class="section-label mb-3">Memoria que se comparte</p><h2 id="library-title" class="section-title mb-0">Biblioteca digital</h2></div>
+					<div class="col-lg-5"><p class="section-text mb-0">Referencias visuales y recursos curados para aprender, crear y mantener vivo el conocimiento regional.</p></div>
+				</div>
+				<div class="row g-3">
+					<div class="col-md-4"><article class="library-card"><i class="bi bi-palette" aria-hidden="true"></i><h3 class="h5 mt-3">Barniz de Pasto</h3><p class="mb-0">Materia, color y técnica de una tradición artesanal viva.</p></article></div>
+					<div class="col-md-4"><article class="library-card"><i class="bi bi-mask" aria-hidden="true"></i><h3 class="h5 mt-3">Mascarería del Carnaval</h3><p class="mb-0">Formas, personajes y símbolos de una celebración colectiva.</p></article></div>
+					<div class="col-md-4"><article class="library-card"><i class="bi bi-award" aria-hidden="true"></i><h3 class="h5 mt-3">Patrimonio UNESCO</h3><p class="mb-0">Contexto para comprender el valor cultural del Carnaval.</p></article></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Corpocarnaval -->
+		<section id="corpocarnaval" class="section-padding alliance-section" aria-labelledby="alliance-title">
+			<div class="container">
+				<div class="row align-items-center g-5">
+					<div class="col-lg-12">
+						<p class="section-label mb-3">Alianza por construir</p>
+						<h2 id="alliance-title" class="section-title mb-4">ArtSanctuary busca consolidarse como extensión digital de Corpocarnaval.</h2>
+						<p class="section-text mb-0">Esta es una propuesta que busca la alianza y el respaldo institucional de Corpocarnaval, entidad organizadora del Carnaval de Negros y Blancos. No representa una extensión formalizada.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<!-- Pie de página -->
+	<footer class="py-4">
+		<div class="container d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+			<span>Propuesta de trabajo de grado - Santiago Bustos López, Juan José Enríquez, Samuel Esteban Mena, Khaled Santiago Benabides, Manuel Viveros Realpe</span>
+			<a href="mailto:art.sanctuary@example.com" aria-label="Enviar correo electrónico"><i class="bi bi-envelope fs-5" aria-hidden="true"></i></a>
+		</div>
+	</footer>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+
+</html>

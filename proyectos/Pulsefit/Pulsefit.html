@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPulse - Centro de Alto Rendimiento y Fitness</title>
+    
+    <!-- Bootstrap 5 CSS CDN (for exact grid structure requested) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            neon: '#84cc16', // Lime-500
+                            dark: '#0f172a',  // Slate-900
+                            card: '#1e293b',  // Slate-800
+                            accent: '#f97316' // Orange-500
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+        }
+        /* Style for custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #84cc16;
+        }
+        /* Override Bootstrap styles to match dark theme aesthetics */
+        .bs-dark-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 1rem;
+            color: #f3f4f6;
+            transition: all 0.3s ease;
+        }
+        .bs-dark-card:hover {
+            border-color: #84cc16;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('profile')">
+                    <div class="bg-lime-500 text-slate-950 p-2 rounded-xl font-extrabold flex items-center justify-center">
+                        <i class="fa-solid font-black fa-bolt text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-extrabold tracking-wider text-white">FIT<span class="text-lime-400">PULSE</span></span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2">
+                    <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-lime-400 bg-slate-800">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Perfil & IMC</span>
+                    </button>
+                    <button onclick="switchTab('activity')" id="nav-activity" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>Diario & Actividad</span>
+                    </button>
+                    <button onclick="switchTab('routines')" id="nav-routines" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-dumbbell"></i>
+                        <span>Rutinas</span>
+                    </button>
+                    <button onclick="switchTab('nutrition')" id="nav-nutrition" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-utensils"></i>
+                        <span>Nutrición</span>
+                    </button>
+                    <button onclick="switchTab('tools')" id="nav-tools" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-400 hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-stopwatch"></i>
+                        <span>Herramientas</span>
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-white p-2 rounded-lg bg-slate-800 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('profile'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-lime-400 flex items-center space-x-3">
+                <i class="fa-solid fa-user w-6"></i><span>Perfil y Métricas</span>
+            </button>
+            <button onclick="switchTab('activity'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-lime-400 flex items-center space-x-3">
+                <i class="fa-solid fa-calendar-check w-6"></i><span>Diario de Entrenamiento</span>
+            </button>
+            <button onclick="switchTab('routines'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-lime-400 flex items-center space-x-3">
+                <i class="fa-solid fa-dumbbell w-6"></i><span>Rutinas Recomendadas</span>
+            </button>
+            <button onclick="switchTab('nutrition'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-lime-400 flex items-center space-x-3">
+                <i class="fa-solid fa-utensils w-6"></i><span>Dietas y Nutrición</span>
+            </button>
+            <button onclick="switchTab('tools'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-lime-400 flex items-center space-x-3">
+                <i class="fa-solid fa-stopwatch w-6"></i><span>Herramientas y Cronómetro</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
+
+        <!-- SECTION 1: PERFIL & IMC -->
+        <section id="tab-profile" class="tab-content transition-all duration-300">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Left Column: Form User Info -->
+                <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="p-3 bg-lime-500/10 text-lime-400 rounded-xl">
+                            <i class="fa-solid fa-id-card text-2xl"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-white">Perfil del Usuario</h2>
+                    </div>
+
+                    <form id="profile-form" onsubmit="saveProfile(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Nombre Completo</label>
+                            <input type="text" id="user-name" required placeholder="Ej. Juan Pérez" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-lime-500 transition-colors">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Edad (Años)</label>
+                                <input type="number" id="user-age" min="10" max="100" required placeholder="25" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-lime-500 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Género</label>
+                                <select id="user-gender" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-lime-500 transition-colors">
+                                    <option value="male">Masculino</option>
+                                    <option value="female">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Peso (kg)</label>
+                                <input type="number" step="0.1" id="user-weight" required placeholder="75.5" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-lime-500 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Altura (cm)</label>
+                                <input type="number" id="user-height" required placeholder="175" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-lime-500 transition-colors">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Objetivo Fitness</label>
+                            <select id="user-goal" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-lime-500 transition-colors">
+                                <option value="lose">Perder Peso / Grasa</option>
+                                <option value="maintain">Mantenimiento Saludable</option>
+                                <option value="gain">Ganar Músculo / Volumen</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Nivel de Actividad Física</label>
+                            <select id="user-activity-level" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-lime-500 transition-colors">
+                                <option value="1.2">Sedentario (poco o nada de ejercicio)</option>
+                                <option value="1.375">Ligero (1-3 días a la semana)</option>
+                                <option value="1.55" selected>Moderado (3-5 días a la semana)</option>
+                                <option value="1.725">Fuerte (6-7 días a la semana)</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="w-full bg-lime-500 hover:bg-lime-400 text-slate-950 font-bold py-3 rounded-xl shadow-lg shadow-lime-500/20 transition-all duration-200 mt-2">
+                            <i class="fa-solid fa-floppy-disk mr-2"></i> Guardar Perfil y Calcular
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Right Column: Results & Dashboard Stats -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Metrics Summary Banner -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-slate-800/80 border border-slate-700/60 p-5 rounded-2xl flex items-center space-x-4">
+                            <div class="p-3 bg-lime-500/20 text-lime-400 rounded-xl text-2xl">
+                                <i class="fa-solid fa-calculator"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-slate-400 font-semibold block uppercase">Índice IMC</span>
+                                <span id="stat-bmi" class="text-2xl font-black text-white">--</span>
+                                <span id="stat-bmi-status" class="text-xs block font-medium text-slate-400">Sin datos</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800/80 border border-slate-700/60 p-5 rounded-2xl flex items-center space-x-4">
+                            <div class="p-3 bg-orange-500/20 text-orange-400 rounded-xl text-2xl">
+                                <i class="fa-solid fa-fire"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-slate-400 font-semibold block uppercase">TDEE / Cal Barias</span>
+                                <span id="stat-tdee" class="text-2xl font-black text-white">-- kcal</span>
+                                <span class="text-xs block font-medium text-slate-400">Mantenimiento diario</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800/80 border border-slate-700/60 p-5 rounded-2xl flex items-center space-x-4">
+                            <div class="p-3 bg-blue-500/20 text-blue-400 rounded-xl text-2xl">
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-slate-400 font-semibold block uppercase">Calorías Objetivo</span>
+                                <span id="stat-target-cal" class="text-2xl font-black text-lime-400">-- kcal</span>
+                                <span id="stat-goal-label" class="text-xs block font-medium text-slate-400">Según tu meta</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Macro recommendations -->
+                    <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl">
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center">
+                            <i class="fa-solid fa-pie-chart text-lime-400 mr-2"></i> Distribución de Macronutrientes Sugerida
+                        </h3>
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/50">
+                                <span class="text-xs text-slate-400 uppercase font-semibold">Proteínas</span>
+                                <p id="macro-protein" class="text-2xl font-extrabold text-red-400 mt-1">-- g</p>
+                                <span class="text-xs text-slate-500">Construcción muscular</span>
+                            </div>
+                            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/50">
+                                <span class="text-xs text-slate-400 uppercase font-semibold">Carbohidratos</span>
+                                <p id="macro-carbs" class="text-2xl font-extrabold text-amber-400 mt-1">-- g</p>
+                                <span class="text-xs text-slate-500">Energía principal</span>
+                            </div>
+                            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/50">
+                                <span class="text-xs text-slate-400 uppercase font-semibold">Grasas</span>
+                                <p id="macro-fats" class="text-2xl font-extrabold text-emerald-400 mt-1">-- g</p>
+                                <span class="text-xs text-slate-500">Salud hormonal</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Motivational Quote Card -->
+                    <div class="bg-gradient-to-r from-slate-800 to-slate-900 border border-lime-500/30 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                        <div class="relative z-10">
+                            <span class="text-xs uppercase font-bold text-lime-400 tracking-wider">Motivación del Día</span>
+                            <blockquote id="daily-quote" class="text-lg font-semibold italic text-slate-200 mt-2">
+                                "El único entrenamiento malo es el que no sucedió."
+                            </blockquote>
+                        </div>
+                        <i class="fa-solid fa-quote-right text-8xl text-slate-700/20 absolute -right-4 -bottom-4 z-0"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: DIARIO & ACTIVIDAD -->
+        <section id="tab-activity" class="tab-content hidden transition-all duration-300 space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Workout Logger Form -->
+                <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl">
+                    <h2 class="text-xl font-bold text-white mb-6 flex items-center">
+                        <i class="fa-solid fa-pen-to-square text-lime-400 mr-2"></i> Registrar Entrenamiento
+                    </h2>
+
+                    <form id="activity-form" onsubmit="logWorkout(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Fecha</label>
+                            <input type="date" id="log-date" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-lime-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Rutina / Grupo Muscular</label>
+                            <input type="text" id="log-workout-name" placeholder="Ej. Pierna + Core o Pecho / Tríceps" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-lime-500">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Duración (min)</label>
+                                <input type="number" id="log-duration" placeholder="60" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-lime-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Intensidad</label>
+                                <select id="log-intensity" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-lime-500">
+                                    <option value="Baja">Baja</option>
+                                    <option value="Media" selected>Media</option>
+                                    <option value="Alta">Alta</option>
+                                    <option value="Extrema">Extrema</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Ejercicios Realizados (Detalle)</label>
+                            <textarea id="log-details" rows="3" placeholder="Ej. Sentadilla: 4x10 (80kg), Prensa: 3x12 (120kg)..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-lime-500 text-sm"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-lime-500 hover:bg-lime-400 text-slate-950 font-bold py-3 rounded-xl shadow-lg transition-all duration-200">
+                            <i class="fa-solid fa-plus mr-1"></i> Guardar Entrenamiento
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Logs List & Summary -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-bold text-white flex items-center">
+                                <i class="fa-solid fa-list-check text-lime-400 mr-2"></i> Historial de Entrenamientos
+                            </h3>
+                            <span id="total-workouts-count" class="bg-slate-700 text-lime-400 text-xs px-3 py-1 rounded-full font-bold">0 Sesiones</span>
+                        </div>
+
+                        <div id="workout-history-container" class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+                            <!-- Empty state -->
+                            <p id="empty-history-msg" class="text-slate-400 text-center py-8">No has registrado entrenamientos aún. ¡Completa el formulario para empezar!</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 3: RUTINAS DE ENTRENAMIENTO -->
+        <section id="tab-routines" class="tab-content hidden transition-all duration-300 space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-800/80 p-6 rounded-2xl border border-slate-700/60">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Catálogo de Rutinas</h2>
+                    <p class="text-slate-400 text-sm">Selecciona una rutina ajustada a tus objetivos específicos.</p>
+                </div>
+                
+                <!-- Category Filter -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterRoutines('all')" class="routine-filter-btn active bg-lime-500 text-slate-950 px-4 py-2 rounded-xl text-xs font-bold transition-all">Todos</button>
+                    <button onclick="filterRoutines('principiante')" class="routine-filter-btn bg-slate-700 text-slate-300 hover:text-white px-4 py-2 rounded-xl text-xs font-bold transition-all">Principiante</button>
+                    <button onclick="filterRoutines('hipertrofia')" class="routine-filter-btn bg-slate-700 text-slate-300 hover:text-white px-4 py-2 rounded-xl text-xs font-bold transition-all">Hipertrofia</button>
+                    <button onclick="filterRoutines('fuerza')" class="routine-filter-btn bg-slate-700 text-slate-300 hover:text-white px-4 py-2 rounded-xl text-xs font-bold transition-all">Fuerza</button>
+                </div>
+            </div>
+
+            <!-- Routine Cards Grid -->
+            <div id="routines-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- SECTION 4: DIETAS Y NUTRICIÓN -->
+        <section id="tab-nutrition" class="tab-content hidden transition-all duration-300 space-y-8">
+            <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl">
+                <h2 class="text-2xl font-bold text-white mb-2">Planes de Alimentación Recomendados</h2>
+                <p class="text-slate-400 text-sm mb-6">Guías nutricionales estructuradas según tu objetivo actual.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Diet Card 1 -->
+                    <div class="bg-slate-900 border border-slate-700 rounded-2xl p-5 hover:border-lime-500/50 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="bg-red-500/10 text-red-400 text-xs font-bold px-3 py-1 rounded-full">Déficit Calórico</span>
+                                <i class="fa-solid fa-fire text-red-400"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2">Pérdida de Grasa</h3>
+                            <p class="text-xs text-slate-400 mb-4">Consumo de calorías por debajo de tu TDEE. Prioridad alta en proteínas para preservar la masa muscular.</p>
+                            <ul class="text-xs text-slate-300 space-y-2 mb-4">
+                                <li class="flex items-center"><i class="fa-solid fa-check text-lime-400 mr-2"></i> Proteína: 2.0 - 2.2g / kg</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-lime-400 mr-2"></i> Grasas: 0.8g / kg</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-lime-400 mr-2"></i> Carbohidratos moderados/bajos</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Diet Card 2 -->
+                    <div class="bg-slate-900 border border-slate-700 rounded-2xl p-5 hover:border-lime-500/50 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="bg-blue-500/10 text-blue-400 text-xs font-bold px-3 py-1 rounded-full">Mantenimiento</span>
+                                <i class="fa-solid fa-scale-balanced text-blue-400"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2">Equilibrada / Recomposición</h3>
+                            <p class="text-xs text-slate-400 mb-4">Aporte calórico equivalente al gasto diario. Ideal para mejorar rendimiento y composición corporal gradualmente.</p>
+                            <ul class="text-xs text-slate-300 space-y-2 mb-4">
+                                <li class="flex items-center"><i class="fa-solid fa-check text-lime-400 mr-2"></i> Proteína: 1.8g / kg</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-lime-400 mr-2"></i> Grasas: 1.0g / kg</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-lime-400 mr-2"></i> Carbohidratos balanceados</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Diet Card 3 -->
+                    <div class="bg-slate-900 border border-slate-700 rounded-2xl p-5 hover:border-lime-500/50 transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="bg-lime-500/10 text-lime-400 text-xs font-bold px-3 py-1 rounded-full">Superávit Calórico</span>
+                                <i class="fa-solid fa-cubes text-lime-400"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-2">Volumen & Músculo</h3>
+                            <p class="text-xs text-slate-400 mb-4">Consumo de 300-500 kcal extra diarias para favorecer la hipertrofia y ganancia de fuerza muscular.</p>
+                            <ul class="text-xs text-slate-300 space-y-2 mb-4">
+                                <li class="flex items-center"><i class="fa-solid fa-check text-lime-400 mr-2"></i> Proteína: 1.8 - 2.0g / kg</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-lime-400 mr-2"></i> Carbohidratos altos para energía</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-lime-400 mr-2"></i> Grasas saludables constantes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: HERRAMIENTAS Y UTILIDADES -->
+        <section id="tab-tools" class="tab-content hidden transition-all duration-300 space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Rest Timer Card -->
+                <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl text-center flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-center space-x-2 text-lime-400 mb-4">
+                            <i class="fa-solid fa-stopwatch text-2xl"></i>
+                            <h2 class="text-xl font-bold text-white">Temporizador de Descanso</h2>
+                        </div>
+                        <p class="text-slate-400 text-xs mb-6">Controla tus tiempos de descanso entre series para maximizar el rendimiento.</p>
+
+                        <!-- Timer Display -->
+                        <div class="bg-slate-900 border border-slate-700 rounded-2xl py-8 my-4 shadow-inner">
+                            <span id="timer-display" class="text-6xl font-black text-white tracking-widest font-mono">01:00</span>
+                        </div>
+
+                        <!-- Quick presets -->
+                        <div class="flex justify-center gap-2 mb-6">
+                            <button onclick="setTimer(30)" class="bg-slate-700 hover:bg-slate-600 text-xs font-bold px-3 py-1.5 rounded-lg text-slate-300">30s</button>
+                            <button onclick="setTimer(60)" class="bg-slate-700 hover:bg-slate-600 text-xs font-bold px-3 py-1.5 rounded-lg text-slate-300">60s</button>
+                            <button onclick="setTimer(90)" class="bg-slate-700 hover:bg-slate-600 text-xs font-bold px-3 py-1.5 rounded-lg text-slate-300">90s</button>
+                            <button onclick="setTimer(120)" class="bg-slate-700 hover:bg-slate-600 text-xs font-bold px-3 py-1.5 rounded-lg text-slate-300">2 min</button>
+                        </div>
+                    </div>
+
+                    <!-- Timer Controls -->
+                    <div class="flex justify-center space-x-4">
+                        <button id="timer-start-btn" onclick="startTimer()" class="bg-lime-500 hover:bg-lime-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg flex items-center space-x-2">
+                            <i class="fa-solid fa-play"></i> <span>Iniciar</span>
+                        </button>
+                        <button onclick="pauseTimer()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg flex items-center space-x-2">
+                            <i class="fa-solid fa-pause"></i> <span>Pausa</span>
+                        </button>
+                        <button onclick="resetTimer()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold px-6 py-2.5 rounded-xl transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-rotate-left"></i> <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Water Intake Counter -->
+                <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-center space-x-2 text-blue-400 mb-4">
+                            <i class="fa-solid fa-glass-water text-2xl"></i>
+                            <h2 class="text-xl font-bold text-white">Registro de Hidratación</h2>
+                        </div>
+                        <p class="text-slate-400 text-xs text-center mb-6">Meta recomendada: 8 vasos de agua al día (approx. 2 Litros).</p>
+
+                        <div class="text-center my-4">
+                            <span id="water-count" class="text-6xl font-black text-blue-400">0</span>
+                            <span class="text-slate-400 font-bold"> / 8 vasos</span>
+                        </div>
+
+                        <!-- Water Visual Icons Grid -->
+                        <div id="water-icons-grid" class="flex flex-wrap justify-center gap-3 my-6">
+                            <!-- JS generates icons -->
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center space-x-4">
+                        <button onclick="addWaterGlass()" class="bg-blue-500 hover:bg-blue-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition-all shadow-lg flex items-center space-x-2">
+                            <i class="fa-solid fa-plus"></i> <span>Agregar Vaso</span>
+                        </button>
+                        <button onclick="resetWater()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold px-4 py-2.5 rounded-xl transition-all">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- COLLABORATORS SECTION (Exact Bootstrap Grid Requested) -->
+    <section class="border-t border-slate-800/80 bg-slate-900/50 py-4 mt-8">
+        <div class="container my-5">
+            <h2 class="text-center mb-4 text-light">Nuestros Colaboradores</h2>
+            <div class="row my-3">
+                <div class="col">
+                    <div class="card bs-dark-card p-3 text-center h-100">
+                        <div class="card-body flex flex-col items-center justify-center">
+                            <i class="fa-solid fa-user-ninja text-3xl text-lime-400 mb-2"></i>
+                            <h5 class="card-title font-bold text-white">Colaborador 1</h5>
+                            <p class="card-text text-slate-400 text-xs">Entrenador Personal / Especialista</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card bs-dark-card p-3 text-center h-100">
+                        <div class="card-body flex flex-col items-center justify-center">
+                            <i class="fa-solid fa-user-doctor text-3xl text-lime-400 mb-2"></i>
+                            <h5 class="card-title font-bold text-white">Colaborador 2</h5>
+                            <p class="card-text text-slate-400 text-xs">Nutricionista Deportivo</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card bs-dark-card p-3 text-center h-100">
+                        <div class="card-body flex flex-col items-center justify-center">
+                            <i class="fa-solid fa-dumbbell text-3xl text-lime-400 mb-2"></i>
+                            <h5 class="card-title font-bold text-white">Colaborador 3</h5>
+                            <p class="card-text text-slate-400 text-xs">Preparador Físico</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card bs-dark-card p-3 text-center h-100">
+                        <div class="card-body flex flex-col items-center justify-center">
+                            <i class="fa-solid fa-heart-pulse text-3xl text-lime-400 mb-2"></i>
+                            <h5 class="card-title font-bold text-white">Colaborador 4</h5>
+                            <p class="card-text text-slate-400 text-xs">Fisioterapeuta</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            <p>© 2026 FitPulse Gym App. Todos los derechos reservados.</p>
+            <p class="mt-1">Diseñado para seguimiento deportivo personal e interactivo.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        /* Global State */
+        let userProfile = JSON.parse(localStorage.getItem('fitpulse_profile')) || null;
+        let workoutLogs = JSON.parse(localStorage.getItem('fitpulse_logs')) || [];
+        let waterIntake = parseInt(localStorage.getItem('fitpulse_water')) || 0;
+
+        // Timer State Variables
+        let timerSeconds = 60;
+        let timerInitial = 60;
+        let timerInterval = null;
+
+        // Sample Routines Database
+        const routinesData = [
+            {
+                id: 1,
+                title: "Iniciación Full Body",
+                category: "principiante",
+                tag: "Principiante",
+                tagColor: "bg-emerald-500/10 text-emerald-400",
+                description: "Ideal para adaptarse a los movimientos básicos y ganar resistencia inicial.",
+                exercises: [
+                    { name: "Sentadilla Libre / Copa", sets: "3 series x 12 reps", rest: "60s" },
+                    { name: "Press de Pecho en Banco", sets: "3 series x 10 reps", rest: "60s" },
+                    { name: "Jalón al Pecho (Espalda)", sets: "3 series x 12 reps", rest: "60s" },
+                    { name: "Plancha Abdominal", sets: "3 series x 30 seg", rest: "45s" }
+                ]
+            },
+            {
+                id: 2,
+                title: "Hipertrofia - Torso Élite",
+                category: "hipertrofia",
+                tag: "Músculo / Hipertrofia",
+                tagColor: "bg-lime-500/10 text-lime-400",
+                description: "Enfoque en desarrollo muscular de pecho, espalda y hombros.",
+                exercises: [
+                    { name: "Press Inclinado con Mancuernas", sets: "4 series x 8-10 reps", rest: "90s" },
+                    { name: "Remo con Barra T", sets: "4 series x 10 reps", rest: "90s" },
+                    { name: "Press Militar de Hombro", sets: "3 series x 10-12 reps", rest: "60s" },
+                    { name: "Super-serie Biceps / Triceps", sets: "3 series x 12 reps", rest: "60s" }
+                ]
+            },
+            {
+                id: 3,
+                title: "Hipertrofia - Pierna & Glúteo",
+                category: "hipertrofia",
+                tag: "Músculo / Hipertrofia",
+                tagColor: "bg-lime-500/10 text-lime-400",
+                description: "Rutina intensiva para maximizar la masa muscular en tren inferior.",
+                exercises: [
+                    { name: "Sentadilla Trasera con Barra", sets: "4 series x 8 reps", rest: "120s" },
+                    { name: "Prensa Inclinada de Piernas", sets: "4 series x 12 reps", rest: "90s" },
+                    { name: "Peso Muerto Rumano", sets: "3 series x 10 reps", rest: "90s" },
+                    { name: "Elevación de Gemelos", sets: "4 series x 15 reps", rest: "45s" }
+                ]
+            },
+            {
+                id: 4,
+                title: "Fuerza Máxima (5x5)",
+                category: "fuerza",
+                tag: "Fuerza",
+                tagColor: "bg-orange-500/10 text-orange-400",
+                description: "Diseñada para incrementar la fuerza máxima en los tres básicos.",
+                exercises: [
+                    { name: "Sentadilla Pesada", sets: "5 series x 5 reps", rest: "180s" },
+                    { name: "Press Banca Plano", sets: "5 series x 5 reps", rest: "180s" },
+                    { name: "Peso Muerto Convencional", sets: "5 series x 5 reps", rest: "180s" }
+                ]
+            }
+        ];
+
+        /* Init function on load */
+        window.onload = function() {
+            // Set default date picker to today
+            document.getElementById('log-date').value = new Date().toISOString().split('T')[0];
+
+            loadProfileToForm();
+            renderWorkoutHistory();
+            renderRoutines('all');
+            updateWaterUI();
+            updateTimerDisplay();
+        };
+
+        /* Navigation Tab Switcher */
+        function switchTab(tabId) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+
+            // Show selected tab
+            const targetTab = document.getElementById(`tab-${tabId}`);
+            if (targetTab) {
+                targetTab.classList.remove('hidden');
+            }
+
+            // Update Navigation active state styling
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                btn.classList.remove('text-lime-400', 'bg-slate-800');
+                btn.classList.add('text-slate-400');
+            });
+
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('text-lime-400', 'bg-slate-800');
+                activeBtn.classList.remove('text-slate-400');
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        /* Save Profile & Calculate Fitness Metrics */
+        function saveProfile(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('user-name').value;
+            const age = parseInt(document.getElementById('user-age').value);
+            const gender = document.getElementById('user-gender').value;
+            const weight = parseFloat(document.getElementById('user-weight').value);
+            const height = parseFloat(document.getElementById('user-height').value);
+            const goal = document.getElementById('user-goal').value;
+            const activityLevel = parseFloat(document.getElementById('user-activity-level').value);
+
+            userProfile = { name, age, gender, weight, height, goal, activityLevel };
+            localStorage.setItem('fitpulse_profile', JSON.stringify(userProfile));
+
+            calculateMetrics();
+            alert('¡Perfil y datos guardados correctamente!');
+        }
+
+        function loadProfileToForm() {
+            if (!userProfile) return;
+
+            document.getElementById('user-name').value = userProfile.name || '';
+            document.getElementById('user-age').value = userProfile.age || '';
+            document.getElementById('user-gender').value = userProfile.gender || 'male';
+            document.getElementById('user-weight').value = userProfile.weight || '';
+            document.getElementById('user-height').value = userProfile.height || '';
+            document.getElementById('user-goal').value = userProfile.goal || 'maintain';
+            document.getElementById('user-activity-level').value = userProfile.activityLevel || '1.55';
+
+            calculateMetrics();
+        }
+
+        function calculateMetrics() {
+            if (!userProfile || !userProfile.weight || !userProfile.height) return;
+
+            const { weight, height, age, gender, goal, activityLevel } = userProfile;
+
+            // 1. BMI Calculation
+            const heightInMeters = height / 100;
+            const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(1);
+            document.getElementById('stat-bmi').innerText = bmi;
+
+            let bmiStatus = '';
+            if (bmi < 18.5) bmiStatus = 'Bajo peso';
+            else if (bmi < 25) bmiStatus = 'Peso saludable';
+            else if (bmi < 30) bmiStatus = 'Sobrepeso';
+            else bmiStatus = 'Obesidad';
+
+            document.getElementById('stat-bmi-status').innerText = bmiStatus;
+
+            // 2. BMR (Mifflin-St Jeor) & TDEE
+            let bmr = (10 * weight) + (6.25 * height) - (5 * age);
+            bmr += (gender === 'male') ? 5 : -161;
+
+            const tdee = Math.round(bmr * activityLevel);
+            document.getElementById('stat-tdee').innerText = `${tdee} kcal`;
+
+            // 3. Goal Calories
+            let targetCalories = tdee;
+            if (goal === 'lose') targetCalories -= 400;
+            if (goal === 'gain') targetCalories += 400;
+
+            document.getElementById('stat-target-cal').innerText = `${targetCalories} kcal`;
+
+            // 4. Macronutrients Calculation
+            const proteinGrams = Math.round(weight * 2.0);
+            const proteinCals = proteinGrams * 4;
+
+            const fatCals = targetCalories * 0.25;
+            const fatGrams = Math.round(fatCals / 9);
+
+            const carbCals = targetCalories - (proteinCals + fatCals);
+            const carbGrams = Math.round(carbCals / 4);
+
+            document.getElementById('macro-protein').innerText = `${proteinGrams}g`;
+            document.getElementById('macro-carbs').innerText = `${carbGrams}g`;
+            document.getElementById('macro-fats').innerText = `${fatGrams}g`;
+        }
+
+        /* Workout Logger Functions */
+        function logWorkout(e) {
+            e.preventDefault();
+
+            const date = document.getElementById('log-date').value;
+            const name = document.getElementById('log-workout-name').value;
+            const duration = document.getElementById('log-duration').value;
+            const intensity = document.getElementById('log-intensity').value;
+            const details = document.getElementById('log-details').value;
+
+            const newLog = {
+                id: Date.now(),
+                date,
+                name,
+                duration,
+                intensity,
+                details
+            };
+
+            workoutLogs.unshift(newLog);
+            localStorage.setItem('fitpulse_logs', JSON.stringify(workoutLogs));
+
+            document.getElementById('log-workout-name').value = '';
+            document.getElementById('log-details').value = '';
+
+            renderWorkoutHistory();
+        }
+
+        function deleteLog(id) {
+            workoutLogs = workoutLogs.filter(log => log.id !== id);
+            localStorage.setItem('fitpulse_logs', JSON.stringify(workoutLogs));
+            renderWorkoutHistory();
+        }
+
+        function renderWorkoutHistory() {
+            const container = document.getElementById('workout-history-container');
+            const countLabel = document.getElementById('total-workouts-count');
+
+            countLabel.innerText = `${workoutLogs.length} Sesiones`;
+
+            if (workoutLogs.length === 0) {
+                container.innerHTML = `<p id="empty-history-msg" class="text-slate-400 text-center py-8">No has registrado entrenamientos aún. ¡Completa el formulario para empezar!</p>`;
+                return;
+            }
+
+            container.innerHTML = workoutLogs.map(log => `
+                <div class="bg-slate-900 border border-slate-700/80 rounded-xl p-4 flex flex-col justify-between hover:border-lime-500/40 transition-all">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="text-xs font-semibold text-lime-400"><i class="fa-regular fa-calendar mr-1"></i>${log.date}</span>
+                            <h4 class="text-lg font-bold text-white mt-0.5">${log.name}</h4>
+                        </div>
+                        <button onclick="deleteLog(${log.id})" class="text-slate-500 hover:text-red-400 text-sm p-1">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-4 text-xs text-slate-400 my-2">
+                        <span><i class="fa-regular fa-clock mr-1"></i>${log.duration} min</span>
+                        <span><i class="fa-solid fa-gauge-high mr-1"></i>Intensidad: <strong class="text-slate-200">${log.intensity}</strong></span>
+                    </div>
+                    ${log.details ? `<p class="text-xs bg-slate-800 p-2.5 rounded-lg text-slate-300 border border-slate-700/50 mt-1">${log.details}</p>` : ''}
+                </div>
+            `).join('');
+        }
+
+        /* Routines Render & Filter */
+        function renderRoutines(filter) {
+            const grid = document.getElementById('routines-grid');
+            
+            const filtered = filter === 'all' 
+                ? routinesData 
+                : routinesData.filter(r => r.category === filter);
+
+            grid.innerHTML = filtered.map(routine => `
+                <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl flex flex-col justify-between hover:border-lime-500/40 transition-all">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="${routine.tagColor} text-xs font-bold px-3 py-1 rounded-full">${routine.tag}</span>
+                            <i class="fa-solid fa-dumbbell text-slate-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">${routine.title}</h3>
+                        <p class="text-xs text-slate-400 mb-4">${routine.description}</p>
+                        
+                        <div class="space-y-3">
+                            <span class="text-xs uppercase font-bold text-slate-500 tracking-wider">Ejercicios:</span>
+                            ${routine.exercises.map(ex => `
+                                <div class="bg-slate-900 p-3 rounded-xl border border-slate-700/50">
+                                    <p class="text-sm font-semibold text-slate-200">${ex.name}</p>
+                                    <div class="flex justify-between text-xs text-slate-400 mt-1">
+                                        <span><i class="fa-solid fa-repeat mr-1 text-lime-400"></i>${ex.sets}</span>
+                                        <span><i class="fa-solid fa-hourglass-half mr-1 text-orange-400"></i>${ex.rest}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterRoutines(category) {
+            const buttons = document.querySelectorAll('.routine-filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-lime-500', 'text-slate-950');
+                btn.classList.add('bg-slate-700', 'text-slate-300');
+            });
+
+            event.target.classList.add('bg-lime-500', 'text-slate-950');
+            event.target.classList.remove('bg-slate-700', 'text-slate-300');
+
+            renderRoutines(category);
+        }
+
+        /* Rest Timer Functions */
+        function setTimer(seconds) {
+            pauseTimer();
+            timerSeconds = seconds;
+            timerInitial = seconds;
+            updateTimerDisplay();
+        }
+
+        function startTimer() {
+            if (timerInterval) return;
+
+            timerInterval = setInterval(() => {
+                if (timerSeconds > 0) {
+                    timerSeconds--;
+                    updateTimerDisplay();
+                } else {
+                    pauseTimer();
+                    alert('⏰ ¡Tiempo de descanso completado! A por la siguiente serie.');
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerSeconds = timerInitial;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            const formatted = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            document.getElementById('timer-display').innerText = formatted;
+        }
+
+        /* Water Intake Functions */
+        function addWaterGlass() {
+            if (waterIntake < 12) {
+                waterIntake++;
+                localStorage.setItem('fitpulse_water', waterIntake);
+                updateWaterUI();
+            }
+        }
+
+        function resetWater() {
+            waterIntake = 0;
+            localStorage.setItem('fitpulse_water', waterIntake);
+            updateWaterUI();
+        }
+
+        function updateWaterUI() {
+            document.getElementById('water-count').innerText = waterIntake;
+            const container = document.getElementById('water-icons-grid');
+            
+            let html = '';
+            for (let i = 1; i <= 8; i++) {
+                if (i <= waterIntake) {
+                    html += `<i class="fa-solid fa-glass-water text-3xl text-blue-400"></i>`;
+                } else {
+                    html += `<i class="fa-solid fa-glass-water text-3xl text-slate-700"></i>`;
+                }
+            }
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
