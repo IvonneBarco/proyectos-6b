@@ -161,20 +161,13 @@
         }
 
         .intro-bg {
-            position: absolute;
-            inset: -10%;
-            background: url("foto.jpg") center 16% / cover;
-            filter: blur(46px) saturate(0.9) brightness(0.42);
-            opacity: 0.7;
-            animation: kenburns 10s ease-out both;
+            display: none;
         }
 
         .intro-vignette {
             position: absolute;
             inset: 0;
-            background:
-                radial-gradient(circle at 50% 42%, rgba(196, 165, 116, 0.22), transparent 42%),
-                radial-gradient(ellipse at center, transparent 22%, #070708 78%);
+            background: radial-gradient(ellipse at center, transparent 38%, #070708 92%);
             pointer-events: none;
         }
 
@@ -331,35 +324,7 @@
             position: fixed;
             inset: 0;
             z-index: 0;
-            background:
-                radial-gradient(ellipse 70% 45% at 78% 8%, rgba(196, 165, 116, 0.18), transparent 58%),
-                radial-gradient(ellipse 50% 40% at 8% 92%, rgba(40, 40, 44, 0.7), transparent 55%),
-                var(--asfalto);
-        }
-
-        .fondo::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image: url("foto.jpg");
-            background-size: cover;
-            background-position: center 18%;
-            filter: blur(48px) saturate(0.85);
-            opacity: 0.28;
-            transform: scale(1.15);
-            animation: kenburns 22s ease-in-out infinite alternate;
-        }
-
-        .fondo::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(243, 239, 232, 0.035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(243, 239, 232, 0.035) 1px, transparent 1px);
-            background-size: 56px 56px;
-            mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
-            pointer-events: none;
+            background: var(--asfalto);
         }
 
         .grano {
@@ -367,7 +332,7 @@
             inset: 0;
             z-index: 2;
             pointer-events: none;
-            opacity: 0.07;
+            opacity: 0.035;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
@@ -383,16 +348,7 @@
         }
 
         .orbe {
-            position: fixed;
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1;
-            background: radial-gradient(circle, rgba(196, 165, 116, 0.16), transparent 68%);
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            display: none;
         }
 
         .orbe.on {
@@ -488,17 +444,6 @@
             width: min(100%, 380px);
             justify-self: center;
             animation: photoIn 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
-        }
-
-        .foto-wrap::after {
-            content: "";
-            position: absolute;
-            inset: -18px;
-            border-radius: 32px;
-            background: radial-gradient(circle at 50% 35%, rgba(196, 165, 116, 0.38), transparent 68%);
-            z-index: -1;
-            filter: blur(8px);
-            animation: glowPulse 4.2s ease-in-out infinite;
         }
 
         .foto-inner {
@@ -1211,13 +1156,7 @@
             });
 
             const puntos = Array.from({ length: cantidad }, punto);
-            const cometas = Array.from({ length: 5 }, () => ({
-                x: Math.random() * canvas.clientWidth,
-                y: Math.random() * canvas.clientHeight * 0.6,
-                vx: Math.random() * 2.4 + 1.2,
-                vy: Math.random() * 1.1 + 0.4,
-                vida: Math.random()
-            }));
+            const cometas = [];
 
             let viva = true;
             const dibujar = () => {
@@ -1243,8 +1182,8 @@
                     ctx.fillStyle = p.tipo === "brillo"
                         ? `rgba(243, 239, 232, ${pulso})`
                         : `rgba(196, 165, 116, ${pulso})`;
-                    ctx.shadowColor = "rgba(196, 165, 116, 0.95)";
-                    ctx.shadowBlur = p.tipo === "brillo" ? 18 : 10;
+                    ctx.shadowColor = "rgba(196, 165, 116, 0.35)";
+                    ctx.shadowBlur = p.tipo === "brillo" ? 6 : 3;
                     ctx.arc(p.x, p.y, radio, 0, Math.PI * 2);
                     ctx.fill();
                 });
@@ -1292,7 +1231,7 @@
         } else {
             skip?.addEventListener("click", cerrarIntro);
             setTimeout(cerrarIntro, 4200);
-            prenderParticulas(document.getElementById("intro-particulas"), 140);
+            prenderParticulas(document.getElementById("intro-particulas"), 22);
         }
 
         const observer = new IntersectionObserver((entries) => {
