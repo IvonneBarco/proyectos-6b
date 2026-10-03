@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi tarjeta</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            font-family: Arial, sans-serif;
+        }
+
+        .card-custom {
+            width: 18rem;
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: 0.4s ease;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* FOTO */
+        .card-custom .card-img-top {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            object-position: center;
+            transition: 0.5s ease;
+        }
+
+        .card-custom:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .card-text {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .list-group {
+            padding: 0;
+            margin: 0;
+        }
+
+        .list-group-item {
+            list-style: none;
+            padding: 12px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            color: #555;
+        }
+
+        .botones {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            padding: 10px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .card-link:hover {
+            transform: scale(1.08);
+            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.5);
+        }
+
+        .secondary {
+            background: #222;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card card-custom">
+
+        <!-- TU FOTO -->
+        <img 
+            src="barbas.jpeg"
+            class="card-img-top"
+            alt="Foto de perfil"
+        >
+
+        <div class="card-body">
+
+            <h5 class="card-title">
+                Sebastian David 
+            </h5>
+
+            <p class="card-text">
+                Soy estudiante y me interesa el desarrollo web,
+                la tecnología y aprender cosas nuevas.
+            </p>
+
+        </div>
+
+        <ul class="list-group">
+            <li class="list-group-item">💻 Desarrollo Web</li>
+            <li class="list-group-item">🎨 Diseño</li>
+            <li class="list-group-item">🚀 Tecnología</li>
+        </ul>
+
+        <div class="card-body botones">
+
+            <a href="https://github.com/sebastiandavid98" class="card-link">
+                Ver más
+            </a>
+
+            <a href="https://www.instagram.com/sdavid_019_/" class="card-link secondary">
+                Contacto
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
