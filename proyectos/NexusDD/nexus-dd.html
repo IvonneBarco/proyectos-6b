@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEXUS — Think before you buy.</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        :root {
+            --bg:      #07080f;
+            --surface: #0f1120;
+            --border:  rgba(99,102,241,0.18);
+            --accent:  #6366f1;
+            --accent2: #818cf8;
+            --glow:    rgba(99,102,241,0.35);
+            --text:    #e2e8f0;
+            --muted:   #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; overflow-x: hidden; }
+
+        #bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .page { position: relative; z-index: 1; }
+
+        /* NAV */
+        .nx-nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(7,8,15,0.88); backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 40px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .nx-logo {
+            font-size: 1.4rem; font-weight: 900; letter-spacing: 4px;
+            background: linear-gradient(135deg, #818cf8, #6366f1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .nx-nav .nav-links a {
+            color: var(--muted); text-decoration: none; font-size: 0.82rem;
+            font-weight: 600; letter-spacing: 1px; margin-left: 28px; transition: color 0.2s;
+        }
+        .nx-nav .nav-links a:hover { color: var(--accent2); }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; padding: 80px 24px;
+        }
+        .hero .eyebrow {
+            font-size: 0.72rem; letter-spacing: 4px; text-transform: uppercase;
+            color: var(--accent2); font-weight: 700; margin-bottom: 18px;
+        }
+        .hero h1 {
+            font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; line-height: 1.1;
+            max-width: 800px;
+            background: linear-gradient(135deg, #f1f5f9 30%, #818cf8 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 14px;
+        }
+        .hero .tagline {
+            font-size: 1.15rem; color: var(--accent2); font-weight: 600;
+            letter-spacing: 1px; margin-bottom: 20px;
+        }
+        .hero p.desc {
+            color: var(--muted); font-size: 1.05rem; max-width: 640px;
+            line-height: 1.85; margin-bottom: 36px;
+        }
+        .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+        .btn-primary-nx {
+            background: linear-gradient(135deg, #6366f1, #818cf8);
+            color: white; border: none; border-radius: 30px;
+            padding: 13px 32px; font-weight: 700; font-size: 0.95rem;
+            text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; display: inline-block;
+        }
+        .btn-primary-nx:hover { transform: translateY(-2px); box-shadow: 0 10px 30px var(--glow); color: white; }
+
+        .btn-outline-nx {
+            background: transparent; color: var(--accent2);
+            border: 1px solid rgba(99,102,241,0.4); border-radius: 30px;
+            padding: 12px 30px; font-weight: 600; font-size: 0.95rem;
+            text-decoration: none; transition: all 0.2s; display: inline-block;
+        }
+        .btn-outline-nx:hover { background: rgba(99,102,241,0.1); color: var(--accent2); }
+
+        /* SECCIONES */
+        section { padding: 90px 0; }
+        .bg-alt { background: rgba(15,17,32,0.65); }
+
+        .section-label { font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent2); font-weight: 700; margin-bottom: 10px; }
+        .section-title { font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 800; color: #f1f5f9; margin-bottom: 14px; }
+        .section-sub { color: var(--muted); max-width: 620px; line-height: 1.85; font-size: 1rem; margin: 0 auto 50px; }
+        .divider { width: 50px; height: 3px; background: linear-gradient(90deg, #6366f1, #818cf8); border-radius: 2px; margin: 0 auto 50px; }
+
+        /* FLUJO */
+        .flow-box {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; padding: 40px; text-align: center;
+            font-size: 0.9rem; line-height: 2.4; color: var(--muted);
+        }
+        .flow-node {
+            display: inline-block; background: rgba(99,102,241,0.12);
+            border: 1px solid rgba(99,102,241,0.35); border-radius: 10px;
+            padding: 6px 20px; color: var(--accent2); font-weight: 700; font-size: 0.85rem;
+        }
+        .flow-arrow { color: #6366f1; font-size: 1.1rem; display: block; line-height: 1.6; }
+
+        /* STEPS */
+        .step-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 18px; padding: 32px 28px; height: 100%;
+            transition: transform 0.25s, border-color 0.25s;
+        }
+        .step-card:hover { transform: translateY(-5px); border-color: rgba(99,102,241,0.45); }
+        .step-num {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 52px; height: 52px; border-radius: 14px;
+            background: linear-gradient(135deg, #6366f1, #818cf8);
+            font-weight: 900; font-size: 0.95rem; color: white; margin-bottom: 18px;
+        }
+        .step-card h5 { color: #f1f5f9; font-weight: 800; margin-bottom: 10px; font-size: 1.05rem; }
+        .step-card p  { color: var(--muted); font-size: 0.9rem; line-height: 1.75; margin: 0; }
+        .step-card ul { color: var(--muted); font-size: 0.88rem; line-height: 2; padding-left: 18px; margin: 10px 0 0; }
+        .step-card ul li::marker { color: var(--accent2); }
+
+        /* MOCKUP */
+        .mockup {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; padding: 36px; max-width: 640px; margin: 0 auto;
+        }
+        .mockup-input {
+            background: rgba(99,102,241,0.07); border: 1px solid rgba(99,102,241,0.25);
+            border-radius: 12px; padding: 16px 20px; color: #f1f5f9;
+            font-size: 1rem; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+        }
+        .mockup-input span { color: var(--accent2); }
+        .chip {
+            display: inline-block; background: rgba(99,102,241,0.1);
+            border: 1px solid rgba(99,102,241,0.25); border-radius: 20px;
+            padding: 6px 16px; color: var(--accent2); font-size: 0.82rem;
+            font-weight: 600; margin: 4px;cursor: pointer; transition: background 0.2s;
+        }
+        .chip:hover, .chip.active { background: rgba(99,102,241,0.25); }
+        .result-box {
+            background: rgba(234,179,8,0.07); border: 1px solid rgba(234,179,8,0.25);
+            border-radius: 14px; padding: 22px; margin-top: 20px;
+        }
+        .result-box .result-title { color: #fbbf24; font-weight: 800; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 10px; }
+        .result-box p { color: var(--muted); font-size: 0.88rem; line-height: 1.75; margin: 0; }
+        .alt-item {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 10px; padding: 14px 18px; margin-top: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .alt-item .alt-name { color: #f1f5f9; font-weight: 600; font-size: 0.9rem; }
+        .alt-item .alt-cost { color: var(--accent2); font-size: 0.85rem; font-weight: 700; }
+
+        /* PRODUCTOS */
+        .product-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 24px; height: 100%;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .product-card:hover { transform: translateY(-4px); border-color: rgba(99,102,241,0.4); }
+        .product-card .p-name { color: #f1f5f9; font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+        .product-card .p-price { color: var(--accent2); font-weight: 800; font-size: 1.2rem; margin-bottom: 12px; }
+        .product-card .p-stars { color: #fbbf24; font-size: 0.85rem; margin-bottom: 12px; }
+        .product-card .p-spec { color: var(--muted); font-size: 0.82rem; line-height: 1.9; }
+        .product-card .badge-best {
+            background: linear-gradient(135deg, #6366f1, #818cf8);
+            color: white; border-radius: 8px; padding: 3px 10px;
+            font-size: 0.72rem; font-weight: 700; margin-bottom: 10px; display: inline-block;
+        }
+
+        /* IDENTIDAD */
+        .identity-box {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; padding: 48px; text-align: center;
+        }
+        .identity-box .big-logo {
+            font-size: 3rem; font-weight: 900; letter-spacing: 6px;
+            background: linear-gradient(135deg, #818cf8, #6366f1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 8px;
+        }
+        .identity-box .slogan { color: var(--accent2); font-size: 1.1rem; font-weight: 600; margin-bottom: 24px; }
+        .identity-box .official-desc { color: var(--muted); max-width: 620px; margin: 0 auto; line-height: 1.9; font-size: 0.95rem; }
+
+        /* BACK BTN */
+        .btn-back-nx {
+            background: linear-gradient(135deg, #6366f1, #818cf8);
+            color: white; border: none; border-radius: 30px;
+            padding: 13px 36px; font-weight: 700; font-size: 1rem;
+            text-decoration: none; display: inline-block;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-back-nx:hover { transform: scale(1.04); box-shadow: 0 10px 30px var(--glow); color: white; }
+
+        footer {
+            text-align: center; padding: 30px;
+            color: rgba(255,255,255,0.2); font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="page">
+
+    <!-- NAV -->
+    <nav class="nx-nav">
+        <span class="nx-logo">NEXUS</span>
+        <div class="nav-links">
+            <a href="#que-hace">¿Qué hace?</a>
+            <a href="#etapas">Etapas</a>
+            <a href="#interfaz">Interfaz</a>
+            <a href="#identidad">Identidad</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+        <p class="eyebrow">Sistema Inteligente de Decisiones de Compra</p>
+        <h1>Tu decisión. Tus necesidades. Tu mejor opción.</h1>
+        <p class="tagline">Think before you buy.</p>
+        <p class="desc">NEXUS no es solo una app de recomendaciones — es un sistema inteligente que analiza si realmente necesitas comprar algo, explora alternativas y, si tiene sentido, te ayuda a encontrar la mejor opción.</p>
+        <div class="hero-btns">
+            <a href="#etapas" class="btn-primary-nx">Explorar NEXUS</a>
+            <a href="#interfaz" class="btn-outline-nx">Ver cómo funciona</a>
+        </div>
+    </div>
+
+    <!-- QUÉ HACE -->
+    <section id="que-hace" class="bg-alt">
+        <div class="container">
+            <p class="section-label text-center">El concepto</p>
+            <h2 class="section-title text-center">🧠 NEXUS conecta tus necesidades con la mejor decisión.</h2>
+            <div class="divider"></div>
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6">
+                    <p style="color:var(--muted); line-height:1.9; font-size:1rem; margin-bottom:20px;">
+                        NEXUS analiza una intención de compra y conecta diferentes factores antes de recomendar cualquier producto. No se trata simplemente de decirte qué comprar — se trata de ayudarte a entender qué solución tiene más sentido para tu situación.
+                    </p>
+                    <p style="color:var(--muted); line-height:1.9; font-size:1rem;">
+                        <strong style="color:var(--accent2);">Nexus</strong> significa esencialmente <em>conexión</em> o <em>punto de unión</em>. Y eso encaja perfectamente: NEXUS conecta necesidad + presupuesto + productos actuales + alternativas + preferencias → <strong style="color:#f1f5f9;">decisión.</strong>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <div class="flow-box">
+                        <span class="flow-node">TU NECESIDAD</span>
+                        <span class="flow-arrow">↓</span>
+                        <span class="flow-node">¿REALMENTE LO NECESITAS?</span>
+                        <span class="flow-arrow">↓</span>
+                        <div class="d-flex justify-content-center gap-4">
+                            <div>
+                                <span class="flow-node" style="background:rgba(239,68,68,0.1); border-color:rgba(239,68,68,0.3); color:#f87171;">NO</span>
+                                <span class="flow-arrow">↓</span>
+                                <span class="flow-node" style="font-size:0.78rem;">ALTERNATIVAS</span>
+                            </div>
+                            <div>
+                                <span class="flow-node" style="background:rgba(34,197,94,0.1); border-color:rgba(34,197,94,0.3); color:#4ade80;">SÍ</span>
+                                <span class="flow-arrow">↓</span>
+                                <span class="flow-node" style="font-size:0.78rem;">ANALIZAR OPCIONES</span>
+                            </div>
+                        </div>
+                        <span class="flow-arrow">↓</span>
+                        <span class="flow-node">COMPARACIÓN</span>
+                        <span class="flow-arrow">↓</span>
+                        <span class="flow-node" style="background:rgba(99,102,241,0.2); border-color:rgba(99,102,241,0.5);">MEJOR SOLUCIÓN ✦</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ETAPAS -->
+    <section id="etapas">
+        <div class="container">
+            <p class="section-label text-center">El proceso</p>
+            <h2 class="section-title text-center">Las 4 etapas de NEXUS</h2>
+            <div class="divider"></div>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="step-card">
+                        <div class="step-num">01</div>
+                        <h5>ANALIZA — ¿Realmente necesitas comprarlo?</h5>
+                        <p>NEXUS cuestiona la necesidad, el contexto y el objetivo de la compra antes de continuar. No asume que la compra es necesaria.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="step-card">
+                        <div class="step-num">02</div>
+                        <h5>CUESTIONA — ¿Existe otra forma de solucionar tu problema?</h5>
+                        <p>Puede plantear alternativas antes de recomendar una compra:</p>
+                        <ul>
+                            <li>Reparar</li>
+                            <li>Reutilizar</li>
+                            <li>Alquilar</li>
+                            <li>Comprar usado</li>
+                            <li>Utilizar algo que ya tienes</li>
+                            <li>Esperar</li>
+                            <li>Comprar</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="step-card">
+                        <div class="step-num">03</div>
+                        <h5>COMPARA — Si comprar tiene sentido, NEXUS analiza.</h5>
+                        <p>Evalúa productos teniendo en cuenta múltiples factores:</p>
+                        <ul>
+                            <li>Precio y presupuesto</li>
+                            <li>Características y durabilidad</li>
+                            <li>Uso esperado y necesidades</li>
+                            <li>Preferencias personales</li>
+                            <li>Relación costo-beneficio</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="step-card">
+                        <div class="step-num">04</div>
+                        <h5>DECIDE — NEXUS presenta opciones y explica por qué.</h5>
+                        <p>El sistema explica por qué cada opción podría encajar con tu situación específica. La decisión final siempre queda en manos del usuario.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERFAZ -->
+    <section id="interfaz" class="bg-alt">
+        <div class="container">
+            <p class="section-label text-center">Demo</p>
+            <h2 class="section-title text-center">Ejemplo de interfaz</h2>
+            <p class="section-sub text-center">Así luce NEXUS cuando analizas una intención de compra.</p>
+            <div class="divider"></div>
+
+            <div class="mockup mb-5">
+                <p style="color:var(--muted); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px;">¿Qué estás pensando comprar?</p>
+                <div class="mockup-input">
+                    <span>🔍</span>
+                    <span style="color:#f1f5f9;">Quiero comprar un portátil</span>
+                </div>
+                <div class="text-center">
+                    <button class="btn-primary-nx" style="font-size:0.85rem; padding:10px 28px;">ANALIZAR</button>
+                </div>
+
+                <div style="margin-top:28px; padding-top:24px; border-top:1px solid var(--border);">
+                    <p style="color:#f1f5f9; font-weight:700; margin-bottom:14px;">NEXUS necesita conocerte un poco.</p>
+                    <p style="color:var(--muted); font-size:0.85rem; margin-bottom:10px;">¿Para qué lo necesitas?</p>
+                    <div>
+                        <span class="chip">Universidad</span>
+                        <span class="chip">Trabajo</span>
+                        <span class="chip">Gaming</span>
+                        <span class="chip">Diseño</span>
+                        <span class="chip active">Programación</span>
+                    </div>
+                    <p style="color:var(--muted); font-size:0.85rem; margin: 16px 0 10px;">¿Ya tienes uno?</p>
+                    <div>
+                        <span class="chip active">Sí</span>
+                        <span class="chip">No</span>
+                    </div>
+                    <p style="color:var(--muted); font-size:0.85rem; margin: 16px 0 10px;">¿Qué problema tiene tu equipo actual?</p>
+                    <div>
+                        <span class="chip active">Es lento</span>
+                        <span class="chip">Está dañado</span>
+                        <span class="chip">No cumple mis necesidades</span>
+                        <span class="chip">Quiero actualizarlo</span>
+                    </div>
+                </div>
+
+                <div class="result-box mt-4">
+                    <p class="result-title">🟡 ANÁLISIS DE NEXUS</p>
+                    <p>Tu compra podría no ser necesaria todavía. Tu equipo actual puede cumplir parcialmente con el objetivo que mencionaste.</p>
+                    <p style="margin-top:12px; color:#f1f5f9; font-weight:600; font-size:0.88rem;">NEXUS encontró 3 alternativas:</p>
+                    <div class="alt-item">
+                        <div>
+                            <span style="color:var(--accent2); font-weight:700; font-size:0.78rem;">01</span>
+                            <span class="alt-name" style="margin-left:10px;">Mantener tu equipo</span>
+                        </div>
+                        <span class="alt-cost">$0</span>
+                    </div>
+                    <div class="alt-item">
+                        <div>
+                            <span style="color:var(--accent2); font-weight:700; font-size:0.78rem;">02</span>
+                            <span class="alt-name" style="margin-left:10px;">Actualizar RAM / SSD</span>
+                        </div>
+                        <span class="alt-cost">~$250.000</span>
+                    </div>
+                    <div class="alt-item">
+                        <div>
+                            <span style="color:var(--accent2); font-weight:700; font-size:0.78rem;">03</span>
+                            <span class="alt-name" style="margin-left:10px;">Comprar equipo nuevo</span>
+                        </div>
+                        <span class="alt-cost">Desde $2.000.000</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Si realmente necesita comprar -->
+            <div class="mockup">
+                <p style="color:#4ade80; font-weight:700; margin-bottom:6px;">🔎 Encontramos una necesidad real.</p>
+                <p style="color:var(--muted); font-size:0.9rem; margin-bottom:24px;">Ahora vamos a encontrar una solución adecuada.</p>
+
+                <div style="background:rgba(99,102,241,0.07); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:24px;">
+                    <p style="color:var(--accent2); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px;">Tu perfil</p>
+                    <div class="row g-2" style="font-size:0.88rem;">
+                        <div class="col-6"><span style="color:var(--muted);">Presupuesto</span><br><strong style="color:#f1f5f9;">$2.500.000</strong></div>
+                        <div class="col-6"><span style="color:var(--muted);">Uso</span><br><strong style="color:#f1f5f9;">Programación</strong></div>
+                        <div class="col-6"><span style="color:var(--muted);">Frecuencia</span><br><strong style="color:#f1f5f9;">Diaria</strong></div>
+                        <div class="col-6"><span style="color:var(--muted);">Prioridad</span><br><strong style="color:#f1f5f9;">Rendimiento</strong></div>
+                        <div class="col-6"><span style="color:var(--muted);">Movilidad</span><br><strong style="color:#f1f5f9;">Alta</strong></div>
+                    </div>
+                </div>
+
+                <p style="color:#f1f5f9; font-weight:700; margin-bottom:16px;">Productos encontrados</p>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="product-card">
+                            <span class="badge-best">✦ Mejor opción</span>
+                            <p class="p-name">Producto A</p>
+                            <p class="p-stars">⭐⭐⭐⭐⭐</p>
+                            <p class="p-price">$2.300.000</p>
+                            <p class="p-spec">16 GB RAM<br>512 GB SSD<br>Ryzen 7</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="product-card">
+                            <p class="p-name">Producto B</p>
+                            <p class="p-stars">⭐⭐⭐⭐</p>
+                            <p class="p-price">$2.100.000</p>
+                            <p class="p-spec">16 GB RAM<br>512 GB SSD<br>Core i5</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="product-card">
+                            <p class="p-name">Producto C</p>
+                            <p class="p-stars">⭐⭐⭐⭐⭐</p>
+                            <p class="p-price">$2.450.000</p>
+                            <p class="p-spec">32 GB RAM<br>1 TB SSD<br>Ryzen 7</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="color:var(--muted); font-size:0.85rem; margin-top:16px; line-height:1.7;">NEXUS explica las diferencias según tu caso, no simplemente según las especificaciones técnicas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- LA GRAN CARACTERÍSTICA -->
+    <section>
+        <div class="container">
+            <p class="section-label text-center">Lo que nos diferencia</p>
+            <h2 class="section-title text-center">"¿Existe una mejor solución?"</h2>
+            <div class="divider"></div>
+            <div class="row align-items-center g-5">
+                <div class="col-md-6">
+                    <p style="color:var(--muted); line-height:1.9; font-size:1rem; margin-bottom:20px;">
+                        Esta es una de las partes centrales de NEXUS. Antes de comparar productos, el sistema pregunta si realmente la compra resuelve el problema.
+                    </p>
+                    <p style="color:var(--muted); line-height:1.9; font-size:1rem;">
+                        Eso hace que NEXUS sea más que un comparador de productos. Es un <strong style="color:#f1f5f9;">sistema de inteligencia para decisiones de consumo.</strong>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <div class="flow-box" style="text-align:left; line-height:2;">
+                        <p style="color:var(--muted); font-size:0.88rem;"><strong style="color:#f1f5f9;">Usuario:</strong> Quiero comprar una cámara.</p>
+                        <p style="color:var(--muted); font-size:0.88rem; margin-top:10px;"><strong style="color:var(--accent2);">NEXUS:</strong> ¿Qué quieres hacer con ella?</p>
+                        <p style="color:var(--muted); font-size:0.88rem; margin-top:10px;"><strong style="color:#f1f5f9;">Usuario:</strong> Tomar fotos para Instagram.</p>
+                        <div style="background:rgba(99,102,241,0.08); border:1px solid var(--border); border-radius:12px; padding:16px; margin-top:14px;">
+                            <p style="color:var(--accent2); font-weight:700; font-size:0.82rem; margin-bottom:8px;">💡 NEXUS detecta:</p>
+                            <p style="color:var(--muted); font-size:0.85rem; line-height:1.7;">Un teléfono de gama media/alta puede cumplir el objetivo. ¿Quieres comparar el costo de comprar una cámara contra mejorar tu teléfono actual?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IDENTIDAD -->
+    <section id="identidad" class="bg-alt">
+        <div class="container">
+            <p class="section-label text-center">Marca</p>
+            <h2 class="section-title text-center">Identidad de NEXUS</h2>
+            <div class="divider"></div>
+            <div class="identity-box">
+                <p class="big-logo">NEXUS</p>
+                <p class="slogan">Think before you buy.</p>
+                <p style="color:var(--accent2); font-size:0.9rem; margin-bottom:24px;">Piensa. Compara. Decide.</p>
+                <p class="official-desc">
+                    NEXUS es una plataforma inteligente que conecta las necesidades de las personas con las mejores soluciones de compra, analizando primero si una adquisición es realmente necesaria y, posteriormente, comparando productos, alternativas y soluciones disponibles.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- VOLVER -->
+    <section style="padding: 30px 0 70px;">
+        <div class="container text-center">
+            <a href="../../proyectos.html" class="btn-back-nx">← Volver a Proyectos</a>
+        </div>
+    </section>
+
+    <footer>&copy; 2026 NEXUS — TEAM 6B &mdash; Think before you buy.</footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+<script>
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    let pts = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+    for (let i = 0; i < 70; i++) {
+        pts.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+            r: Math.random()*1.8+0.4, dx:(Math.random()-0.5)*0.35, dy:(Math.random()-0.5)*0.35, a:Math.random()*0.3+0.07 });
+    }
+    function draw() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        pts.forEach(p => {
+            ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fillStyle=`rgba(99,102,241,${p.a})`; ctx.fill();
+            p.x+=p.dx; p.y+=p.dy;
+            if(p.x<0||p.x>canvas.width) p.dx*=-1;
+            if(p.y<0||p.y>canvas.height) p.dy*=-1;
+        });
+        requestAnimationFrame(draw);
+    }
+    draw();
+</script>
+</body>
+</html>
