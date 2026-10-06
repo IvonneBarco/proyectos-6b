@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Perfil estudiante</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .logo {
+            width: 36px;
+            height: 36px;
+            border: 2px solid #212529;
+            border-radius: 50%;
+        }
+
+        .avatar {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #212529;
+        }
+
+        .bio {
+            text-align: justify;
+            hyphens: auto;
+            max-width: 42rem;
+        }
+
+        .red-social {
+            width: 72px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #212529;
+            color: #212529;
+            text-decoration: none;
+            font-size: .85rem;
+        }
+
+        .red-social:hover {
+            background: #212529;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar border-bottom border-2 border-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="https://portfolio-lovat-gamma-23.vercel.app/">
+                <span class="logo"></span>
+            </a>
+            <div class="d-flex gap-4">
+                <a class="nav-link text-dark" href="../index.html">Home</a>
+                <a class="nav-link text-dark" href="../proyectos.html">Proyectos</a>
+                <a class="nav-link text-dark" href="../estudiantes.html">Estudiantes</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <h1 class="h4 text-center mb-4">Perfil estudiante</h1>
+
+        <div class="text-center">
+            <img class="avatar" src="https://images.icon-icons.com/3446/PNG/512/account_profile_user_avatar_icon_219236.png"
+                alt="Foto de Julio Bolaños">
+            <h2 class="h5 mt-4">Julio Bolaños Benavides</h2>
+            <p class="text-muted">Full Stack Junior Developer</p>
+        </div>
+
+        <p class="bio mx-auto">
+            Trabajo como desarrollador backend con experiencia en Python y Django. Me apasiona crear soluciones eficientes y escalables, y siempre estoy buscando aprender nuevas tecnologías y mejorar mis habilidades. Disfruto colaborar en proyectos de equipo y contribuir al desarrollo de aplicaciones web innovadoras.
+        </p>
+
+        <section class="mt-5">
+            <h3 class="h6 mb-3">Redes sociales</h3>
+            <div class="d-flex gap-3">
+                <a class="red-social" href="https://github.com/Julesb0">GitHub</a>
+                <a class="red-social" href="https://www.linkedin.com/in/esteban-bola%C3%B1os-641668387/">LinkedIn</a>
+
+                <a class="red-social" href="mailto:jul.b.benavides@gmail.com">Email</a>
+                <a class="red-social" href="https://portfolio-lovat-gamma-23.vercel.app/">Portafolio</a>
+
+            </div>
+        </section>
+    </main>
+
+</body>
+
+</html>

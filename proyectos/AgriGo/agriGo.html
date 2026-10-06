@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AgriGo - Proyecto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --green-dark:  #1b5e20;
+            --green-mid:   #2e7d32;
+            --green-light: #66bb6a;
+            --green-pale:  #e8f5e9;
+            --accent:      #ffca28;
+        }
+
+        * { scroll-behavior: smooth; }
+
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', sans-serif;
+            color: #1a1a1a;
+        }
+
+        /* ── Top navbar ── */
+        .top-navbar {
+            background: var(--green-dark);
+            padding: 0.6rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1100;
+            box-shadow: 0 2px 8px rgba(0,0,0,.25);
+        }
+        .top-navbar .brand { color: #fff; font-weight: 700; font-size: 1.1rem; text-decoration: none; }
+        .top-navbar .nav-links a {
+            color: rgba(255,255,255,.8);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-size: .9rem;
+            transition: color .2s;
+        }
+        .top-navbar .nav-links a:hover { color: var(--accent); }
+
+        /* ── Layout wrapper ── */
+        .page-wrapper {
+            display: flex;
+            min-height: calc(100vh - 48px);
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            width: 90px;
+            background: var(--green-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 0;
+            gap: 1.2rem;
+            position: sticky;
+            top: 48px;
+            height: calc(100vh - 48px);
+            box-shadow: 2px 0 12px rgba(0,0,0,.15);
+        }
+
+        .bubble {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: var(--green-mid);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: rgba(255,255,255,.85);
+            font-size: .58rem;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.2;
+            letter-spacing: .02em;
+            border: 2px solid transparent;
+            transition: background .25s, transform .25s, border-color .25s, box-shadow .25s;
+            position: relative;
+        }
+        .bubble svg { margin-bottom: 3px; }
+        .bubble:hover,
+        .bubble.active {
+            background: var(--green-light);
+            color: #fff;
+            transform: scale(1.12);
+            border-color: var(--accent);
+            box-shadow: 0 0 14px rgba(102,187,106,.6);
+        }
+        .bubble::after {
+            content: attr(data-label);
+            position: absolute;
+            left: 68px;
+            background: var(--green-dark);
+            color: #fff;
+            font-size: .75rem;
+            white-space: nowrap;
+            padding: .25rem .6rem;
+            border-radius: 6px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s;
+        }
+        .bubble:hover::after { opacity: 1; }
+
+        /* ── Main content ── */
+        .main-content {
+            flex: 1;
+            padding: 2.5rem 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeDown .7s ease both;
+            width: 100%;
+        }
+        .hero img {
+            max-height: 220px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,.15));
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--green-dark);
+            margin-top: .8rem;
+        }
+        .hero p { color: #555; font-size: 1.1rem; }
+
+        /* ── Sections ── */
+        section { margin-bottom: 3.5rem; }
+        section h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            border-left: 4px solid var(--green-light);
+            padding-left: .75rem;
+            margin-bottom: 1.2rem;
+        }
+
+        /* ── Feature cards ── */
+        .feature-card {
+            border: none;
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 2px 12px rgba(0,0,0,.07);
+            transition: transform .25s, box-shadow .25s;
+            animation: fadeUp .6s ease both;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,.12);
+        }
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--green-pale);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: .8rem;
+        }
+        .feature-icon svg { color: var(--green-mid); }
+        .feature-card h5 { color: var(--green-dark); font-weight: 700; }
+
+        /* ── Mockups banner ── */
+        .mockups-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            background: var(--green-pale);
+            border: 1px solid var(--green-light);
+            border-radius: 14px;
+            padding: 1.5rem 2rem;
+        }
+        .btn-mockups {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            background: var(--green-mid);
+            color: #fff;
+            font-weight: 600;
+            padding: .65rem 1.4rem;
+            border-radius: 10px;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background .2s, transform .2s;
+        }
+        .btn-mockups:hover {
+            background: var(--green-dark);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* ── Team placeholder ── */
+        .team-placeholder {
+            border: 2px dashed var(--green-light);
+            border-radius: 14px;
+            padding: 2.5rem;
+            text-align: center;
+            color: #888;
+            background: var(--green-pale);
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: var(--green-dark);
+            color: rgba(255,255,255,.7);
+            text-align: center;
+            padding: 1rem;
+            font-size: .85rem;
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .feature-card:nth-child(1) { animation-delay: .1s; }
+        .feature-card:nth-child(2) { animation-delay: .2s; }
+        .feature-card:nth-child(3) { animation-delay: .3s; }
+        .feature-card:nth-child(4) { animation-delay: .4s; }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { padding: 1.5rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top navbar -->
+    <nav class="top-navbar">
+        <a class="brand" href="#">TEAM 6B</a>
+        <div class="nav-links">
+            <a href="../../estudiantes-v2.html">Estudiantes</a>
+            <a href="../../proyectos.html">Proyectos</a>
+        </div>
+    </nav>
+
+    <div class="page-wrapper">
+
+        <!-- Sidebar con burbujas -->
+        <aside class="sidebar">
+            <a class="bubble active" href="#descripcion" data-label="Descripción">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM4 6a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2H4zm0 3a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2H4zm0 3a1 1 0 0 0 0 2h4a1 1 0 0 0 0-2H4z"/>
+                </svg>
+                Desc.
+            </a>
+            <a class="bubble" href="#caracteristicas" data-label="Características">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                </svg>
+                Caract.
+            </a>
+            <a class="bubble" href="#integrantes" data-label="Integrantes">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                    <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+                    <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                </svg>
+                Equipo
+            </a>
+            <a class="bubble" href="./mockups/visor.html" target="_blank" rel="noopener noreferrer" data-label="Ver Mockups">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4c0 .667.083 1.167.25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75c.167-.333.25-.833.25-1.5H2s-2 0-2-2V4zm1.398-.855a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4v6c0 .255.047.468.144.658.100.194.242.365.414.490.348.254.774.352 1.442.352h10c.668 0 1.094-.098 1.442-.352a1.5 1.5 0 0 0 .414-.49A1.46 1.46 0 0 0 15 10V4c0-.255-.047-.468-.144-.658a.758.758 0 0 0-.254-.302C14.334 2.900 13.908 2.800 13.240 2.800H2.76c-.668 0-1.094.1-1.362.345z"/>
+                </svg>
+                Mockups
+            </a>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+
+            <!-- Hero -->
+            <div class="hero" id="hero">
+                <img src="./logo.jpg" alt="Logo AgriGo">
+                <h1>AgriGo</h1>
+                <p>Plataforma agrícola integral con inteligencia artificial</p>
+            </div>
+
+            <!-- Descripción -->
+            <section id="descripcion">
+                <h2>Descripción</h2>
+                <p class="fs-5" style="line-height: 1.8;">
+                    AgriGo es una plataforma agrícola integral que conecta agricultores, agrotiendas y compradores
+                    en un mismo ecosistema digital. Permite gestionar cultivos, publicar y comprar productos
+                    agrícolas, comparar precios de insumos y obtener recomendaciones personalizadas mediante
+                    inteligencia artificial.
+                </p>
+            </section>
+
+            <!-- Características -->
+            <section id="caracteristicas">
+                <h2>Características</h2>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card feature-card p-3 h-100">
+                            <div class="feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M8 3a5 5 0 0 0-5 5 .5.5 0 0 1-1 0 6 6 0 0 1 12 0 .5.5 0 0 1-1 0A5 5 0 0 0 8 3z"/>
+                                    <path d="M8 5a3 3 0 0 0-3 3 .5.5 0 0 1-1 0 4 4 0 0 1 8 0 .5.5 0 0 1-1 0A3 3 0 0 0 8 5zm0 2a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 0 1 4 0 .5.5 0 0 1-1 0 1 1 0 0 0-1-1z"/>
+                                    <path d="M8 9a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                </svg>
+                            </div>
+                            <h5>Gestión de cultivos</h5>
+                            <p class="text-muted mb-0">Registra, monitorea y administra tus cultivos de manera eficiente desde un solo lugar.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card feature-card p-3 h-100">
+                            <div class="feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+                                </svg>
+                            </div>
+                            <h5>Marketplace agrícola</h5>
+                            <p class="text-muted mb-0">Publica y compra productos agrícolas directamente entre agricultores y compradores.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card feature-card p-3 h-100">
+                            <div class="feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z"/>
+                                </svg>
+                            </div>
+                            <h5>Comparador de precios</h5>
+                            <p class="text-muted mb-0">Compara precios de insumos en diferentes agrotiendas para tomar las mejores decisiones.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card feature-card p-3 h-100">
+                            <div class="feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5ZM3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.58 26.58 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.933.933 0 0 1-.765.935c-.845.147-2.34.346-4.235.346-1.895 0-3.39-.2-4.235-.346A.933.933 0 0 1 3 9.219V8.062Zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a24.767 24.767 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25.286 25.286 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.134Z"/>
+                                    <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1ZM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Z"/>
+                                </svg>
+                            </div>
+                            <h5>Recomendaciones con IA</h5>
+                            <p class="text-muted mb-0">Sugerencias personalizadas según el tipo de cultivo y las condiciones del agricultor.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mockups -->
+            <section id="mockups">
+                <h2>Mockups</h2>
+                <div class="mockups-banner">
+                    <div>
+                        <h5 class="mb-1 fw-bold" style="color: var(--green-dark);">Explora el prototipo de AgriGo</h5>
+                        <p class="mb-0 text-muted">22 pantallas del flujo completo: login, dashboard, cultivos, marketplace, comparador de precios y más.</p>
+                    </div>
+                    <a href="./mockups/visor.html" target="_blank" rel="noopener noreferrer" class="btn-mockups">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" class="me-1">
+                            <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4c0 .667.083 1.167.25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75c.167-.333.25-.833.25-1.5H2s-2 0-2-2V4zm1.398-.855a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4v6c0 .255.047.468.144.658.100.194.242.365.414.490.348.254.774.352 1.442.352h10c.668 0 1.094-.098 1.442-.352a1.5 1.5 0 0 0 .414-.49A1.46 1.46 0 0 0 15 10V4c0-.255-.047-.468-.144-.658a.758.758 0 0 0-.254-.302C14.334 2.900 13.908 2.800 13.240 2.800H2.76c-.668 0-1.094.1-1.362.345z"/>
+                        </svg>
+                        Ver Mockups
+                    </a>
+                </div>
+            </section>
+
+            <hr>
+
+            <!-- Integrantes -->
+            <section id="integrantes">
+                <h2>Integrantes</h2>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-4">
+                        <div class="card h-100 text-center p-3">
+                            <img src="../../estudiantes/HectorRiascos/foto.jpg"
+                                class="rounded-circle mx-auto mb-3"
+                                style="width: 90px; height: 90px; object-fit: cover; border: 3px solid var(--green-light);"
+                                alt="Héctor Alejandro Riascos Insuasty">
+                            <h5 class="card-title mb-1">Héctor Alejandro Riascos Insuasty</h5>
+                            <p class="text-muted mb-3" style="font-size: 0.85rem;">Estudiante de Ingeniería de Software</p>
+                            <a href="../../estudiantes/HectorRiascos/perfil_hector_riascos.html" class="btn btn-sm btn-success mt-auto">Ver Perfil</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer>
+        TEAM 6B &mdash; AgriGo &copy; 2026
+    </footer>
+
+    <script>
+        // Resalta la burbuja activa según la sección visible
+        const bubbles = document.querySelectorAll('.bubble');
+        const sections = document.querySelectorAll('section[id]');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    bubbles.forEach(b => b.classList.remove('active'));
+                    const active = document.querySelector(`.bubble[href="#${entry.target.id}"]`);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { threshold: 0.4 });
+
+        sections.forEach(s => observer.observe(s));
+    </script>
+
+</body>
+
+</html>

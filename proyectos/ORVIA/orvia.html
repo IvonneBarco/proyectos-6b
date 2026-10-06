@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0d0f12">
+    <title>ORVIA | Sistema Operativo Empresarial</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { color-scheme: dark; --ink: #0d0f12; --surface: #15181d; --line: #2a2f37; --text: #eef0f4; --muted: #a1a7b1; --purple: #7c3aed; --violet: #6d28d9; --green: #10b981; font-family: 'DM Sans', sans-serif; }
+        * { box-sizing: border-box; }
+        body { min-width: 320px; margin: 0; color: var(--text); background: var(--ink); }
+        a { color: inherit; text-decoration: none; }
+        .wrap { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
+        .site-header { display: flex; align-items: center; justify-content: space-between; min-height: 74px; border-bottom: 1px solid var(--line); }
+        .brand { display: flex; align-items: center; gap: 11px; font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: .12em; }
+        .brand img { width: 42px; height: 42px; }
+        .brand span { color: #a78bfa; }
+        .back-link { color: #afb5bf; font-size: .85rem; }
+        .back-link:hover { color: #fff; }
+        .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr); gap: 48px; align-items: center; padding: clamp(54px, 9vw, 104px) 0 62px; }
+        .status { display: inline-flex; align-items: center; gap: 8px; padding: 7px 11px; border: 1px solid rgba(16,185,129,.3); border-radius: 999px; color: #6ee7b7; background: rgba(16,185,129,.09); font-size: .77rem; font-weight: 600; }
+        .status i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px #10b98188; }
+        h1 { max-width: 720px; margin: 20px 0 16px; font: 600 clamp(2.2rem, 5vw, 4rem)/1.08 'Space Grotesk', sans-serif; letter-spacing: 0; }
+        h1 span { color: #a78bfa; }
+        .hero-copy { max-width: 660px; color: #a3a9b3; font-size: 1.03rem; line-height: 1.75; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 26px; }
+        .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 46px; padding: 0 16px; border: 1px solid #383d46; border-radius: 9px; color: #e9ebef; background: #181b21; font: 600 .9rem 'DM Sans', sans-serif; cursor: pointer; transition: transform .18s, border-color .18s, box-shadow .18s; }
+        .button:hover { transform: translateY(-2px); border-color: #777f8b; }
+        .button-primary { border-color: var(--purple); color: #fff; background: linear-gradient(110deg, var(--violet), var(--purple)); box-shadow: 0 9px 26px #6d28d944; }
+        .button-primary:hover { border-color: #9b75f7; box-shadow: 0 12px 30px #6d28d966; }
+        .hero-mark { display: grid; min-height: 320px; place-items: center; border: 1px solid #322849; border-radius: 18px; background: radial-gradient(ellipse at center, #49258b33, transparent 67%), #121419; }
+        .hero-mark img { width: min(74%, 250px); filter: drop-shadow(0 10px 40px #7c3aed44); }
+        .hero-mark p { margin: -24px 0 20px; color: #c4b5fd; font: 600 1.05rem 'Space Grotesk', sans-serif; letter-spacing: .22em; }
+        .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding-bottom: 62px; }
+        .kpi { padding: 17px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+        .kpi span { color: #9ba2ad; font-size: .8rem; }
+        .kpi strong { display: block; margin-top: 9px; color: #f4f5f6; font: 600 1.55rem 'Space Grotesk', sans-serif; }
+        .kpi small { display: block; margin-top: 4px; color: #67d8ae; font-size: .72rem; }
+        .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+        .section-heading h2 { margin: 0; font: 600 1.65rem 'Space Grotesk', sans-serif; }
+        .section-heading p { margin: 5px 0 0; color: var(--muted); font-size: .9rem; }
+        .feature-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-bottom: 70px; }
+        .feature { min-height: 130px; padding: 18px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(145deg, #171a20, #131519); }
+        .feature-icon { display: grid; width: 33px; height: 33px; place-items: center; border: 1px solid #423466; border-radius: 8px; color: #b9a3fb; background: #2b2050; font-size: 1rem; }
+        .feature h3 { margin: 14px 0 6px; font-size: .95rem; }
+        .feature p { margin: 0; color: #939aa5; font-size: .82rem; line-height: 1.55; }
+        .bottom-cta { display: flex; align-items: center; justify-content: space-between; gap: 22px; margin-bottom: 42px; padding: 25px; border: 1px solid #3f2c69; border-radius: 12px; background: linear-gradient(100deg, #24183a, #15181d 70%); }
+        .bottom-cta h2 { margin: 0; font: 600 1.25rem 'Space Grotesk', sans-serif; }
+        .bottom-cta p { margin: 6px 0 0; color: #a3a9b3; font-size: .86rem; }
+        footer { padding: 18px 0 28px; border-top: 1px solid var(--line); color: #777f8a; font-size: .78rem; }
+        @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 26px; } .hero-mark { min-height: 250px; } .kpis { grid-template-columns: repeat(2, 1fr); } .feature-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) { .wrap { width: min(100% - 26px, 1120px); } .site-header { min-height: 62px; } .back-link { font-size: .75rem; } .kpis, .feature-grid { grid-template-columns: 1fr; } .bottom-cta { align-items: flex-start; flex-direction: column; } .hero-mark { min-height: 220px; } }
+    </style>
+</head>
+<body>
+    <header class="wrap site-header">
+        <a class="brand" href="./orvia.html"><img src="./orvia-mark.svg" alt=""><span>ORVIA</span></a>
+        <a class="back-link" href="../../proyectos.html">← Volver a proyectos</a>
+    </header>
+    <main>
+        <section class="wrap hero">
+            <div>
+                <span class="status"><i></i> En Producción · v2.0</span>
+                <h1>El control integral de <span>Construobras Zafiro</span></h1>
+                <p class="hero-copy">ORVIA es el sistema operativo empresarial ERP / CRM y programa contable que centraliza el control ejecutivo, las finanzas en COP, la flota, las plantas de trituración y el inventario de repuestos de Construobras Zafiro S.A.S.</p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="./dashboard.html">Abrir demostración interactiva <span aria-hidden="true">↗</span></a>
+                    <a class="button" href="#capacidades">Ver capacidades</a>
+                </div>
+            </div>
+            <div class="hero-mark"><img src="./orvia-mark.svg" alt="Logotipo geométrico morado de ORVIA"><p>ORVIA</p></div>
+        </section>
+        <section class="wrap kpis" aria-label="Indicadores destacados de demostración">
+            <article class="kpi"><span>Ventas de hoy</span><strong>$4.800M</strong><small>↑ 4.5% vs. ayer</small></article>
+            <article class="kpi"><span>Ingresos mensuales</span><strong>$138.000M</strong><small>COP · octubre</small></article>
+            <article class="kpi"><span>Producción diaria</span><strong>2,500 ton</strong><small>Plantas activas</small></article>
+            <article class="kpi"><span>Proyectos activos</span><strong>45</strong><small>6 unidades de negocio</small></article>
+        </section>
+        <section class="wrap" id="capacidades">
+            <div class="section-heading"><div><h2>Una sola vista de la operación</h2><p>Capacidades principales del sistema ORVIA.</p></div></div>
+            <div class="feature-grid">
+                <article class="feature"><span class="feature-icon">◫</span><h3>Panel ejecutivo en tiempo real</h3><p>Indicadores consolidados de ventas, ingresos, producción y proyectos.</p></article>
+                <article class="feature"><span class="feature-icon">$</span><h3>Contabilidad centralizada en COP</h3><p>Ingresos, gastos, EBITDA, flujo de caja, cuentas por cobrar y pagar.</p></article>
+                <article class="feature"><span class="feature-icon">▤</span><h3>Planta y despacho</h3><p>Seguimiento de trituración, toneladas producidas y materiales despachados.</p></article>
+                <article class="feature"><span class="feature-icon">▰</span><h3>Flota y taller</h3><p>Estado de vehículos, consumo de combustible y alertas preventivas.</p></article>
+                <article class="feature"><span class="feature-icon">▦</span><h3>Inventario y repuestos</h3><p>Control de existencias, valorización y puntos automáticos de reorden.</p></article>
+                <article class="feature"><span class="feature-icon">◇</span><h3>Seguridad y auditoría</h3><p>Matriz de permisos RBAC, preferencias de acceso y bitácora de actividad.</p></article>
+            </div>
+        </section>
+        <section class="wrap bottom-cta">
+            <div><h2>Explora los módulos de ORVIA</h2><p>Abre el panel y navega por las vistas ejecutiva, financiera y operativa.</p></div>
+            <a class="button button-primary" href="./dashboard.html">Entrar al sistema <span aria-hidden="true">→</span></a>
+        </section>
+    </main>
+    <footer><div class="wrap">© 2026 Construobras Zafiro S.A.S. · ORVIA Sistema Operativo Empresarial · Interfaz demostrativa</div></footer>
+</body>
+</html>

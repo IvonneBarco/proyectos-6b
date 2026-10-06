@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Mis Cultivos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="design-system.css">
+<style>
+.cultivos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+
+/* Full cultivo card */
+.cultivo-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  display: flex; flex-direction: column;
+}
+.cultivo-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+
+/* Color accent top bar */
+.cc-topbar { height: 4px; }
+
+.cc-body { padding: 18px; flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+.cc-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 10px;
+}
+.cc-icon-name { display: flex; align-items: center; gap: 12px; }
+.cc-icon {
+  width: 48px; height: 48px;
+  border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.cc-name {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--gray-900);
+  letter-spacing: var(--tracking-snug);
+  line-height: 1.2;
+}
+.cc-type { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+
+/* Info grid */
+.cc-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.cc-info-box {
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+  padding: 9px 11px;
+}
+.cc-info-lbl {
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  color: var(--gray-400);
+}
+.cc-info-val {
+  font-size: var(--text-sm); font-weight: 600;
+  color: var(--gray-800); margin-top: 3px;
+  display: flex; align-items: center; gap: 5px;
+}
+.cc-info-val i { font-size: 13px; color: var(--gray-400); }
+
+/* Stage progress */
+.stage-track {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.stage-steps {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.stage-step {
+  flex: 1;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: var(--gray-200);
+  transition: var(--transition);
+}
+.stage-step.done    { background: var(--green-400); }
+.stage-step.current { background: var(--green-600); }
+.stage-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--gray-400);
+  font-weight: 500;
+}
+
+/* Notes */
+.cc-notes {
+  font-size: var(--text-xs);
+  color: var(--gray-600);
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+  padding: 9px 12px;
+  line-height: 1.6;
+  border-left: 3px solid var(--green-400);
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.cc-notes i { font-size: 13px; color: var(--green-500); flex-shrink: 0; margin-top: 1px; }
+.cc-notes.warning { border-left-color: var(--amber-500); }
+.cc-notes.warning i { color: var(--amber-500); }
+.cc-notes.ready { border-left-color: var(--status-info); }
+.cc-notes.ready i { color: var(--status-info); }
+
+.cc-footer {
+  padding: 12px 18px;
+  border-top: 1px solid var(--gray-100);
+  display: flex; gap: 8px;
+}
+
+/* Summary mini stats */
+.cultivos-summary {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 12px;
+}
+.cs-box {
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  text-align: center;
+}
+.cs-val {
+  font-family: var(--font-display);
+  font-size: var(--text-xl); font-weight: 800;
+  display: block; letter-spacing: var(--tracking-tight);
+}
+.cs-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; margin-top: 3px; }
+
+/* Filter chips */
+.filter-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.filter-chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 13px;
+  border-radius: var(--radius-full);
+  font-size: 12px; font-weight: 600;
+  background: var(--white);
+  border: 1.5px solid var(--gray-200);
+  color: var(--gray-600);
+  cursor: pointer; transition: var(--transition);
+  white-space: nowrap;
+}
+.filter-chip i { font-size: 13px; }
+.filter-chip.active { background: var(--green-600); border-color: var(--green-600); color: var(--white); }
+.filter-chip:hover:not(.active) { border-color: var(--green-400); color: var(--green-700); }
+</style>
+</head>
+<body>
+<div class="screen-label">04 — Mis Cultivos · AgriGo</div>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="ph ph-plant"></i></div>
+      <div><div class="logo-text">Agri<span>Go</span></div><span class="logo-sub">Plataforma AgTech</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="03-dashboard-agricultor.html"><span class="nav-icon"><i class="ph ph-gauge"></i></span> Dashboard</a>
+      <a href="04-mis-cultivos.html" class="active"><span class="nav-icon"><i class="ph ph-plant"></i></span> Mis cultivos <span class="nav-badge">6</span></a>
+      <a href="07-mis-productos-agricultor.html"><span class="nav-icon"><i class="ph ph-package"></i></span> Mis productos</a>
+      <a href="06-recomendaciones-ia.html"><span class="nav-icon"><i class="ph ph-robot"></i></span> Recomendaciones IA</a>
+      <div class="sidebar-section-label">Comercio</div>
+      <a href="#"><span class="nav-icon"><i class="ph ph-receipt"></i></span> Mis órdenes</a>
+      <a href="09-marketplace.html"><span class="nav-icon"><i class="ph ph-storefront"></i></span> Marketplace</a>
+      <a href="19-asistente-compras.html"><span class="nav-icon"><i class="ph ph-chat-teardrop-dots"></i></span> Asistente de compras</a>
+      <div class="sidebar-section-label">Cuenta</div>
+      <a href="21-perfil-agricultor.html"><span class="nav-icon"><i class="ph ph-user-circle"></i></span> Perfil</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-gear"></i></span> Configuración</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" style="width:34px;height:34px;background:var(--green-600);color:white;font-size:12px;">CR</div>
+        <div class="user-info"><div class="user-name">Carlos Rodríguez</div><div class="user-role">Agricultor</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Mis Cultivos</span>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-search">
+        <i class="ph ph-magnifying-glass"></i>
+        <input type="text" placeholder="Buscar cultivo…">
+      </div>
+      <div class="topbar-actions">
+        <div class="icon-btn"><i class="ph ph-bell"></i><div class="notif-dot"></div></div>
+        <div class="avatar" style="width:34px;height:34px;background:var(--green-600);color:white;font-size:12px;border-radius:50%;">CR</div>
+      </div>
+    </header>
+
+    <div class="page-body">
+
+      <!-- HEADER -->
+      <div class="page-header">
+        <div>
+          <h1>Mis cultivos</h1>
+          <p class="page-subtitle">6 cultivos activos · 12.4 hectáreas totales en producción</p>
+        </div>
+        <div class="page-header-actions">
+          <button class="btn btn-secondary" style="display:flex;align-items:center;gap:6px;">
+            <i class="ph ph-download-simple" style="font-size:15px;"></i> Exportar
+          </button>
+          <a href="05-crear-cultivo.html" class="btn btn-primary" style="display:flex;align-items:center;gap:6px;">
+            <i class="ph ph-plus" style="font-size:15px;"></i> Nuevo cultivo
+          </a>
+        </div>
+      </div>
+
+      <!-- SUMMARY STATS -->
+      <div class="cultivos-summary">
+        <div class="cs-box" style="background:var(--green-50);border:1.5px solid var(--green-200);">
+          <span class="cs-val" style="color:var(--green-700);">6</span>
+          <div class="cs-lbl" style="color:var(--green-600);">Activos</div>
+        </div>
+        <div class="cs-box" style="background:#DBEAFE;border:1.5px solid #BFDBFE;">
+          <span class="cs-val" style="color:#1D4ED8;">2</span>
+          <div class="cs-lbl" style="color:#1D4ED8;">Crecimiento</div>
+        </div>
+        <div class="cs-box" style="background:var(--amber-100);border:1.5px solid #FDE68A;">
+          <span class="cs-val" style="color:var(--amber-700);">1</span>
+          <div class="cs-lbl" style="color:var(--amber-700);">Floreciendo</div>
+        </div>
+        <div class="cs-box" style="background:#CCFBF1;border:1.5px solid #99F6E4;">
+          <span class="cs-val" style="color:#0F766E;">1</span>
+          <div class="cs-lbl" style="color:#0F766E;">Lista cosecha</div>
+        </div>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="filter-row">
+        <div class="filter-chip active"><i class="ph ph-gauge"></i> Todos (6)</div>
+        <div class="filter-chip"><i class="ph ph-acornling"></i> Plántula</div>
+        <div class="filter-chip"><i class="ph ph-leaf"></i> Crecimiento</div>
+        <div class="filter-chip"><i class="ph ph-flower-lotus"></i> Floreciendo</div>
+        <div class="filter-chip"><i class="ph ph-flower-tulip"></i> Fructificando</div>
+        <div class="filter-chip"><i class="ph ph-scissors"></i> Lista cosecha</div>
+        <div style="flex:1;"></div>
+        <select class="form-select" style="width:auto;font-size:12px;padding:6px 12px;">
+          <option>Más recientes</option>
+          <option>Mayor área</option>
+          <option>Por etapa</option>
+        </select>
+      </div>
+
+      <!-- GRID -->
+      <div class="cultivos-grid">
+
+        <!-- TOMATE -->
+        <div class="cultivo-card">
+          <div class="cc-topbar" style="background:linear-gradient(90deg,var(--green-400),var(--green-600));"></div>
+          <div class="cc-body">
+            <div class="cc-header">
+              <div class="cc-icon-name">
+                <div class="cc-icon" style="background:var(--green-100);color:var(--green-700);">
+                  <i class="ph ph-flower-tulip"></i>
+                </div>
+                <div>
+                  <div class="cc-name">Tomate Cherry</div>
+                  <div class="cc-type">Hortaliza · Tipo indeterminado</div>
+                </div>
+              </div>
+              <div class="badge badge-green" style="display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                <i class="ph-fill ph-circle" style="font-size:7px;"></i> Fructificando
+              </div>
+            </div>
+            <div class="cc-info-grid">
+              <div class="cc-info-box"><div class="cc-info-lbl">Área</div><div class="cc-info-val"><i class="ph ph-map-trifold"></i>2.5 ha</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Siembra</div><div class="cc-info-val"><i class="ph ph-calendar"></i>12 Jun 2024</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Parcela</div><div class="cc-info-val"><i class="ph ph-map-pin"></i>Parcela A</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Clima</div><div class="cc-info-val"><i class="ph ph-sun"></i>Seco · 26°C</div></div>
+            </div>
+            <div class="stage-track">
+              <div class="stage-steps">
+                <div class="stage-step done"></div>
+                <div class="stage-step done"></div>
+                <div class="stage-step done"></div>
+                <div class="stage-step current"></div>
+                <div class="stage-step"></div>
+              </div>
+              <div class="stage-labels">
+                <span>Plántula</span><span>Crec.</span><span>Flor</span><span>Fruto</span><span>Cosecha</span>
+              </div>
+            </div>
+            <div class="cc-notes">
+              <i class="ph ph-info"></i>
+              Riego por goteo activo. Monitorear posibles ácaros en hojas inferiores. Abono aplicado el 18 Ago.
+            </div>
+          </div>
+          <div class="cc-footer">
+            <a href="06-recomendaciones-ia.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;">
+              <i class="ph ph-robot" style="font-size:13px;"></i> Ver IA
+            </a>
+            <a href="05-crear-cultivo.html" class="btn btn-secondary btn-sm" style="display:flex;align-items:center;gap:5px;">
+              <i class="ph ph-pencil-simple" style="font-size:13px;"></i> Editar
+            </a>
+          </div>
+        </div>
+
+        <!-- LECHUGA -->
+        <div class="cultivo-card">
+          <div class="cc-topbar" style="background:linear-gradient(90deg,#60A5FA,#3B82F6);"></div>
+          <div class="cc-body">
+            <div class="cc-header">
+              <div class="cc-icon-name">
+                <div class="cc-icon" style="background:#DBEAFE;color:#1D4ED8;"><i class="ph ph-leaf"></i></div>
+                <div>
+                  <div class="cc-name">Lechuga Batavia</div>
+                  <div class="cc-type">Hoja · Hidropónico</div>
+                </div>
+              </div>
+              <div class="badge badge-blue" style="display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                <i class="ph-fill ph-circle" style="font-size:7px;"></i> Crecimiento
+              </div>
+            </div>
+            <div class="cc-info-grid">
+              <div class="cc-info-box"><div class="cc-info-lbl">Área</div><div class="cc-info-val"><i class="ph ph-map-trifold"></i>1.2 ha</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Siembra</div><div class="cc-info-val"><i class="ph ph-calendar"></i>28 Jul 2024</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Parcela</div><div class="cc-info-val"><i class="ph ph-map-pin"></i>Parcela B</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Clima</div><div class="cc-info-val"><i class="ph ph-sun-horizon"></i>Templado</div></div>
+            </div>
+            <div class="stage-track">
+              <div class="stage-steps">
+                <div class="stage-step done"></div>
+                <div class="stage-step current"></div>
+                <div class="stage-step"></div>
+                <div class="stage-step"></div>
+                <div class="stage-step"></div>
+              </div>
+              <div class="stage-labels">
+                <span>Plántula</span><span>Crec.</span><span>Flor</span><span>Fruto</span><span>Cosecha</span>
+              </div>
+            </div>
+            <div class="cc-notes">
+              <i class="ph ph-info"></i>
+              Sistema NFT activo. Solución nutritiva renovada hace 3 días. pH estable en 6.2.
+            </div>
+          </div>
+          <div class="cc-footer">
+            <a href="06-recomendaciones-ia.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;">
+              <i class="ph ph-robot" style="font-size:13px;"></i> Ver IA
+            </a>
+            <a href="05-crear-cultivo.html" class="btn btn-secondary btn-sm" style="display:flex;align-items:center;gap:5px;">
+              <i class="ph ph-pencil-simple" style="font-size:13px;"></i> Editar
+            </a>
+          </div>
+        </div>
+
+        <!-- MAÍZ -->
+        <div class="cultivo-card">
+          <div class="cc-topbar" style="background:linear-gradient(90deg,var(--amber-400),var(--amber-600));"></div>
+          <div class="cc-body">
+            <div class="cc-header">
+              <div class="cc-icon-name">
+                <div class="cc-icon" style="background:var(--amber-100);color:var(--amber-700);"><i class="ph ph-grains"></i></div>
+                <div>
+                  <div class="cc-name">Maíz Amarillo</div>
+                  <div class="cc-type">Cereal · Variedad híbrida</div>
+                </div>
+              </div>
+              <div class="badge badge-amber" style="display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                <i class="ph-fill ph-circle" style="font-size:7px;"></i> Floreciendo
+              </div>
+            </div>
+            <div class="cc-info-grid">
+              <div class="cc-info-box"><div class="cc-info-lbl">Área</div><div class="cc-info-val"><i class="ph ph-map-trifold"></i>4.8 ha</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Siembra</div><div class="cc-info-val"><i class="ph ph-calendar"></i>3 May 2024</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Parcela</div><div class="cc-info-val"><i class="ph ph-map-pin"></i>Parcela C</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Clima</div><div class="cc-info-val"><i class="ph ph-cloud-rain"></i>Húmedo</div></div>
+            </div>
+            <div class="stage-track">
+              <div class="stage-steps">
+                <div class="stage-step done"></div>
+                <div class="stage-step done"></div>
+                <div class="stage-step current" style="background:var(--amber-500);"></div>
+                <div class="stage-step"></div>
+                <div class="stage-step"></div>
+              </div>
+              <div class="stage-labels">
+                <span>Plántula</span><span>Crec.</span><span>Flor</span><span>Fruto</span><span>Cosecha</span>
+              </div>
+            </div>
+            <div class="cc-notes warning">
+              <i class="ph ph-warning-circle"></i>
+              IA detectó posible presencia de gusano cogollero. Revisar plantas perimetrales.
+            </div>
+          </div>
+          <div class="cc-footer">
+            <a href="06-recomendaciones-ia.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;">
+              <i class="ph ph-robot" style="font-size:13px;"></i> Ver IA
+            </a>
+            <a href="05-crear-cultivo.html" class="btn btn-secondary btn-sm" style="display:flex;align-items:center;gap:5px;">
+              <i class="ph ph-pencil-simple" style="font-size:13px;"></i> Editar
+            </a>
+          </div>
+        </div>
+
+        <!-- PAPA -->
+        <div class="cultivo-card">
+          <div class="cc-topbar" style="background:linear-gradient(90deg,#2DD4BF,#0D9488);"></div>
+          <div class="cc-body">
+            <div class="cc-header">
+              <div class="cc-icon-name">
+                <div class="cc-icon" style="background:#CCFBF1;color:#0F766E;"><i class="ph ph-potted-plant"></i></div>
+                <div>
+                  <div class="cc-name">Papa Pastusa</div>
+                  <div class="cc-type">Tubérculo · Variedad criolla</div>
+                </div>
+              </div>
+              <div class="badge badge-teal" style="display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                <i class="ph-fill ph-circle" style="font-size:7px;"></i> Lista cosecha
+              </div>
+            </div>
+            <div class="cc-info-grid">
+              <div class="cc-info-box"><div class="cc-info-lbl">Área</div><div class="cc-info-val"><i class="ph ph-map-trifold"></i>1.8 ha</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Siembra</div><div class="cc-info-val"><i class="ph ph-calendar"></i>15 Feb 2024</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Parcela</div><div class="cc-info-val"><i class="ph ph-map-pin"></i>Parcela D</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Clima</div><div class="cc-info-val"><i class="ph ph-cloud"></i>Fresco</div></div>
+            </div>
+            <div class="stage-track">
+              <div class="stage-steps">
+                <div class="stage-step done"></div>
+                <div class="stage-step done"></div>
+                <div class="stage-step done"></div>
+                <div class="stage-step done"></div>
+                <div class="stage-step current" style="background:#0D9488;"></div>
+              </div>
+              <div class="stage-labels">
+                <span>Plántula</span><span>Crec.</span><span>Flor</span><span>Fruto</span><span>Cosecha</span>
+              </div>
+            </div>
+            <div class="cc-notes ready">
+              <i class="ph ph-check-circle"></i>
+              Lista para cosecha. Programar recolección esta semana. Estimado: 14 ton.
+            </div>
+          </div>
+          <div class="cc-footer">
+            <button class="btn btn-primary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;background:var(--green-700);">
+              <i class="ph ph-scissors" style="font-size:13px;"></i> Programar cosecha
+            </button>
+            <a href="05-crear-cultivo.html" class="btn btn-secondary btn-sm" style="display:flex;align-items:center;gap:5px;">
+              <i class="ph ph-pencil-simple" style="font-size:13px;"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- CAFÉ -->
+        <div class="cultivo-card">
+          <div class="cc-topbar" style="background:linear-gradient(90deg,#A78BFA,#7C3AED);"></div>
+          <div class="cc-body">
+            <div class="cc-header">
+              <div class="cc-icon-name">
+                <div class="cc-icon" style="background:#EDE9FE;color:#6D28D9;"><i class="ph ph-coffee"></i></div>
+                <div>
+                  <div class="cc-name">Café Arábica</div>
+                  <div class="cc-type">Arbusto · Altura media</div>
+                </div>
+              </div>
+              <div class="badge badge-blue" style="display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                <i class="ph-fill ph-circle" style="font-size:7px;"></i> Crecimiento
+              </div>
+            </div>
+            <div class="cc-info-grid">
+              <div class="cc-info-box"><div class="cc-info-lbl">Área</div><div class="cc-info-val"><i class="ph ph-map-trifold"></i>1.5 ha</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Siembra</div><div class="cc-info-val"><i class="ph ph-calendar"></i>8 Ene 2024</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Parcela</div><div class="cc-info-val"><i class="ph ph-map-pin"></i>Parcela E</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Clima</div><div class="cc-info-val"><i class="ph ph-cloud-fog"></i>Neblinoso</div></div>
+            </div>
+            <div class="stage-track">
+              <div class="stage-steps">
+                <div class="stage-step done"></div>
+                <div class="stage-step current" style="background:#7C3AED;"></div>
+                <div class="stage-step"></div>
+                <div class="stage-step"></div>
+                <div class="stage-step"></div>
+              </div>
+              <div class="stage-labels">
+                <span>Plántula</span><span>Crec.</span><span>Flor</span><span>Fruto</span><span>Cosecha</span>
+              </div>
+            </div>
+            <div class="cc-notes">
+              <i class="ph ph-info"></i>
+              Poda realizada en julio. Fertilización con sulfato de potasio en progreso.
+            </div>
+          </div>
+          <div class="cc-footer">
+            <a href="06-recomendaciones-ia.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;">
+              <i class="ph ph-robot" style="font-size:13px;"></i> Ver IA
+            </a>
+            <a href="05-crear-cultivo.html" class="btn btn-secondary btn-sm" style="display:flex;align-items:center;gap:5px;">
+              <i class="ph ph-pencil-simple" style="font-size:13px;"></i> Editar
+            </a>
+          </div>
+        </div>
+
+        <!-- FRÍJOL -->
+        <div class="cultivo-card">
+          <div class="cc-topbar" style="background:linear-gradient(90deg,var(--green-300),var(--green-500));"></div>
+          <div class="cc-body">
+            <div class="cc-header">
+              <div class="cc-icon-name">
+                <div class="cc-icon" style="background:var(--green-100);color:var(--green-700);"><i class="ph ph-grains"></i></div>
+                <div>
+                  <div class="cc-name">Fríjol Radical</div>
+                  <div class="cc-type">Leguminosa · Variedad ICA</div>
+                </div>
+              </div>
+              <div class="badge badge-green" style="display:flex;align-items:center;gap:4px;white-space:nowrap;">
+                <i class="ph-fill ph-circle" style="font-size:7px;"></i> Fructificando
+              </div>
+            </div>
+            <div class="cc-info-grid">
+              <div class="cc-info-box"><div class="cc-info-lbl">Área</div><div class="cc-info-val"><i class="ph ph-map-trifold"></i>0.6 ha</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Siembra</div><div class="cc-info-val"><i class="ph ph-calendar"></i>20 Jun 2024</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Parcela</div><div class="cc-info-val"><i class="ph ph-map-pin"></i>Parcela F</div></div>
+              <div class="cc-info-box"><div class="cc-info-lbl">Clima</div><div class="cc-info-val"><i class="ph ph-sun"></i>Seco</div></div>
+            </div>
+            <div class="stage-track">
+              <div class="stage-steps">
+                <div class="stage-step done"></div>
+                <div class="stage-step done"></div>
+                <div class="stage-step done"></div>
+                <div class="stage-step current"></div>
+                <div class="stage-step"></div>
+              </div>
+              <div class="stage-labels">
+                <span>Plántula</span><span>Crec.</span><span>Flor</span><span>Fruto</span><span>Cosecha</span>
+              </div>
+            </div>
+            <div class="cc-notes">
+              <i class="ph ph-info"></i>
+              Buen desarrollo de vainas. Preparar plan de cosecha para sep. 15.
+            </div>
+          </div>
+          <div class="cc-footer">
+            <a href="06-recomendaciones-ia.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;display:flex;align-items:center;gap:5px;">
+              <i class="ph ph-robot" style="font-size:13px;"></i> Ver IA
+            </a>
+            <a href="05-crear-cultivo.html" class="btn btn-secondary btn-sm" style="display:flex;align-items:center;gap:5px;">
+              <i class="ph ph-pencil-simple" style="font-size:13px;"></i> Editar
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pagination -->
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:var(--text-sm);color:var(--gray-500);">Mostrando 6 de 6 cultivos</span>
+        <div class="pagination">
+          <div class="page-btn"><i class="ph ph-caret-left" style="font-size:13px;"></i></div>
+          <div class="page-btn active">1</div>
+          <div class="page-btn"><i class="ph ph-caret-right" style="font-size:13px;"></i></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Gestión de Insumos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="design-system.css">
+<style>
+.sidebar { background: #1C1200; }
+  .sidebar-logo .logo-text span { color: var(--amber-400); }
+  .sidebar-nav a.active { background: rgba(245,158,11,.15); }
+  .sidebar-nav a.active::before { background: var(--amber-400); }
+  .sidebar-nav .nav-badge { background: var(--amber-600); }
+
+  /* Type badge colors */
+  .type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 600;
+  }
+  .type-fertilizante { background: #FEF3C7; color: #92400E; }
+  .type-pesticida    { background: #FEE2E2; color: #B91C1C; }
+  .type-semilla      { background: var(--green-100); color: var(--green-700); }
+  .type-herbicida    { background: #EDE9FE; color: #6D28D9; }
+  .type-fungicida    { background: #CCFBF1; color: #0F766E; }
+  .type-herramienta  { background: var(--gray-100); color: var(--gray-600); }
+
+  /* Cards view */
+  .insumos-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--space-4); }
+  .insumo-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+  }
+  .insumo-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .insumo-card-top { height: 8px; }
+  .insumo-card-body { padding: var(--space-4); flex:1; }
+  .insumo-card-footer {
+    padding: var(--space-3) var(--space-4);
+    border-top: 1px solid var(--gray-100);
+    display: flex; gap: var(--space-2);
+  }
+  .insumo-icon {
+    width: 48px; height: 48px;
+    border-radius: var(--radius-lg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin-bottom: var(--space-3);
+  }
+  .insumo-name {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .insumo-desc { font-size: var(--text-xs); color: var(--gray-500); line-height: 1.5; margin-bottom: var(--space-3); }
+  .insumo-price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2); }
+  .insumo-price { font-family: var(--font-display); font-size: var(--text-base); font-weight: 800; color: var(--green-700); }
+  .insumo-unit  { font-size: 10px; color: var(--gray-500); }
+  .insumo-stock-bar { margin-top: var(--space-2); }
+  .insumo-stock-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--gray-500); margin-bottom: 4px; }
+
+  /* Toolbar */
+  .insumos-toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .filter-chip {
+    padding: 7px 14px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    background: var(--white);
+    border: 1.5px solid var(--gray-200);
+    color: var(--gray-600);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+  }
+  .filter-chip.active {
+    background: var(--amber-500);
+    border-color: var(--amber-500);
+    color: var(--white);
+  }
+  .filter-chip:hover:not(.active) { border-color: var(--amber-400); color: var(--amber-600); }
+
+  /* Summary stats */
+  .insumos-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--space-4); }
+  .ist-box {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    box-shadow: var(--shadow-xs);
+  }
+  .ist-icon { width: 40px; height: 40px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="screen-label">16 — Gestión de Insumos · AgriGo</div>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon" style="background:var(--amber-500);"><i class="ph ph-storefront"></i></div>
+      <div><div class="logo-text">Agri<span>Go</span></div><span class="logo-sub">Agrotienda</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="15-dashboard-agrotienda.html"><span class="nav-icon"><i class="ph ph-chart-bar"></i></span> Dashboard</a>
+      <a href="16-gestion-insumos.html" class="active"><span class="nav-icon"><i class="ph ph-flask"></i></span> Insumos <span class="nav-badge">48</span></a>
+      <a href="16-gestion-insumos.html"><span class="nav-icon"><i class="ph ph-package"></i></span> Inventario</a>
+      <a href="18-comparador-precios.html"><span class="nav-icon"><i class="ph ph-arrow-fat-line-up"></i></span> Comparador</a>
+      <div class="sidebar-section-label">Comercio</div>
+      <a href="#"><span class="nav-icon"><i class="ph ph-receipt"></i></span> Pedidos <span class="nav-badge" style="background:var(--status-error);">7</span></a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-currency-dollar"></i></span> Ventas</a>
+      <div class="sidebar-section-label">Cuenta</div>
+      <a href="22-perfil-agrotienda.html"><span class="nav-icon"><i class="ph ph-storefront"></i></span> Perfil tienda</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-gear"></i></span> Configuración</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" style="width:36px;height:36px;background:var(--amber-600);color:white;font-weight:700;font-size:14px;">AI</div>
+        <div class="user-info"><div class="user-name">AgroInsumos Bogotá</div><div class="user-role" style="color:#FDE68A;"><i class="ph ph-storefront"></i> Agrotienda</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Gestión de Insumos</span>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-search" style="width:300px;">
+        <span style="color:var(--gray-400);"><i class="ph ph-magnifying-glass"></i></span>
+        <input type="text" placeholder="Buscar por nombre o tipo…">
+      </div>
+      <div class="topbar-actions">
+        <div class="icon-btn"><i class="ph ph-bell"></i><div class="notif-dot"></div></div>
+        <div class="avatar avatar-sm" style="background:var(--amber-600);color:white;font-weight:700;width:38px;height:38px;font-size:13px;">AI</div>
+      </div>
+    </header>
+
+    <div class="page-body">
+      <div class="page-header">
+        <div>
+          <h1>Gestión de insumos</h1>
+          <p class="page-subtitle">48 insumos registrados · 5 con stock bajo · 2 sin stock</p>
+        </div>
+        <div class="page-header-actions">
+          <button class="btn btn-secondary">📥 Exportar</button>
+          <a href="17-crear-insumo.html" class="btn" style="background:var(--amber-500);color:white;box-shadow:0 4px 12px rgba(245,158,11,.3);">➕ Nuevo insumo</a>
+        </div>
+      </div>
+
+      <!-- SUMMARY STATS -->
+      <div class="insumos-stats">
+        <div class="ist-box">
+          <div class="ist-icon" style="background:var(--amber-100);"><i class="ph ph-flask"></i></div>
+          <div><div style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;color:var(--gray-900);">48</div><div style="font-size:var(--text-xs);color:var(--gray-500);">Total insumos</div></div>
+        </div>
+        <div class="ist-box">
+          <div class="ist-icon" style="background:var(--green-100);">✅</div>
+          <div><div style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;color:var(--gray-900);">41</div><div style="font-size:var(--text-xs);color:var(--gray-500);">En stock</div></div>
+        </div>
+        <div class="ist-box">
+          <div class="ist-icon" style="background:var(--amber-100);"><i class="ph ph-warning"></i></div>
+          <div><div style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;color:var(--amber-600);">5</div><div style="font-size:var(--text-xs);color:var(--gray-500);">Stock bajo</div></div>
+        </div>
+        <div class="ist-box">
+          <div class="ist-icon" style="background:#FEE2E2;">🚫</div>
+          <div><div style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;color:var(--status-error);">2</div><div style="font-size:var(--text-xs);color:var(--gray-500);">Sin stock</div></div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="insumos-toolbar">
+        <div class="filter-chip active">Todos (48)</div>
+        <div class="filter-chip"><i class="ph ph-test-tube"></i> Fertilizantes (18)</div>
+        <div class="filter-chip"><i class="ph ph-bug-beetle"></i> Pesticidas (10)</div>
+        <div class="filter-chip"><i class="ph ph-plant"></i> Semillas (8)</div>
+        <div class="filter-chip"><i class="ph ph-shovel"></i> Herbicidas (6)</div>
+        <div class="filter-chip"><i class="ph ph-shield-check"></i> Fungicidas (4)</div>
+        <div class="filter-chip"><i class="ph ph-toolbox"></i> Herramientas (2)</div>
+        <div style="flex:1;"></div>
+        <div class="filter-chip" style="color:var(--amber-600);border-color:#FDE68A;background:var(--amber-50);"><i class="ph ph-warning"></i> Stock bajo (5)</div>
+        <div class="filter-chip" style="color:var(--status-error);border-color:#FECACA;background:#FEF2F2;">🚫 Sin stock (2)</div>
+        <select class="form-select" style="width:auto;font-size:var(--text-xs);padding:7px 14px;">
+          <option>Más recientes</option><option>Precio: mayor</option><option>Stock: menor</option>
+        </select>
+        <div class="tabs"><div class="tab active">Cards</div><div class="tab">Tabla</div></div>
+      </div>
+
+      <!-- INSUMOS GRID -->
+      <div class="insumos-grid">
+
+        <!-- 1. Fertisol -->
+        <div class="insumo-card">
+          <div class="insumo-card-top" style="background:linear-gradient(90deg,var(--amber-400),var(--amber-500));"></div>
+          <div class="insumo-card-body">
+            <div class="insumo-icon" style="background:var(--amber-100);"><i class="ph ph-test-tube"></i></div>
+            <div style="margin-bottom:var(--space-2);"><span class="type-badge type-fertilizante">Fertilizante</span></div>
+            <div class="insumo-name">Fertisol K+ Potasio Alto</div>
+            <div class="insumo-desc">Fertilizante soluble con alto contenido de potasio y calcio. Ideal para frutales en etapa de fructificación.</div>
+            <div class="insumo-price-row">
+              <div><span class="insumo-price">$48.000</span> <span class="insumo-unit">/ kg</span></div>
+            </div>
+            <div class="insumo-stock-bar">
+              <div class="insumo-stock-label"><span>Stock</span><span style="color:var(--amber-600);font-weight:700;">5 kg</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:10%;background:var(--amber-400);"></div></div>
+            </div>
+          </div>
+          <div class="insumo-card-footer">
+            <a href="17-crear-insumo.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-pencil-simple"></i> Editar</a>
+            <button class="btn btn-primary btn-sm">🔄 Stock</button>
+          </div>
+        </div>
+
+        <!-- 2. Semilla Tomate -->
+        <div class="insumo-card">
+          <div class="insumo-card-top" style="background:linear-gradient(90deg,var(--green-400),var(--green-500));"></div>
+          <div class="insumo-card-body">
+            <div class="insumo-icon" style="background:var(--green-100);"><i class="ph ph-plant"></i></div>
+            <div style="margin-bottom:var(--space-2);"><span class="type-badge type-semilla">Semilla</span></div>
+            <div class="insumo-name">Semilla Tomate Milano F1</div>
+            <div class="insumo-desc">Semilla híbrida F1 de alto rendimiento. Resistente a enfermedades foliares. Sobre de 10g aprox. 500 semillas.</div>
+            <div class="insumo-price-row">
+              <div><span class="insumo-price">$45.000</span> <span class="insumo-unit">/ sobre</span></div>
+            </div>
+            <div class="insumo-stock-bar">
+              <div class="insumo-stock-label"><span>Stock</span><span style="color:var(--amber-600);font-weight:700;">3 unid</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:6%;background:var(--amber-400);"></div></div>
+            </div>
+          </div>
+          <div class="insumo-card-footer">
+            <a href="17-crear-insumo.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-pencil-simple"></i> Editar</a>
+            <button class="btn btn-primary btn-sm">🔄 Stock</button>
+          </div>
+        </div>
+
+        <!-- 3. CalciMax -->
+        <div class="insumo-card">
+          <div class="insumo-card-top" style="background:linear-gradient(90deg,#60A5FA,#3B82F6);"></div>
+          <div class="insumo-card-body">
+            <div class="insumo-icon" style="background:#EFF6FF;"><i class="ph ph-shield-check"></i></div>
+            <div style="margin-bottom:var(--space-2);"><span class="type-badge type-fertilizante">Fertilizante</span></div>
+            <div class="insumo-name">CalciMax Pro Tomate</div>
+            <div class="insumo-desc">Corrector de calcio y boro. Previene pudrición apical en tomate y pimentón. Aplicación foliar.</div>
+            <div class="insumo-price-row">
+              <div><span class="insumo-price">$42.500</span> <span class="insumo-unit">/ 500g</span></div>
+            </div>
+            <div class="insumo-stock-bar">
+              <div class="insumo-stock-label"><span>Stock</span><span style="color:var(--green-600);font-weight:700;">40 unid</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:80%;"></div></div>
+            </div>
+          </div>
+          <div class="insumo-card-footer">
+            <a href="17-crear-insumo.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-pencil-simple"></i> Editar</a>
+            <button class="btn btn-primary btn-sm">🔄 Stock</button>
+          </div>
+        </div>
+
+        <!-- 4. Herbicida -->
+        <div class="insumo-card">
+          <div class="insumo-card-top" style="background:linear-gradient(90deg,#A78BFA,#7C3AED);"></div>
+          <div class="insumo-card-body">
+            <div class="insumo-icon" style="background:#EDE9FE;"><i class="ph ph-shovel"></i></div>
+            <div style="margin-bottom:var(--space-2);"><span class="type-badge type-herbicida">Herbicida</span></div>
+            <div class="insumo-name">Herbicida Total Glifosato</div>
+            <div class="insumo-desc">Control total de malezas anuales y perennes. Producto no selectivo. Frasco 1 L concentrado.</div>
+            <div class="insumo-price-row">
+              <div><span class="insumo-price">$38.000</span> <span class="insumo-unit">/ 1L</span></div>
+            </div>
+            <div class="insumo-stock-bar">
+              <div class="insumo-stock-label"><span>Stock</span><span style="color:var(--status-error);font-weight:700;">0 unid</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:0%;background:var(--status-error);"></div></div>
+            </div>
+          </div>
+          <div class="insumo-card-footer">
+            <a href="17-crear-insumo.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-pencil-simple"></i> Editar</a>
+            <button class="btn btn-primary btn-sm">🔄 Reponer</button>
+          </div>
+        </div>
+
+        <!-- 5. Fungicida -->
+        <div class="insumo-card">
+          <div class="insumo-card-top" style="background:linear-gradient(90deg,#2DD4BF,#0D9488);"></div>
+          <div class="insumo-card-body">
+            <div class="insumo-icon" style="background:#CCFBF1;"><i class="ph ph-shield-check"></i></div>
+            <div style="margin-bottom:var(--space-2);"><span class="type-badge type-fungicida">Fungicida</span></div>
+            <div class="insumo-name">Mancozeb 80% WP</div>
+            <div class="insumo-desc">Fungicida de contacto de amplio espectro. Controla mildiu y antracnosis en múltiples cultivos.</div>
+            <div class="insumo-price-row">
+              <div><span class="insumo-price">$28.000</span> <span class="insumo-unit">/ 500g</span></div>
+            </div>
+            <div class="insumo-stock-bar">
+              <div class="insumo-stock-label"><span>Stock</span><span style="color:var(--status-error);font-weight:700;">0 unid</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:0%;background:var(--status-error);"></div></div>
+            </div>
+          </div>
+          <div class="insumo-card-footer">
+            <a href="17-crear-insumo.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-pencil-simple"></i> Editar</a>
+            <button class="btn btn-primary btn-sm">🔄 Reponer</button>
+          </div>
+        </div>
+
+        <!-- 6. Insecticida -->
+        <div class="insumo-card">
+          <div class="insumo-card-top" style="background:linear-gradient(90deg,#F87171,#DC2626);"></div>
+          <div class="insumo-card-body">
+            <div class="insumo-icon" style="background:#FEE2E2;"><i class="ph ph-bug-beetle"></i></div>
+            <div style="margin-bottom:var(--space-2);"><span class="type-badge type-pesticida">Pesticida</span></div>
+            <div class="insumo-name">Cipermetrina 25% EC</div>
+            <div class="insumo-desc">Insecticida piretroide de contacto e ingestión. Control de plagas masticadoras y chupadores.</div>
+            <div class="insumo-price-row">
+              <div><span class="insumo-price">$22.000</span> <span class="insumo-unit">/ 250mL</span></div>
+            </div>
+            <div class="insumo-stock-bar">
+              <div class="insumo-stock-label"><span>Stock</span><span style="color:var(--amber-600);font-weight:700;">7 unid</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:14%;background:var(--amber-400);"></div></div>
+            </div>
+          </div>
+          <div class="insumo-card-footer">
+            <a href="17-crear-insumo.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-pencil-simple"></i> Editar</a>
+            <button class="btn btn-primary btn-sm">🔄 Stock</button>
+          </div>
+        </div>
+
+        <!-- 7. Abono orgánico -->
+        <div class="insumo-card">
+          <div class="insumo-card-top" style="background:linear-gradient(90deg,var(--green-300),var(--green-500));"></div>
+          <div class="insumo-card-body">
+            <div class="insumo-icon" style="background:var(--green-50);"><i class="ph ph-grains"></i></div>
+            <div style="margin-bottom:var(--space-2);"><span class="type-badge type-fertilizante">Fertilizante</span></div>
+            <div class="insumo-name">Abono Orgánico Premium</div>
+            <div class="insumo-desc">Compost enriquecido con microorganismos benéficos. Mejora estructura y fertilidad del suelo.</div>
+            <div class="insumo-price-row">
+              <div><span class="insumo-price">$35.000</span> <span class="insumo-unit">/ 2 kg</span></div>
+            </div>
+            <div class="insumo-stock-bar">
+              <div class="insumo-stock-label"><span>Stock</span><span style="color:var(--green-600);font-weight:700;">28 unid</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:56%;"></div></div>
+            </div>
+          </div>
+          <div class="insumo-card-footer">
+            <a href="17-crear-insumo.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-pencil-simple"></i> Editar</a>
+            <button class="btn btn-primary btn-sm">🔄 Stock</button>
+          </div>
+        </div>
+
+        <!-- 8. Herramienta -->
+        <div class="insumo-card">
+          <div class="insumo-card-top" style="background:linear-gradient(90deg,var(--gray-400),var(--gray-600));"></div>
+          <div class="insumo-card-body">
+            <div class="insumo-icon" style="background:var(--gray-100);"><i class="ph ph-toolbox"></i></div>
+            <div style="margin-bottom:var(--space-2);"><span class="type-badge type-herramienta">Herramienta</span></div>
+            <div class="insumo-name">Fumigadora Manual 20L</div>
+            <div class="insumo-desc">Bomba fumigadora manual de palanca. Capacidad 20 litros. Lanza de 1.5m incluida.</div>
+            <div class="insumo-price-row">
+              <div><span class="insumo-price">$185.000</span> <span class="insumo-unit">/ unidad</span></div>
+            </div>
+            <div class="insumo-stock-bar">
+              <div class="insumo-stock-label"><span>Stock</span><span style="color:var(--green-600);font-weight:700;">12 unid</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:60%;"></div></div>
+            </div>
+          </div>
+          <div class="insumo-card-footer">
+            <a href="17-crear-insumo.html" class="btn btn-secondary btn-sm" style="flex:1;justify-content:center;"><i class="ph ph-pencil-simple"></i> Editar</a>
+            <button class="btn btn-primary btn-sm">🔄 Stock</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pagination -->
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:var(--text-sm);color:var(--gray-500);">Mostrando 8 de 48 insumos</span>
+        <div class="pagination">
+          <div class="page-btn">‹</div>
+          <div class="page-btn active">1</div>
+          <div class="page-btn">2</div>
+          <div class="page-btn">3</div>
+          <div class="page-btn">…</div>
+          <div class="page-btn">6</div>
+          <div class="page-btn">›</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
