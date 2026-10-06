@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helen Alejandra Moncayo | Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --primary-orange: #ff5722;
+            --accent-coral: #ff6b4a;
+            --light-beige: #f5f1ed;
+            --dark-text: #2d2d2d;
+            --gray-text: #6b6b6b;
+            --border-orange: #ff5722;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: var(--light-beige);
+            color: var(--dark-text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Subtle decorative elements */
+        .decorative-line {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: var(--primary-orange);
+            left: 50px;
+            top: 20%;
+            opacity: 0.3;
+        }
+
+        .decorative-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-orange);
+            border-radius: 50%;
+            right: 80px;
+            bottom: 30%;
+            opacity: 0.5;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .profile-card {
+            background: white;
+            border: 3px solid var(--border-orange);
+            border-radius: 0;
+            padding: 3.5rem;
+            box-shadow: 8px 8px 0px rgba(255, 87, 34, 0.15);
+            animation: fadeInUp 1s ease;
+            position: relative;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Orange corner accent */
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            width: 60px;
+            height: 60px;
+            border-top: 3px solid var(--primary-orange);
+            border-left: 3px solid var(--primary-orange);
+        }
+
+        .profile-image {
+            width: 220px;
+            height: 220px;
+            border-radius: 0;
+            object-fit: cover;
+            border: 3px solid var(--primary-orange);
+            margin: 0 auto 2rem;
+            display: block;
+            filter: grayscale(20%);
+            transition: all 0.3s ease;
+        }
+
+        .profile-image:hover {
+            filter: grayscale(0%);
+            box-shadow: 8px 8px 0px rgba(255, 87, 34, 0.3);
+        }
+
+        .greeting {
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--dark-text);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .name-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-orange);
+            text-align: center;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--gray-text);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .location-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.5rem;
+            background: white;
+            border: 2px solid var(--primary-orange);
+            border-radius: 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0 auto 2rem;
+            color: var(--dark-text);
+        }
+
+        .location-badge i {
+            color: var(--primary-orange);
+        }
+
+        .divider {
+            width: 80px;
+            height: 3px;
+            background: var(--primary-orange);
+            margin: 2rem auto;
+        }
+
+        .description {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--dark-text);
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .description strong {
+            color: var(--primary-orange);
+            font-weight: 600;
+        }
+
+        .description-secondary {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--gray-text);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-style: italic;
+        }
+
+        .skills-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .skills-section h3 {
+            font-size: 1.3rem;
+            color: var(--dark-text);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            padding: 0.6rem 1.3rem;
+            margin: 0.4rem;
+            background: white;
+            border: 2px solid var(--primary-orange);
+            border-radius: 0;
+            font-size: 0.9rem;
+            color: var(--dark-text);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .skill-tag:hover {
+            background: var(--primary-orange);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 4px 4px 0px rgba(255, 87, 34, 0.3);
+        }
+
+        .skill-tag i {
+            color: var(--primary-orange);
+            margin-right: 0.3rem;
+            transition: color 0.3s ease;
+        }
+
+        .skill-tag:hover i {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .social-icon {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0;
+            background: white;
+            border: 2px solid var(--primary-orange);
+            color: var(--primary-orange);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background: var(--primary-orange);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 4px 4px 0px rgba(255, 87, 34, 0.3);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border: 2px solid var(--primary-orange);
+            border-radius: 0;
+            color: var(--dark-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 100;
+            font-weight: 600;
+        }
+
+        .back-button:hover {
+            background: var(--primary-orange);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        @media (max-width: 768px) {
+            .name-title { font-size: 2.2rem; }
+            .greeting { font-size: 1.5rem; }
+            .profile-card { padding: 2rem 1.5rem; }
+            .profile-image { width: 180px; height: 180px; }
+            .back-button { top: 1rem; left: 1rem; padding: 0.6rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <a href="../../estudiantes-v2.html" class="back-button">
+        <i class="bi bi-arrow-left"></i> Volver
+    </a>
+
+    <div class="hero-section">
+        <div class="decorative-line"></div>
+        <div class="decorative-dot"></div>
+
+        <div class="content-wrapper">
+            <div class="profile-card">
+                <img src="foto.png" alt="Helen Alejandra Moncayo" class="profile-image">
+                
+                <h2 class="greeting">Hola,</h2>
+                <h1 class="name-title">Soy Helen</h1>
+                <p class="subtitle">
+                    Ingeniera de Software | Desarrolladora Creativa | Entusiasta de IA
+                </p>
+
+                <div class="location-badge">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    Pasto, Colombia · Estudiante de Ing. @ UCC
+                </div>
+
+                <div class="divider"></div>
+
+                <p class="description">
+                    Diseño y construyo <strong>experiencias digitales</strong> que fusionan 
+                    <strong>diseño</strong>, <strong>tecnología</strong> y <strong>sistemas inteligentes</strong>. 
+                    Soy una ingeniera de software apasionada por el <strong>diseño web</strong> y las 
+                    <strong>soluciones impulsadas por IA</strong>, enfocada en crear experiencias 
+                    <strong>interactivas</strong> y <strong>visualmente refinadas</strong>.
+                </p>
+
+                <p class="description-secondary">
+                    Construyendo experiencias digitales que fusionan creatividad, tecnología y diseño centrado 
+                    en el ser humano. Mi inbox siempre está abierto para desafíos lógicos y discusiones arquitectónicas.
+                </p>
+
+                <div class="skills-section">
+                    <h3>
+                        <i class="bi bi-lightbulb"></i> Áreas de Enfoque
+                    </h3>
+                    <div class="text-center">
+                        <span class="skill-tag">
+                            <i class="bi bi-robot"></i> Inteligencia Artificial
+                        </span>
+                        <span class="skill-tag">
+                            <i class="bi bi-code-square"></i> Diseño Web
+                        </span>
+                        <span class="skill-tag">
+                            <i class="bi bi-brush"></i> Desarrollo Creativo
+                        </span>
+                        <span class="skill-tag">
+                            <i class="bi bi-cpu"></i> Sistemas Inteligentes
+                        </span>
+                        <span class="skill-tag">
+                            <i class="bi bi-bezier2"></i> Diseño Interactivo
+                        </span>
+                        <span class="skill-tag">
+                            <i class="bi bi-heart-pulse"></i> Diseño Centrado en el Usuario
+                        </span>
+                        <span class="skill-tag">
+                            <i class="bi bi-palette"></i> Refinamiento Visual
+                        </span>
+                        <span class="skill-tag">
+                            <i class="bi bi-lightning"></i> Soluciones con IA
+                        </span>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://github.com/HMAlejandra" target="_blank" class="social-icon" title="GitHub">
+                        <i class="bi bi-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/helen-moncayo-2b4837207/" target="_blank" class="social-icon" title="LinkedIn">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                    <a href="https://portfolio-helen-two.vercel.app/" target="_blank" class="social-icon" title="Portfolio">
+                        <i class="bi bi-globe"></i>
+                    </a>
+                    <a href="mailto:helenmoncayo42@gmail.com" class="social-icon" title="Email">
+                        <i class="bi bi-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
