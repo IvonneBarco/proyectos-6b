@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Dashboard Administrador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="design-system.css">
+<style>
+/* Purple admin sidebar */
+  .sidebar { background: #1A0B2E; }
+  .sidebar-logo .logo-text span { color: #A78BFA; }
+  .sidebar-nav a.active { background: rgba(124,58,237,.15); }
+  .sidebar-nav a.active::before { background: #A78BFA; }
+  .sidebar-nav .nav-badge { background: #7C3AED; }
+  .sidebar-logo .logo-sub { color: #C4B5FD; opacity: .6; }
+  .sidebar-user .user-role { color: #C4B5FD; }
+
+  .admin-hero {
+    background: linear-gradient(135deg, #1A0B2E 0%, #2D1654 60%, #0D2B1A 100%);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6) var(--space-8);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .admin-hero::before {
+    content: '';
+    position: absolute; right: -30px; top: -30px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(124,58,237,.1);
+  }
+  .admin-hero-text h2 { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700; color: var(--white); }
+  .admin-hero-text h2 span { color: #A78BFA; }
+  .admin-hero-text p { font-size: var(--text-sm); color: rgba(255,255,255,.6); margin-top: 4px; }
+  .admin-hero-actions { display: flex; gap: var(--space-3); z-index: 1; }
+  .btn-admin { background: #7C3AED; color: var(--white); border: none; padding: 10px 18px; border-radius: var(--radius-lg); font-size: var(--text-sm); font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(124,58,237,.3); }
+  .btn-admin:hover { background: #6D28D9; transform: translateY(-1px); }
+
+  /* User role breakdown */
+  .role-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--space-4); }
+  .role-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+  .role-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .role-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+  .role-card.farmer::before { background: var(--green-500); }
+  .role-card.store::before  { background: var(--amber-500); }
+  .role-card.buyer::before  { background: #3B82F6; }
+  .role-card.total::before  { background: #7C3AED; }
+
+  .rc-icon { width: 48px; height: 48px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: var(--space-3); }
+  .rc-val { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 800; color: var(--gray-900); line-height: 1; margin-bottom: 4px; }
+  .rc-label { font-size: var(--text-sm); color: var(--gray-500); }
+  .rc-trend { font-size: var(--text-xs); font-weight: 600; margin-top: var(--space-2); display: flex; align-items: center; gap: 4px; }
+  .rc-trend.up { color: var(--green-600); }
+
+  /* Charts grid */
+  .charts-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--space-5); }
+
+  /* User growth chart */
+  .user-chart {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-4) 0;
+  }
+  .ucb-row { display: flex; align-items: center; gap: var(--space-3); }
+  .ucb-label { font-size: var(--text-xs); font-weight: 500; color: var(--gray-500); width: 48px; text-align: right; flex-shrink: 0; }
+  .ucb-bar-wrap { flex: 1; height: 18px; background: var(--gray-100); border-radius: var(--radius-full); overflow: hidden; }
+  .ucb-fill { height: 100%; border-radius: var(--radius-full); }
+  .ucb-val { font-size: var(--text-xs); font-weight: 700; color: var(--gray-700); width: 40px; }
+
+  /* Users table */
+  .users-table-wrap { overflow-x: auto; }
+
+  /* Roles section */
+  .role-permissions {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: var(--space-4);
+  }
+  .rp-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xs);
+  }
+  .rp-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .rp-icon { width: 36px; height: 36px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .rp-title { font-size: var(--text-sm); font-weight: 700; color: var(--gray-900); }
+  .rp-count { margin-left: auto; }
+  .rp-body { padding: var(--space-4) var(--space-5); }
+  .perm-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--gray-100); font-size: var(--text-xs); }
+  .perm-row:last-child { border-bottom: none; }
+  .perm-name { color: var(--gray-700); font-weight: 500; }
+  .perm-toggle {
+    width: 32px; height: 18px;
+    border-radius: var(--radius-full);
+    position: relative;
+    transition: var(--transition);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .perm-toggle.on  { background: var(--green-500); }
+  .perm-toggle.off { background: var(--gray-300); }
+  .perm-toggle::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--white);
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    transition: var(--transition);
+  }
+  .perm-toggle.on::after  { left: calc(100% - 16px); }
+  .perm-toggle.off::after { left: 2px; }
+
+  /* Bottom row */
+  .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+
+  /* Alert / report items */
+  .report-item { display: flex; align-items: center; gap: var(--space-3); padding: 12px 0; border-bottom: 1px solid var(--gray-100); }
+  .report-item:last-child { border-bottom: none; }
+  .ri-icon { width: 36px; height: 36px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .ri-text { font-size: var(--text-sm); color: var(--gray-700); flex: 1; }
+  .ri-time { font-size: var(--text-xs); color: var(--gray-400); flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="screen-label">20 — Dashboard Administrador · AgriGo</div>
+
+<div class="app-shell">
+  <!-- ADMIN SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon" style="background:#7C3AED;"><i class="ph ph-shield-check"></i></div>
+      <div>
+        <div class="logo-text">Agri<span>Go</span></div>
+        <span class="logo-sub">Admin Panel</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Panel</div>
+      <a href="20-dashboard-admin.html" class="active"><span class="nav-icon"><i class="ph ph-chart-bar"></i></span> Dashboard</a>
+      <div class="sidebar-section-label">Gestión</div>
+      <a href="#"><span class="nav-icon"><i class="ph ph-users"></i></span> Usuarios <span class="nav-badge">3</span></a>
+      <a href="#"><span class="nav-icon">🏷️</span> Roles</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-storefront"></i></span> Agrotiendas</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-grains"></i></span> Agricultores</a>
+      <div class="sidebar-section-label">Sistema</div>
+      <a href="#"><span class="nav-icon"><i class="ph ph-arrow-fat-line-up"></i></span> Reportes</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-bell"></i></span> Alertas <span class="nav-badge" style="background:var(--status-error);">5</span></a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-gear"></i></span> Configuración</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-lock-simple"></i></span> Seguridad</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" style="width:36px;height:36px;background:#7C3AED;color:white;font-weight:700;font-size:14px;">SA</div>
+        <div class="user-info">
+          <div class="user-name">Super Admin</div>
+          <div class="user-role"><i class="ph ph-shield-check"></i> Administrador</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <span class="topbar-title">Panel Administrador</span>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-search"><span style="color:var(--gray-400);"><i class="ph ph-magnifying-glass"></i></span><input type="text" placeholder="Buscar usuario, tienda…"></div>
+      <div class="topbar-actions">
+        <div class="icon-btn"><i class="ph ph-bell"></i><div class="notif-dot"></div></div>
+        <div class="avatar avatar-sm" style="background:#7C3AED;color:white;font-weight:700;width:38px;height:38px;font-size:13px;">SA</div>
+      </div>
+    </header>
+
+    <div class="page-body">
+
+      <!-- HERO -->
+      <div class="admin-hero">
+        <div class="admin-hero-text" style="z-index:1;">
+          <h2>Panel de <span>Administración</span> <i class="ph ph-shield-check"></i></h2>
+          <p>Lunes, 24 de agosto · 3 usuarios pendientes · 5 alertas del sistema</p>
+        </div>
+        <div class="admin-hero-actions">
+          <button class="btn-admin"><i class="ph ph-users"></i> Gestionar usuarios</button>
+          <button style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;padding:10px 18px;border-radius:var(--radius-lg);font-size:var(--text-sm);font-weight:600;font-family:var(--font-body);cursor:pointer;display:flex;align-items:center;gap:6px;"><i class="ph ph-arrow-fat-line-up"></i> Ver reportes</button>
+        </div>
+      </div>
+
+      <!-- USER ROLE CARDS -->
+      <div>
+        <div style="font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;color:var(--gray-900);margin-bottom:var(--space-4);">Usuarios por rol</div>
+        <div class="role-cards">
+          <div class="role-card total">
+            <div class="rc-icon" style="background:#EDE9FE;"><i class="ph ph-globe"></i></div>
+            <div class="rc-val">4.820</div>
+            <div class="rc-label">Usuarios totales</div>
+            <div class="rc-trend up">↑ +186 este mes</div>
+            <div class="progress-bar" style="margin-top:var(--space-3);"><div class="progress-fill" style="width:100%;background:#7C3AED;"></div></div>
+          </div>
+          <div class="role-card farmer">
+            <div class="rc-icon" style="background:var(--green-100);"><i class="ph ph-grains"></i></div>
+            <div class="rc-val">2.340</div>
+            <div class="rc-label">Agricultores</div>
+            <div class="rc-trend up">↑ +84 este mes</div>
+            <div class="progress-bar" style="margin-top:var(--space-3);"><div class="progress-fill" style="width:48%;"></div></div>
+          </div>
+          <div class="role-card store">
+            <div class="rc-icon" style="background:var(--amber-100);"><i class="ph ph-storefront"></i></div>
+            <div class="rc-val">380</div>
+            <div class="rc-label">Agrotiendas</div>
+            <div class="rc-trend up">↑ +12 este mes</div>
+            <div class="progress-bar" style="margin-top:var(--space-3);"><div class="progress-fill" style="width:8%;background:var(--amber-400);"></div></div>
+          </div>
+          <div class="role-card buyer">
+            <div class="rc-icon" style="background:#DBEAFE;"><i class="ph ph-shopping-cart"></i></div>
+            <div class="rc-val">2.100</div>
+            <div class="rc-label">Compradores</div>
+            <div class="rc-trend up">↑ +90 este mes</div>
+            <div class="progress-bar" style="margin-top:var(--space-3);"><div class="progress-fill" style="width:44%;background:#3B82F6;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARTS + USERS TABLE -->
+      <div class="charts-grid">
+
+        <!-- User growth chart -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Crecimiento de usuarios</span>
+            <div class="tabs"><div class="tab active">6M</div><div class="tab">1A</div></div>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;align-items:center;gap:var(--space-5);margin-bottom:var(--space-5);">
+              <div>
+                <div style="font-family:var(--font-display);font-size:var(--text-2xl);font-weight:800;color:var(--gray-900);">+1.240</div>
+                <div style="font-size:var(--text-xs);color:var(--gray-500);">Nuevos usuarios (6M)</div>
+              </div>
+              <div class="badge badge-purple" style="background:#EDE9FE;color:#6D28D9;">↑ +32% vs período anterior</div>
+            </div>
+            <div class="user-chart">
+              <div class="ucb-row">
+                <span class="ucb-label">Mar</span>
+                <div class="ucb-bar-wrap"><div class="ucb-fill" style="width:55%;background:linear-gradient(90deg,#A78BFA,#7C3AED);"></div></div>
+                <span class="ucb-val">158</span>
+              </div>
+              <div class="ucb-row">
+                <span class="ucb-label">Abr</span>
+                <div class="ucb-bar-wrap"><div class="ucb-fill" style="width:65%;background:linear-gradient(90deg,#A78BFA,#7C3AED);"></div></div>
+                <span class="ucb-val">187</span>
+              </div>
+              <div class="ucb-row">
+                <span class="ucb-label">May</span>
+                <div class="ucb-bar-wrap"><div class="ucb-fill" style="width:72%;background:linear-gradient(90deg,#A78BFA,#7C3AED);"></div></div>
+                <span class="ucb-val">205</span>
+              </div>
+              <div class="ucb-row">
+                <span class="ucb-label">Jun</span>
+                <div class="ucb-bar-wrap"><div class="ucb-fill" style="width:80%;background:linear-gradient(90deg,var(--green-400),var(--green-500));"></div></div>
+                <span class="ucb-val">230</span>
+              </div>
+              <div class="ucb-row">
+                <span class="ucb-label">Jul</span>
+                <div class="ucb-bar-wrap"><div class="ucb-fill" style="width:88%;background:linear-gradient(90deg,var(--green-400),var(--green-500));"></div></div>
+                <span class="ucb-val">254</span>
+              </div>
+              <div class="ucb-row">
+                <span class="ucb-label">Ago</span>
+                <div class="ucb-bar-wrap"><div class="ucb-fill" style="width:100%;background:linear-gradient(90deg,var(--green-500),var(--green-600));"></div></div>
+                <span class="ucb-val" style="color:var(--green-600);font-weight:800;">186</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Platform metrics -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Métricas de la plataforma</span>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-3);background:var(--green-50);border:1px solid var(--green-200);border-radius:var(--radius-lg);">
+                <div style="display:flex;align-items:center;gap:var(--space-2);">
+                  <span style="font-size:18px;"><i class="ph ph-shopping-cart"></i></span>
+                  <span style="font-size:var(--text-sm);color:var(--gray-700);font-weight:500;">Transacciones este mes</span>
+                </div>
+                <span style="font-family:var(--font-display);font-weight:800;color:var(--green-700);">4.280</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-3);background:var(--amber-50);border:1px solid var(--amber-200);border-radius:var(--radius-lg);">
+                <div style="display:flex;align-items:center;gap:var(--space-2);">
+                  <span style="font-size:18px;"><i class="ph ph-currency-dollar"></i></span>
+                  <span style="font-size:var(--text-sm);color:var(--gray-700);font-weight:500;">Volumen transaccional</span>
+                </div>
+                <span style="font-family:var(--font-display);font-weight:800;color:var(--amber-600);">$482M</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-3);background:#EFF6FF;border:1px solid #BFDBFE;border-radius:var(--radius-lg);">
+                <div style="display:flex;align-items:center;gap:var(--space-2);">
+                  <span style="font-size:18px;"><i class="ph ph-robot"></i></span>
+                  <span style="font-size:var(--text-sm);color:var(--gray-700);font-weight:500;">Consultas IA (mes)</span>
+                </div>
+                <span style="font-family:var(--font-display);font-weight:800;color:#1D4ED8;">12.840</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-3);background:#F5F3FF;border:1px solid #DDD6FE;border-radius:var(--radius-lg);">
+                <div style="display:flex;align-items:center;gap:var(--space-2);">
+                  <span style="font-size:18px;"><i class="ph ph-plant"></i></span>
+                  <span style="font-size:var(--text-sm);color:var(--gray-700);font-weight:500;">Cultivos registrados</span>
+                </div>
+                <span style="font-family:var(--font-display);font-weight:800;color:#7C3AED;">8.420</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-3);background:var(--green-50);border:1px solid var(--green-200);border-radius:var(--radius-lg);">
+                <div style="display:flex;align-items:center;gap:var(--space-2);">
+                  <span style="font-size:18px;"><i class="ph ph-package"></i></span>
+                  <span style="font-size:var(--text-sm);color:var(--gray-700);font-weight:500;">Productos en marketplace</span>
+                </div>
+                <span style="font-family:var(--font-display);font-weight:800;color:var(--green-700);">2.480</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GESTIÓN DE USUARIOS TABLE + ROLES PANEL -->
+      <div class="bottom-row">
+
+        <!-- Usuarios recientes -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i class="ph ph-users"></i> Usuarios recientes</span>
+            <button class="btn btn-primary btn-sm" style="background:#7C3AED;box-shadow:none;">Ver todos →</button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                  <th>Registro</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div style="display:flex;align-items:center;gap:var(--space-2);">
+                      <div style="width:28px;height:28px;border-radius:50%;background:var(--green-600);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;">CR</div>
+                      <div><div style="font-weight:600;font-size:var(--text-xs);">Carlos Rodríguez</div><div style="font-size:10px;color:var(--gray-400);">carlos@gmail.com</div></div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-green"><i class="ph ph-grains"></i> Agricultor</span></td>
+                  <td><span class="badge badge-green">Activo</span></td>
+                  <td style="font-size:var(--text-xs);color:var(--gray-500);">Hoy 10:30</td>
+                  <td><button style="background:none;border:none;cursor:pointer;color:#7C3AED;font-size:var(--text-xs);font-weight:700;">Gestionar</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display:flex;align-items:center;gap:var(--space-2);">
+                      <div style="width:28px;height:28px;border-radius:50%;background:#1D4ED8;color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;">ML</div>
+                      <div><div style="font-weight:600;font-size:var(--text-xs);">María López</div><div style="font-size:10px;color:var(--gray-400);">maria@email.com</div></div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-blue"><i class="ph ph-shopping-cart"></i> Comprador</span></td>
+                  <td><span class="badge badge-green">Activo</span></td>
+                  <td style="font-size:var(--text-xs);color:var(--gray-500);">Hoy 09:15</td>
+                  <td><button style="background:none;border:none;cursor:pointer;color:#7C3AED;font-size:var(--text-xs);font-weight:700;">Gestionar</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display:flex;align-items:center;gap:var(--space-2);">
+                      <div style="width:28px;height:28px;border-radius:50%;background:var(--amber-600);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;">AI</div>
+                      <div><div style="font-weight:600;font-size:var(--text-xs);">AgroInsumos Bogotá</div><div style="font-size:10px;color:var(--gray-400);">ventas@agro.com</div></div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-amber"><i class="ph ph-storefront"></i> Agrotienda</span></td>
+                  <td><span class="badge badge-green">Activo</span></td>
+                  <td style="font-size:var(--text-xs);color:var(--gray-500);">Ayer 16:40</td>
+                  <td><button style="background:none;border:none;cursor:pointer;color:#7C3AED;font-size:var(--text-xs);font-weight:700;">Gestionar</button></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display:flex;align-items:center;gap:var(--space-2);">
+                      <div style="width:28px;height:28px;border-radius:50%;background:var(--green-700);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;">JM</div>
+                      <div><div style="font-weight:600;font-size:var(--text-xs);">José Martínez</div><div style="font-size:10px;color:var(--gray-400);">jmartinez@co.co</div></div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-green"><i class="ph ph-grains"></i> Agricultor</span></td>
+                  <td><span class="badge badge-amber">Pendiente</span></td>
+                  <td style="font-size:var(--text-xs);color:var(--gray-500);">Ayer 11:20</td>
+                  <td><div style="display:flex;gap:4px;"><button style="background:var(--green-600);border:none;color:white;padding:4px 8px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;">Aprobar</button><button style="background:#FEE2E2;border:none;color:var(--status-error);padding:4px 8px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;">Rechazar</button></div></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="display:flex;align-items:center;gap:var(--space-2);">
+                      <div style="width:28px;height:28px;border-radius:50%;background:var(--gray-500);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;">AN</div>
+                      <div><div style="font-weight:600;font-size:var(--text-xs);">AgroNorte S.A.</div><div style="font-size:10px;color:var(--gray-400);">info@agronorte.co</div></div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-amber"><i class="ph ph-storefront"></i> Agrotienda</span></td>
+                  <td><span class="badge badge-red">Suspendida</span></td>
+                  <td style="font-size:var(--text-xs);color:var(--gray-500);">20 Ago</td>
+                  <td><button style="background:none;border:none;cursor:pointer;color:#7C3AED;font-size:var(--text-xs);font-weight:700;">Revisar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Roles panel -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🏷️ Permisos por rol</span>
+            <button class="btn btn-primary btn-sm" style="background:#7C3AED;box-shadow:none;">Gestionar →</button>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:var(--space-5);">
+
+              <!-- Agricultor role -->
+              <div>
+                <div style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-3);">
+                  <span class="badge badge-green"><i class="ph ph-grains"></i> Agricultor</span>
+                  <span style="font-size:10px;color:var(--gray-400);">2.340 usuarios</span>
+                </div>
+                <div class="perm-row"><span class="perm-name">Gestionar cultivos</span><div class="perm-toggle on"></div></div>
+                <div class="perm-row"><span class="perm-name">Publicar productos</span><div class="perm-toggle on"></div></div>
+                <div class="perm-row"><span class="perm-name">Usar asistente IA</span><div class="perm-toggle on"></div></div>
+                <div class="perm-row"><span class="perm-name">Acceder marketplace</span><div class="perm-toggle on"></div></div>
+              </div>
+
+              <div style="height:1px;background:var(--gray-100);"></div>
+
+              <!-- Agrotienda role -->
+              <div>
+                <div style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-3);">
+                  <span class="badge badge-amber"><i class="ph ph-storefront"></i> Agrotienda</span>
+                  <span style="font-size:10px;color:var(--gray-400);">380 tiendas</span>
+                </div>
+                <div class="perm-row"><span class="perm-name">Gestionar inventario</span><div class="perm-toggle on"></div></div>
+                <div class="perm-row"><span class="perm-name">Comparador de precios</span><div class="perm-toggle on"></div></div>
+                <div class="perm-row"><span class="perm-name">Ver analytics avanzados</span><div class="perm-toggle off"></div></div>
+              </div>
+
+              <div style="height:1px;background:var(--gray-100);"></div>
+
+              <!-- Comprador role -->
+              <div>
+                <div style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-3);">
+                  <span class="badge badge-blue"><i class="ph ph-shopping-cart"></i> Comprador</span>
+                  <span style="font-size:10px;color:var(--gray-400);">2.100 usuarios</span>
+                </div>
+                <div class="perm-row"><span class="perm-name">Comprar en marketplace</span><div class="perm-toggle on"></div></div>
+                <div class="perm-row"><span class="perm-name">Asistente de compras IA</span><div class="perm-toggle on"></div></div>
+                <div class="perm-row"><span class="perm-name">Calificar vendedores</span><div class="perm-toggle on"></div></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

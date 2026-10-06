@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Visor de Mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; background: #0A0F0C; font-family: 'Inter', system-ui, sans-serif; color: #fff; }
+
+/* ── LAYOUT: topbar + sidebar + preview ── */
+.shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 48px 1fr;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ════ TOPBAR ════ */
+.topbar {
+  grid-column: 1 / -1;
+  background: #0F1512;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 8px;
+  user-select: none;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.logo-mark {
+  width: 26px; height: 26px;
+  background: #2E9E4F;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 13px;
+}
+.logo-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; font-weight: 800;
+  color: #fff; letter-spacing: -0.02em;
+}
+.logo-text span { color: #3DBD63; }
+
+.tb-sep { width: 1px; height: 16px; background: rgba(255,255,255,.1); margin: 0 2px; }
+
+.breadcrumb {
+  font-size: 12px; color: rgba(255,255,255,.35);
+  display: flex; align-items: center; gap: 5px;
+}
+.breadcrumb .current { color: rgba(255,255,255,.75); font-weight: 500; }
+
+.tb-spacer { flex: 1; }
+
+/* Device buttons */
+.device-btns {
+  display: flex;
+  gap: 1px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 7px;
+  padding: 3px;
+}
+.dev-btn {
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 11px; font-weight: 600;
+  color: rgba(255,255,255,.4);
+  cursor: pointer;
+  transition: all .14s;
+  border: none; background: none;
+  font-family: 'Inter', sans-serif;
+  display: flex; align-items: center; gap: 5px;
+}
+.dev-btn i { font-size: 12px; }
+.dev-btn.active { background: rgba(255,255,255,.12); color: #fff; }
+.dev-btn:hover:not(.active) { color: rgba(255,255,255,.75); }
+
+.tb-sep2 { width: 1px; height: 16px; background: rgba(255,255,255,.1); margin: 0 2px; }
+
+/* Open button */
+.open-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 12px;
+  background: rgba(46,158,79,.12);
+  border: 1px solid rgba(46,158,79,.25);
+  border-radius: 7px;
+  color: #3DBD63; font-size: 11px; font-weight: 600;
+  cursor: pointer; text-decoration: none;
+  transition: all .14s; font-family: 'Inter', sans-serif;
+}
+.open-btn:hover { background: rgba(46,158,79,.22); }
+
+/* ════ SIDEBAR ════ */
+.sidebar {
+  background: #0D1511;
+  border-right: 1px solid rgba(255,255,255,.06);
+  overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 3px; }
+
+.search-box {
+  padding: 10px 10px 8px;
+  position: sticky; top: 0;
+  background: #0D1511; z-index: 5;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.search-inner {
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 6px; padding: 6px 10px;
+}
+.search-inner:focus-within { border-color: rgba(46,158,79,.4); }
+.search-inner i { color: rgba(255,255,255,.28); font-size: 13px; }
+.search-inner input {
+  border: none; outline: none; background: none;
+  color: rgba(255,255,255,.75); font-size: 12px;
+  font-family: 'Inter', sans-serif; width: 100%;
+}
+.search-inner input::placeholder { color: rgba(255,255,255,.28); }
+
+/* Role groups */
+.role-header {
+  display: flex; align-items: center; gap: 6px;
+  padding: 13px 12px 5px;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .09em;
+  color: rgba(255,255,255,.22);
+  cursor: pointer; user-select: none;
+}
+.role-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 16px; height: 15px;
+  border-radius: 4px; font-size: 10px; font-weight: 700;
+  padding: 0 4px;
+}
+.pill-auth   { background: rgba(107,120,118,.2); color: #9AACAA; }
+.pill-farmer { background: rgba(46,158,79,.2);   color: #3DBD63; }
+.pill-buyer  { background: rgba(59,130,246,.2);  color: #60A5FA; }
+.pill-store  { background: rgba(245,158,11,.2);  color: #FBBF24; }
+.pill-admin  { background: rgba(124,58,237,.2);  color: #A78BFA; }
+
+.role-collapse { margin-left: auto; font-size: 9px; color: rgba(255,255,255,.18); transition: transform .18s; }
+.collapsed .role-collapse { transform: rotate(-90deg); }
+.collapsed .role-items { display: none; }
+
+/* Nav items */
+.nav-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 12px 7px 18px;
+  cursor: pointer; transition: all .13s;
+  border-left: 2px solid transparent;
+  color: rgba(255,255,255,.45);
+  font-size: 12px; font-weight: 500;
+  text-decoration: none; user-select: none;
+  font-family: 'Inter', sans-serif;
+}
+.nav-item:hover { color: rgba(255,255,255,.8); background: rgba(255,255,255,.04); }
+.nav-item.active { color: #fff; background: rgba(255,255,255,.05); }
+.nav-item.active.auth   { border-left-color: #9AACAA; }
+.nav-item.active.farmer { border-left-color: #3DBD63; background: rgba(46,158,79,.1); }
+.nav-item.active.buyer  { border-left-color: #60A5FA; background: rgba(59,130,246,.1); }
+.nav-item.active.store  { border-left-color: #FBBF24; background: rgba(245,158,11,.1); }
+.nav-item.active.admin  { border-left-color: #A78BFA; background: rgba(124,58,237,.1); }
+
+.nav-num {
+  min-width: 22px; height: 16px;
+  background: rgba(255,255,255,.06);
+  border-radius: 4px; font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Inter', sans-serif; flex-shrink: 0;
+}
+.nav-item.active .nav-num { background: rgba(255,255,255,.12); color: rgba(255,255,255,.8); }
+
+/* ════ PREVIEW ════ */
+.preview {
+  background: #141A17;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The iframe always fills the preview area at 100% */
+.frame-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+/* Device mode: wrap iframe in a centered container */
+.frame-wrap.device-tablet,
+.frame-wrap.device-mobile {
+  align-items: center;
+  justify-content: center;
+  background: #141A17;
+  padding: 20px;
+}
+
+.device-chrome {
+  /* The simulated device border */
+  background: #1E2922;
+  border-radius: 20px;
+  border: 2px solid rgba(255,255,255,.12);
+  box-shadow: 0 24px 60px rgba(0,0,0,.7);
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  display: none;
+}
+.frame-wrap.device-tablet .device-chrome,
+.frame-wrap.device-mobile  .device-chrome { display: block; }
+
+/* Tablet: 820px wide */
+.frame-wrap.device-tablet .device-chrome {
+  width: 820px;
+  height: calc(100% - 40px);
+  max-height: 1000px;
+  border-radius: 16px;
+}
+/* Mobile: 390px wide */
+.frame-wrap.device-mobile  .device-chrome {
+  width: 390px;
+  height: 844px;
+  max-height: calc(100% - 40px);
+  border-radius: 38px;
+  border-width: 3px;
+}
+/* Notch for mobile */
+.frame-wrap.device-mobile .device-chrome::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 100px; height: 28px;
+  background: #1E2922;
+  border-radius: 0 0 16px 16px;
+  z-index: 10;
+}
+
+#preview-frame {
+  border: none;
+  width: 100%; height: 100%;
+  display: block;
+  background: #F7F9F8;
+}
+
+/* When in device mode, iframe goes inside device-chrome */
+.frame-wrap.device-desktop #preview-frame {
+  position: absolute; inset: 0;
+}
+
+/* Bottom bar */
+.preview-footer {
+  height: 36px;
+  background: #0F1512;
+  border-top: 1px solid rgba(255,255,255,.06);
+  display: flex; align-items: center;
+  padding: 0 16px; gap: 16px;
+  flex-shrink: 0;
+}
+.pf-info { font-size: 11px; color: rgba(255,255,255,.35); }
+.pf-info strong { color: rgba(255,255,255,.6); }
+
+/* Nav controls */
+.nav-ctrl {
+  display: flex; gap: 4px; margin-left: auto;
+}
+.nav-btn {
+  width: 28px; height: 28px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 6px; color: rgba(255,255,255,.5);
+  font-size: 13px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  transition: all .13s;
+}
+.nav-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+.nav-btn:disabled { opacity: .2; pointer-events: none; }
+
+/* Welcome state */
+.welcome {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 12px; pointer-events: none;
+  background: #141A17;
+  z-index: 5;
+}
+.welcome-icon {
+  width: 56px; height: 56px;
+  background: rgba(46,158,79,.1);
+  border: 1px solid rgba(46,158,79,.2);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(46,158,79,.55); font-size: 26px;
+}
+.welcome h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 17px; font-weight: 700;
+  color: rgba(255,255,255,.3); letter-spacing: -0.02em;
+}
+.welcome p { font-size: 12px; color: rgba(255,255,255,.18); }
+
+/* Loading overlay */
+.loading {
+  position: absolute; inset: 0;
+  background: rgba(20,26,23,.9);
+  display: none; align-items: center; justify-content: center;
+  flex-direction: column; gap: 10px; z-index: 20;
+}
+.loading.show { display: flex; }
+.spinner {
+  width: 24px; height: 24px;
+  border: 2.5px solid rgba(255,255,255,.1);
+  border-top-color: #2E9E4F;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-txt { font-size: 11px; color: rgba(255,255,255,.4); }
+
+/* Keyboard hint */
+.kb-hint {
+  font-size: 10px; color: rgba(255,255,255,.18);
+}
+kbd {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 3px; padding: 1px 5px;
+  font-family: 'Inter', sans-serif; font-size: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="logo">
+      <div class="logo-mark"><i class="ph ph-plant"></i></div>
+      <div class="logo-text">Agri<span>Go</span></div>
+    </div>
+    <div class="tb-sep"></div>
+    <div class="breadcrumb">
+      Mockups
+      <i class="ph ph-caret-right" style="font-size:10px;"></i>
+      <span class="current" id="screen-name">Selecciona una pantalla</span>
+    </div>
+    <div class="tb-spacer"></div>
+
+    <div class="device-btns">
+      <button class="dev-btn active" id="btn-desktop" onclick="setDevice('desktop')">
+        <i class="ph ph-monitor"></i> Desktop
+      </button>
+      <button class="dev-btn" id="btn-tablet" onclick="setDevice('tablet')">
+        <i class="ph ph-device-tablet"></i> Tablet
+      </button>
+      <button class="dev-btn" id="btn-mobile" onclick="setDevice('mobile')">
+        <i class="ph ph-device-mobile"></i> Mobile
+      </button>
+    </div>
+
+    <div class="tb-sep2"></div>
+    <a class="open-btn" id="open-link" href="#" target="_blank">
+      <i class="ph ph-arrow-square-out"></i> Abrir
+    </a>
+  </header>
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="search-box">
+      <div class="search-inner">
+        <i class="ph ph-magnifying-glass"></i>
+        <input type="text" id="search-input" placeholder="Buscar pantalla…" oninput="filter(this.value)">
+      </div>
+    </div>
+    <div id="nav-list"></div>
+  </nav>
+
+  <!-- PREVIEW -->
+  <main class="preview">
+    <div class="frame-wrap device-desktop" id="frame-wrap">
+      <!-- Desktop: iframe fills the whole area -->
+      <iframe id="preview-frame" src="about:blank" title="AgriGo Preview"></iframe>
+      <!-- Tablet/Mobile: iframe goes inside device-chrome -->
+      <div class="device-chrome" id="device-chrome">
+        <!-- iframe moved here by JS when needed -->
+      </div>
+    </div>
+
+    <div class="welcome" id="welcome">
+      <div class="welcome-icon"><i class="ph ph-layout"></i></div>
+      <h2>Visor de Mockups AgriGo</h2>
+      <p>Selecciona cualquier pantalla del panel izquierdo</p>
+    </div>
+
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <span class="loading-txt">Cargando…</span>
+    </div>
+
+    <div class="preview-footer">
+      <span class="pf-info" id="pf-info">— / —</span>
+      <span class="kb-hint"><kbd>←</kbd> <kbd>→</kbd> navegar &nbsp; <kbd>D</kbd> <kbd>T</kbd> <kbd>M</kbd> dispositivo</span>
+      <div class="nav-ctrl">
+        <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>‹</button>
+        <button class="nav-btn" id="btn-next" onclick="navigate(+1)" disabled>›</button>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+/* ── DATA ── */
+const screens = [
+  { role:'auth',   num:'01',  label:'Login',                   file:'01-login.html' },
+  { role:'auth',   num:'02',  label:'Registro',                file:'02-registro.html' },
+  { role:'auth',   num:'02b', label:'Verificación de correo',  file:'02b-verificacion.html' },
+  { role:'farmer', num:'03',  label:'Dashboard Agricultor',    file:'03-dashboard-agricultor.html' },
+  { role:'farmer', num:'04',  label:'Mis Cultivos',            file:'04-mis-cultivos.html' },
+  { role:'farmer', num:'05',  label:'Crear / Editar Cultivo',  file:'05-crear-cultivo.html' },
+  { role:'farmer', num:'06',  label:'Recomendaciones IA',      file:'06-recomendaciones-ia.html' },
+  { role:'farmer', num:'07',  label:'Mis Productos',           file:'07-mis-productos-agricultor.html' },
+  { role:'farmer', num:'08',  label:'Publicar Producto',       file:'08-publicar-producto.html' },
+  { role:'farmer', num:'21',  label:'Perfil Agricultor',       file:'21-perfil-agricultor.html' },
+  { role:'buyer',  num:'09',  label:'Marketplace',             file:'09-marketplace.html' },
+  { role:'buyer',  num:'10',  label:'Detalle de Producto',     file:'10-detalle-producto.html' },
+  { role:'buyer',  num:'11',  label:'Carrito de Compras',      file:'11-carrito.html' },
+  { role:'buyer',  num:'12',  label:'Checkout',                file:'12-checkout.html' },
+  { role:'buyer',  num:'13',  label:'Confirmación de Orden',   file:'13-confirmacion-orden.html' },
+  { role:'buyer',  num:'14',  label:'Mis Órdenes',             file:'14-mis-ordenes.html' },
+  { role:'buyer',  num:'19',  label:'Asistente Compras IA',    file:'19-asistente-compras.html' },
+  { role:'store',  num:'15',  label:'Dashboard Agrotienda',    file:'15-dashboard-agrotienda.html' },
+  { role:'store',  num:'16',  label:'Gestión de Insumos',      file:'16-gestion-insumos.html' },
+  { role:'store',  num:'17',  label:'Crear / Editar Insumo',   file:'17-crear-insumo.html' },
+  { role:'store',  num:'18',  label:'Comparador de Precios',   file:'18-comparador-precios.html' },
+  { role:'store',  num:'22',  label:'Perfil Agrotienda',       file:'22-perfil-agrotienda.html' },
+  { role:'admin',  num:'20',  label:'Dashboard Administrador', file:'20-dashboard-admin.html' },
+];
+
+const roles = [
+  { id:'auth',   label:'Autenticación',  icon:'lock-simple' },
+  { id:'farmer', label:'Agricultor',     icon:'plant' },
+  { id:'buyer',  label:'Comprador',      icon:'shopping-cart' },
+  { id:'store',  label:'Agrotienda',     icon:'storefront' },
+  { id:'admin',  label:'Administrador',  icon:'shield-check' },
+];
+
+/* ── STATE ── */
+let current = -1;
+let device = 'desktop';
+const collapsed = {};
+
+/* ── BUILD NAV ── */
+function buildNav(q = '') {
+  const list = document.getElementById('nav-list');
+  const query = q.toLowerCase().trim();
+  let html = '';
+
+  for (const role of roles) {
+    const items = screens.filter(s =>
+      s.role === role.id &&
+      (!query || s.label.toLowerCase().includes(query) || s.num.includes(query))
+    );
+    if (!items.length) continue;
+
+    const col = collapsed[role.id] && !query ? ' collapsed' : '';
+    html += `<div class="role-section${col}" id="rs-${role.id}">
+      <div class="role-header" onclick="toggleRole('${role.id}')">
+        <i class="ph ph-${role.icon}" style="font-size:12px"></i>
+        <span class="role-count pill-${role.id}">${items.length}</span>
+        ${role.label.toUpperCase()}
+        <i class="ph ph-caret-down role-collapse"></i>
+      </div>
+      <div class="role-items">`;
+
+    for (const s of items) {
+      const idx = screens.indexOf(s);
+      const act = idx === current ? ` active ${s.role}` : '';
+      html += `<div class="nav-item${act}" onclick="load(${idx})">
+        <span class="nav-num">${s.num}</span>${s.label}
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+  list.innerHTML = html;
+}
+
+function toggleRole(id) {
+  collapsed[id] = !collapsed[id];
+  buildNav(document.getElementById('search-input').value);
+}
+
+function filter(q) { buildNav(q); }
+
+/* ── LOAD SCREEN ── */
+function load(idx) {
+  if (idx < 0 || idx >= screens.length) return;
+  current = idx;
+  const s = screens[idx];
+
+  document.getElementById('welcome').style.display = 'none';
+  document.getElementById('loading').classList.add('show');
+
+  const frame = document.getElementById('preview-frame');
+  frame.onload = () => document.getElementById('loading').classList.remove('show');
+  frame.src = s.file;
+
+  document.getElementById('screen-name').textContent = `${s.num} — ${s.label}`;
+  document.getElementById('open-link').href = s.file;
+  document.getElementById('pf-info').innerHTML = `<strong>${idx + 1} / ${screens.length}</strong> &nbsp;·&nbsp; ${s.label}`;
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').disabled = idx === screens.length - 1;
+
+  buildNav(document.getElementById('search-input').value);
+  setTimeout(() => {
+    const el = document.querySelector('.nav-item.active');
+    if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, 60);
+}
+
+function navigate(dir) {
+  const n = current + dir;
+  if (n >= 0 && n < screens.length) load(n);
+}
+
+/* ── DEVICE MODE ── */
+function setDevice(d) {
+  device = d;
+  ['desktop','tablet','mobile'].forEach(x =>
+    document.getElementById('btn-' + x).classList.toggle('active', x === d)
+  );
+
+  const wrap   = document.getElementById('frame-wrap');
+  const frame  = document.getElementById('preview-frame');
+  const chrome = document.getElementById('device-chrome');
+
+  // Remove old device class
+  wrap.className = 'frame-wrap device-' + d;
+
+  if (d === 'desktop') {
+    // Move iframe back into wrap (direct child)
+    if (frame.parentElement !== wrap) wrap.insertBefore(frame, chrome);
+  } else {
+    // Move iframe into device-chrome
+    if (frame.parentElement !== chrome) chrome.appendChild(frame);
+  }
+}
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown', e => {
+  if (document.activeElement === document.getElementById('search-input')) return;
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { e.preventDefault(); navigate(-1); }
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown')  { e.preventDefault(); navigate(+1); }
+  if (e.key === ' ')                                     { e.preventDefault(); navigate(+1); }
+  if (e.key === 'd') setDevice('desktop');
+  if (e.key === 't') setDevice('tablet');
+  if (e.key === 'm') setDevice('mobile');
+});
+
+/* ── INIT ── */
+buildNav();
+load(0);
+</script>
+</body>
+</html>
