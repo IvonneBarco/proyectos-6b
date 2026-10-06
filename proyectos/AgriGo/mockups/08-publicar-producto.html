@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Publicar Producto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="design-system.css">
+<style>
+.page-layout { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: flex-start; }
+
+.form-section {
+  background: var(--white); border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl); overflow: hidden;
+  box-shadow: var(--shadow-sm); margin-bottom: 16px;
+}
+.fs-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 15px 20px; border-bottom: 1px solid var(--gray-100);
+  background: var(--gray-50);
+}
+.fs-icon { width: 34px; height: 34px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 17px; }
+.fs-title { font-family: var(--font-display); font-size: var(--text-sm); font-weight: 700; color: var(--gray-900); }
+.fs-sub   { font-size: 11px; color: var(--gray-500); margin-top: 1px; }
+.fs-body  { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+
+/* Upload zone */
+.upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.upload-zone {
+  border: 2px dashed var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  text-align: center;
+  cursor: pointer; transition: var(--transition);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.upload-zone:hover { border-color: var(--green-400); background: var(--green-50); }
+.upload-zone i { font-size: 28px; color: var(--gray-400); transition: var(--transition); }
+.upload-zone:hover i { color: var(--green-600); }
+.upload-zone .uz-label { font-size: var(--text-sm); font-weight: 600; color: var(--gray-600); }
+.upload-zone .uz-sub   { font-size: 11px; color: var(--gray-400); }
+
+.img-preview {
+  border: 2px solid var(--green-400);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--green-50), #E8F8ED);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 8px;
+  position: relative; min-height: 120px;
+}
+.img-preview i.preview-icon { font-size: 52px; color: var(--green-700); }
+.img-preview .preview-badge {
+  position: absolute; top: 8px; left: 8px;
+}
+.img-preview .remove-btn {
+  position: absolute; top: 8px; right: 8px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #DC2626; color: #fff; border: none; cursor: pointer;
+  font-size: 11px; display: flex; align-items: center; justify-content: center;
+}
+
+/* Preview panel */
+.preview-panel { position: sticky; top: 76px; display: flex; flex-direction: column; gap: 14px; }
+.preview-label {
+  font-size: 11px; font-weight: 700; color: var(--gray-500);
+  text-transform: uppercase; letter-spacing: .08em; text-align: center;
+  display: flex; align-items: center; gap: 8px; justify-content: center;
+}
+.preview-label::before, .preview-label::after { content: ''; flex: 1; height: 1px; background: var(--gray-200); }
+
+/* Marketplace preview card */
+.mp-card {
+  background: var(--white); border: 2px solid var(--green-400);
+  border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-md);
+}
+.mp-card-img {
+  height: 160px;
+  background: linear-gradient(135deg, var(--green-50), #E8F8ED);
+  display: flex; align-items: center; justify-content: center; font-size: 68px;
+  color: var(--green-700); position: relative;
+}
+.mp-card-body { padding: 14px; }
+.mp-vendor {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--gray-500); margin-bottom: 5px;
+}
+.mp-vendor-dot {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--green-600); color: #fff; font-size: 9px;
+  font-weight: 700; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+}
+.mp-name { font-family: var(--font-display); font-size: var(--text-sm); font-weight: 700; color: var(--gray-900); margin-bottom: 3px; }
+.mp-desc { font-size: 11px; color: var(--gray-500); line-height: 1.5; margin-bottom: 10px; }
+.mp-price-row { display: flex; align-items: baseline; gap: 3px; margin-bottom: 8px; }
+.mp-price { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 800; color: var(--green-700); }
+.mp-unit  { font-size: 11px; color: var(--gray-500); }
+.mp-avail {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; color: var(--gray-500);
+  padding-bottom: 10px; border-bottom: 1px solid var(--gray-100); margin-bottom: 10px;
+}
+.mp-actions { display: flex; flex-direction: column; gap: 7px; }
+
+/* Checklist */
+.checklist { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-xl); padding: 16px; box-shadow: var(--shadow-xs); }
+.cl-title { font-size: var(--text-sm); font-weight: 700; color: var(--gray-800); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+.cl-title i { font-size: 16px; color: var(--green-600); }
+.cl-list { display: flex; flex-direction: column; gap: 8px; }
+.cl-item { display: flex; align-items: center; gap: 9px; font-size: 12px; color: var(--gray-600); }
+.cl-dot {
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0;
+}
+.cl-dot.done    { background: var(--green-100); color: var(--green-700); }
+.cl-dot.pending { background: var(--gray-100); color: var(--gray-400); }
+.cl-complete {
+  margin-top: 12px; padding: 10px 12px; text-align: center;
+  background: var(--green-50); border: 1px solid var(--green-200);
+  border-radius: var(--radius-md);
+}
+.cl-complete .cc-label { font-size: var(--text-sm); font-weight: 700; color: var(--green-700); }
+.cl-complete .cc-sub   { font-size: 11px; color: var(--green-600); margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="screen-label">08 — Publicar Producto · AgriGo</div>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="ph ph-plant"></i></div>
+      <div><div class="logo-text">Agri<span>Go</span></div><span class="logo-sub">Plataforma AgTech</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="03-dashboard-agricultor.html"><span class="nav-icon"><i class="ph ph-gauge"></i></span> Dashboard</a>
+      <a href="04-mis-cultivos.html"><span class="nav-icon"><i class="ph ph-plant"></i></span> Mis cultivos</a>
+      <a href="07-mis-productos-agricultor.html" class="active"><span class="nav-icon"><i class="ph ph-package"></i></span> Mis productos</a>
+      <a href="06-recomendaciones-ia.html"><span class="nav-icon"><i class="ph ph-robot"></i></span> Recomendaciones IA</a>
+      <div class="sidebar-section-label">Comercio</div>
+      <a href="#"><span class="nav-icon"><i class="ph ph-receipt"></i></span> Mis órdenes</a>
+      <a href="09-marketplace.html"><span class="nav-icon"><i class="ph ph-storefront"></i></span> Marketplace</a>
+      <a href="19-asistente-compras.html"><span class="nav-icon"><i class="ph ph-chat-teardrop-dots"></i></span> Asistente de compras</a>
+      <div class="sidebar-section-label">Cuenta</div>
+      <a href="21-perfil-agricultor.html"><span class="nav-icon"><i class="ph ph-user-circle"></i></span> Perfil</a>
+      <a href="#"><span class="nav-icon"><i class="ph ph-gear"></i></span> Configuración</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" style="width:34px;height:34px;background:var(--green-600);color:white;font-size:12px;">CR</div>
+        <div class="user-info"><div class="user-name">Carlos Rodríguez</div><div class="user-role">Agricultor</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <a href="07-mis-productos-agricultor.html" style="color:var(--gray-500);font-size:var(--text-sm);display:flex;align-items:center;gap:5px;text-decoration:none;">
+        <i class="ph ph-arrow-left" style="font-size:15px;"></i> Mis productos
+      </a>
+      <span style="color:var(--gray-300);margin:0 6px;">/</span>
+      <span class="topbar-title">Publicar producto</span>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <div class="icon-btn"><i class="ph ph-bell"></i></div>
+        <div class="avatar" style="width:34px;height:34px;background:var(--green-600);color:white;font-size:12px;border-radius:50%;">CR</div>
+      </div>
+    </header>
+
+    <div class="page-body">
+      <div class="page-header">
+        <div>
+          <h1>Publicar producto</h1>
+          <p class="page-subtitle">Tu producto será visible en el marketplace para compradores en todo Colombia</p>
+        </div>
+      </div>
+
+      <div class="page-layout">
+        <!-- LEFT -->
+        <div>
+          <!-- Info básica -->
+          <div class="form-section">
+            <div class="fs-header">
+              <div class="fs-icon" style="background:var(--green-100);color:var(--green-700);"><i class="ph ph-package"></i></div>
+              <div><div class="fs-title">Información del producto</div><div class="fs-sub">Nombre, categoría y descripción</div></div>
+            </div>
+            <div class="fs-body">
+              <div class="form-group">
+                <label class="form-label">Nombre del producto <span>*</span></label>
+                <div class="form-input-wrap">
+                  <span class="form-input-icon"><i class="ph ph-tag"></i></span>
+                  <input type="text" class="form-input with-icon" value="Tomate Cherry Orgánico">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Categoría <span>*</span></label>
+                <select class="form-select">
+                  <option selected>Frutas y verduras</option>
+                  <option>Granos y cereales</option>
+                  <option>Hortalizas</option>
+                  <option>Tubérculos</option>
+                  <option>Café y cacao</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Descripción <span>*</span></label>
+                <textarea class="form-textarea" rows="3">Tomate cherry cultivado de forma orgánica en nuestra finca en Cundinamarca. Sin pesticidas, dulce y jugoso. Ideal para ensaladas y consumo directo.</textarea>
+                <span class="form-hint" style="display:flex;align-items:center;gap:5px;margin-top:5px;">
+                  <i class="ph ph-info" style="font-size:13px;color:var(--green-500);"></i>
+                  Una buena descripción aumenta tus ventas. Mínimo 50 caracteres.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Precio y unidad -->
+          <div class="form-section">
+            <div class="fs-header">
+              <div class="fs-icon" style="background:var(--amber-100);color:var(--amber-700);"><i class="ph ph-currency-circle-dollar"></i></div>
+              <div><div class="fs-title">Precio y disponibilidad</div><div class="fs-sub">Precio COP, unidad de medida y stock</div></div>
+            </div>
+            <div class="fs-body">
+              <div class="form-grid form-grid-3">
+                <div class="form-group" style="grid-column:span 2;">
+                  <label class="form-label">Precio COP <span>*</span></label>
+                  <div class="form-input-wrap">
+                    <span class="form-input-icon" style="font-weight:700;font-style:normal;color:var(--gray-500);">$</span>
+                    <input type="number" class="form-input with-icon" value="8500">
+                  </div>
+                  <span class="form-hint">Sin puntos ni comas · 8500 = $8.500</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Unidad <span>*</span></label>
+                  <select class="form-select">
+                    <option selected>kg</option>
+                    <option>g</option>
+                    <option>unidad</option>
+                    <option>libra</option>
+                    <option>bulto</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Stock disponible <span>*</span></label>
+                <div class="form-input-wrap">
+                  <span class="form-input-icon"><i class="ph ph-archive-box"></i></span>
+                  <input type="number" class="form-input with-icon" value="50">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Imagen -->
+          <div class="form-section">
+            <div class="fs-header">
+              <div class="fs-icon" style="background:#EDE9FE;color:#6D28D9;"><i class="ph ph-image"></i></div>
+              <div><div class="fs-title">Imagen del producto</div><div class="fs-sub">Sube una foto o ingresa una URL</div></div>
+            </div>
+            <div class="fs-body">
+              <div class="upload-grid">
+                <div class="upload-zone">
+                  <i class="ph ph-camera-plus"></i>
+                  <div class="uz-label">Subir imagen</div>
+                  <div class="uz-sub">PNG, JPG hasta 5 MB</div>
+                </div>
+                <div class="img-preview">
+                  <i class="ph ph-flower-tulip preview-icon"></i>
+                  <div class="preview-badge">
+                    <span class="badge badge-green" style="font-size:10px;display:flex;align-items:center;gap:4px;"><i class="ph-fill ph-circle" style="font-size:7px;"></i> Vista previa</span>
+                  </div>
+                  <button class="remove-btn"><i class="ph ph-x" style="font-size:11px;"></i></button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">O ingresa URL de imagen</label>
+                <div class="form-input-wrap">
+                  <span class="form-input-icon"><i class="ph ph-link"></i></span>
+                  <input type="url" class="form-input with-icon" placeholder="https://…">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div style="display:flex;gap:10px;justify-content:flex-end;padding-bottom:28px;">
+            <a href="07-mis-productos-agricultor.html" class="btn btn-secondary" style="display:flex;align-items:center;gap:6px;">
+              <i class="ph ph-x" style="font-size:14px;"></i> Cancelar
+            </a>
+            <button class="btn btn-secondary" style="display:flex;align-items:center;gap:6px;">
+              <i class="ph ph-floppy-disk" style="font-size:14px;"></i> Guardar borrador
+            </button>
+            <button class="btn btn-primary" style="display:flex;align-items:center;gap:6px;">
+              <i class="ph ph-rocket-launch" style="font-size:14px;"></i> Publicar producto
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT: PREVIEW -->
+        <div class="preview-panel">
+          <div class="preview-label">Vista previa en marketplace</div>
+
+          <div class="mp-card">
+            <div class="mp-card-img">
+              <i class="ph ph-flower-tulip" style="filter:drop-shadow(0 4px 14px rgba(0,0,0,.12));"></i>
+            </div>
+            <div class="mp-card-body">
+              <div class="mp-vendor">
+                <div class="mp-vendor-dot">CR</div>
+                Carlos Rodríguez · Cundinamarca
+              </div>
+              <div class="mp-name">Tomate Cherry Orgánico</div>
+              <div class="mp-desc">Cultivado sin pesticidas. Dulce, jugoso y fresco.</div>
+              <div class="mp-price-row">
+                <span class="mp-price">$8.500</span>
+                <span class="mp-unit">/ kg</span>
+              </div>
+              <div class="mp-avail">
+                <span>Disponibilidad:</span>
+                <div class="stock-indicator">
+                  <div class="stock-dot high"></div>
+                  <span>50 kg disponibles</span>
+                </div>
+              </div>
+              <div class="mp-actions">
+                <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;display:flex;align-items:center;gap:6px;">
+                  <i class="ph ph-shopping-cart" style="font-size:14px;"></i> Agregar al carrito
+                </button>
+                <button class="btn btn-secondary btn-sm" style="width:100%;justify-content:center;display:flex;align-items:center;gap:6px;">
+                  <i class="ph ph-lightning" style="font-size:14px;"></i> Comprar ahora
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Checklist -->
+          <div class="checklist">
+            <div class="cl-title"><i class="ph ph-check-circle"></i> Completitud del listado</div>
+            <div class="cl-list">
+              <div class="cl-item"><div class="cl-dot done"><i class="ph ph-check" style="font-size:10px;"></i></div>Nombre del producto</div>
+              <div class="cl-item"><div class="cl-dot done"><i class="ph ph-check" style="font-size:10px;"></i></div>Categoría</div>
+              <div class="cl-item"><div class="cl-dot done"><i class="ph ph-check" style="font-size:10px;"></i></div>Descripción</div>
+              <div class="cl-item"><div class="cl-dot done"><i class="ph ph-check" style="font-size:10px;"></i></div>Precio definido</div>
+              <div class="cl-item"><div class="cl-dot done"><i class="ph ph-check" style="font-size:10px;"></i></div>Stock disponible</div>
+              <div class="cl-item"><div class="cl-dot done"><i class="ph ph-check" style="font-size:10px;"></i></div>Imagen del producto</div>
+            </div>
+            <div class="cl-complete">
+              <div class="cc-label">100% listo para publicar</div>
+              <div class="cc-sub">Tu producto estará visible inmediatamente</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
