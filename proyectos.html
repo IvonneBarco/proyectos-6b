@@ -11,90 +11,6 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
     <style>
-        .artsanctuary-card {
-            width: 100%;
-            max-width: 18rem;
-            overflow: hidden;
-            border: 1px solid #e2e6ef;
-            border-radius: 12px;
-            box-shadow: 0 5px 16px rgba(14, 35, 79, 0.08);
-        }
-
-        .artsanctuary-logo-area {
-            position: relative;
-            padding: 8px 12px 0;
-            background-color: #f4f1ff;
-        }
-
-        .artsanctuary-logo {
-            display: block;
-            width: 100%;
-            height: 145px;
-            object-fit: contain;
-        }
-
-        .artsanctuary-accent {
-            display: flex;
-            height: 5px;
-            margin: 0 -12px;
-        }
-
-        .artsanctuary-accent span {
-            flex: 1;
-        }
-
-        .artsanctuary-accent span:nth-child(1) {
-            background-color: #e63946;
-        }
-
-        .artsanctuary-accent span:nth-child(2) {
-            background-color: #f4c542;
-        }
-
-        .artsanctuary-accent span:nth-child(3) {
-            background-color: #20a464;
-        }
-
-        .artsanctuary-accent span:nth-child(4) {
-            background-color: #1677d2;
-        }
-
-        .artsanctuary-card .card-body {
-            padding: 1.25rem 1.2rem 1.35rem;
-        }
-
-        .artsanctuary-title {
-            margin-bottom: 0.6rem;
-            color: #102d63;
-            font-size: 1.3rem;
-            letter-spacing: 0.01em;
-        }
-
-        .artsanctuary-description {
-            display: -webkit-box;
-            margin-bottom: 1.15rem;
-            color: #454b58;
-            line-height: 1.5;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 3;
-            overflow: hidden;
-        }
-
-        .artsanctuary-button {
-            border: 0;
-            border-radius: 9px;
-            background-color: #125dcc;
-            padding: 0.65rem 1.3rem;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .artsanctuary-button:hover,
-        .artsanctuary-button:focus {
-            background-color: #0d469d;
-            color: #fff;
-        }
-
         .aurea-card {
             width: 18rem;
             margin: auto;
@@ -247,24 +163,36 @@
                     </div>
                 </div>
             </div>
+
+
             <div class="col">
-                <div class="card m-2 mx-auto artsanctuary-card">
-                    <div class="artsanctuary-logo-area">
-                        <img src="./proyectos/ArtSanctuary/Logo_ArtSanctuary.png" class="artsanctuary-logo"
-                            alt="Logo de ArtSanctuary">
-                        <div class="artsanctuary-accent" aria-hidden="true">
-                            <span></span><span></span><span></span><span></span>
+                <div class="card m-2 mx-auto" style="width: 18rem; transform: translateX(-50px);">
+                    <img src="./proyectos/ArtSanctuary/Logo_ArtSanctuary.png" class="card-img-top"
+                        alt="Logo de ArtSanctuary" style="height: 156px; object-fit: contain;">
+                    <div class="card-body text-center position-relative">
+                        <div class="d-flex w-100" style="height: 6px; position: absolute; top: 0; left: 0;"
+                            aria-hidden="true">
+                            <span class="flex-fill" style="background-color: #e63946;"></span>
+                            <span class="flex-fill" style="background-color: #f4c542;"></span>
+                            <span class="flex-fill" style="background-color: #20a464;"></span>
+                            <span class="flex-fill" style="background-color: #1677d2;"></span>
                         </div>
-                    </div>
-                    <div class="card-body text-center">
-                        <h5 class="card-title artsanctuary-title fw-bold">ArtSanctuary</h5>
-                        <p class="card-text artsanctuary-description">Plataforma digital para visibilizar artistas,
-                            preservar saberes y conectar el patrimonio de Nariño con el mundo.</p>
-                        <a href="#" class="btn artsanctuary-button">Ver proyecto</a>
+                        <h5 class="card-title">
+                            ArtSanctuary
+                        </h5>
+                        <p class="card-text" style="height: 48px; overflow: hidden;">
+                            Plataforma digital para visibilizar artistas, preservar saberes y conectar el patrimonio de Nariño con el mundo.
+                        </p>
+                        <a href="./proyectos/ArtSanctuary/Presentación-ArtSanctuary.HTML"
+                            class="btn btn-primary">
+                            Ver proyecto
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+
+        
         <div class="row my-3">
             <div class="col">
                 <!-- SMARTPARKU -->        
