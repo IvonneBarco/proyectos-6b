@@ -76,6 +76,18 @@
 		.module-card h3 { font-family: "Inter", sans-serif; font-size: 1.2rem; font-weight: 800; letter-spacing: 0; margin-bottom: 1rem; }
 		.module-card p { color: var(--muted); line-height: 1.7; margin-bottom: 0; }
 		.module-tag { bottom: 1.8rem; color: var(--navy); font-size: .65rem; position: absolute; text-transform: uppercase; }
+		.profiles { background: #ffffff; padding: 7rem clamp(1.25rem, 5vw, 5rem); }
+		.profiles-heading { margin: 0 auto 3rem; max-width: 1280px; }
+		.profiles-heading h2 { max-width: 720px; }
+		.profiles-intro { color: var(--muted); line-height: 1.7; max-width: 620px; }
+		.profile-grid { display: grid; gap: 1.2rem; grid-template-columns: repeat(4, 1fr); margin: auto; max-width: 1280px; }
+		.profile-card { border: 1px solid var(--line); display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+		.profile-card img { background: #f1f3f8; height: 210px; object-fit: cover; width: 100%; }
+		.profile-card-body { display: flex; flex: 1; flex-direction: column; padding: 1.3rem; }
+		.profile-card h3 { font-size: 1.05rem; font-weight: 800; line-height: 1.25; margin-bottom: .65rem; }
+		.profile-card p { color: var(--muted); font-size: .84rem; line-height: 1.6; margin-bottom: 1.2rem; }
+		.profile-card a { align-self: flex-start; background: var(--navy); color: #ffffff; font-size: .72rem; font-weight: 700; margin-top: auto; padding: .65rem .85rem; text-decoration: none; }
+		.profile-card a:hover { background: var(--blue); }
 
 		.closing { background: var(--navy); color: white; padding: 7rem clamp(1.25rem, 5vw, 5rem); }
 		.closing-inner { align-items: end; display: flex; justify-content: space-between; gap: 3rem; }
@@ -93,6 +105,7 @@
 			.modules-heading, .closing-inner { align-items: start; flex-direction: column; }
 			.module-grid { grid-template-columns: 1fr; }
 			.module-card { min-height: 330px; }
+			.profile-grid { grid-template-columns: repeat(2, 1fr); }
 		}
 		@media (max-width: 520px) {
 			.navbar { align-items: start; flex-direction: column; gap: .8rem; }
@@ -101,6 +114,7 @@
 			.hero { padding-top: 10rem; }
 			.scroll-note { display: none; }
 			.footer-inner { flex-direction: column; gap: .5rem; }
+			.profile-grid { grid-template-columns: 1fr; }
 		}
 	</style>
 </head>
@@ -132,6 +146,51 @@
 					<article class="module-card"><span class="module-number">02 / Recordar</span><div class="module-icon"><i class="bi bi-archive" aria-hidden="true"></i></div><h3>Archivo histórico</h3><p>Un repositorio digital de fotografías, documentos y registros del Carnaval, clasificados por año, modalidad, técnica y autor.</p><span class="module-tag">Patrimonio + memoria</span></article>
 					<article class="module-card"><span class="module-number">03 / Visibilizar</span><div class="module-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></div><h3>Perfiles de artesanos</h3><p>Espacios para conocer la trayectoria, las obras y los reconocimientos de los maestros y sus colectivos.</p><span class="module-tag">Personas + legado</span></article>
 				</div>
+			</div>
+		</section>
+
+		<section class="profiles" id="perfiles" aria-labelledby="profiles-title">
+			<div class="profiles-heading">
+				<p class="section-kicker">Personas que crean</p>
+				<h2 id="profiles-title">El talento también tiene un rostro.</h2>
+				<p class="profiles-intro">Una muestra de los perfiles que ArtSanctuary puede reunir para visibilizar trayectorias, intereses y formas distintas de crear.</p>
+			</div>
+			<div class="profile-grid">
+				<article class="profile-card">
+					<img src="../../estudiantes/SantiagoBustos/Foto_Perfil_Santy.png" alt="Santiago Bustos López">
+					<div class="profile-card-body">
+						<h3>Santiago Bustos López</h3>
+						<p>Estudiante de Ingeniería de Software, me gusta la arquitectura de software y el diseño de interfaces de usuario.</p>
+						<a href="../../estudiantes/SantiagoBustos/perfil_SantiagoBustos.HTML">Ver perfil</a>
+					</div>
+				</article>
+
+				<article class="profile-card">
+					<img src="../../estudiantes/img/juan-enriquez.jpg" alt="Juan Jose Enriquez Cordoba">
+					<div class="profile-card-body">
+						<h3>Juan Jose Enriquez Cordoba</h3>
+						<p>Estudiante de Ingeniería de Software, interesado en el desarrollo de software con potencial y impacto hacia las plataformas futuras.</p>
+						<a href="../../JuanEnriquez.html">Ver perfil</a>
+					</div>
+				</article>
+
+				<article class="profile-card">
+					<img src="https://files.catbox.moe/76eymz.jpg" alt="Manuel Viveros Realpe">
+					<div class="profile-card-body">
+						<h3>Manuel Viveros Realpe</h3>
+						<p>Estudiante de Ingeniería de Sistemas, semestre 6.</p>
+						<a href="../../estudiantes/ManuelViverosCard/M4nuVR.html">Ver perfil</a>
+					</div>
+				</article>
+
+				<article class="profile-card">
+					<img src="../../estudiantes/SamuelMena/perfil.png" alt="Foto de perfil de Samuel Esteban Mena Pupiales">
+					<div class="profile-card-body">
+						<h3>Samuel Esteban Mena Pupiales</h3>
+						<p>Desarrollador Full Stack con enfoque en diseño 3D, modelado con Blender y desarrollo interactivo con Three.js.</p>
+						<a href="../../estudiantes/SamuelMena/perfil.html">Ver perfil</a>
+					</div>
+				</article>
 			</div>
 		</section>
 
