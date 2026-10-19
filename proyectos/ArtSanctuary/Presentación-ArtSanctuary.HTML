@@ -4,398 +4,200 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="ArtSanctuary, propuesta de plataforma digital para artistas y creadores de Nariño.">
-	<title>ArtSanctuary | Arte, territorio y memoria</title>
+	<meta name="description" content="ArtSanctuary: propuesta de plataforma digital para crear, preservar y visibilizar el arte del Carnaval de Negros y Blancos.">
+	<title>ArtSanctuary | Crear. Recordar. Visibilizar.</title>
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
-
 		:root {
-			--night: #111a46;
-			--night-soft: #25316c;
-			--carnival-red: #1a2456;
-			--mustard: #1a2456;
-			--cream: #ffffff;
+			--navy: #111a46;
+			--blue: #25316c;
+			--red: #1a2456;
+			--yellow: #1a2456;
+			--green: #25316c;
 			--paper: #ffffff;
 			--ink: #111111;
 			--muted: #687080;
 			--line: #e5e7ec;
 		}
 
-		html {
-			scroll-behavior: smooth;
-			scroll-padding-top: 76px;
-		}
-
-		body {
-			background: var(--night);
-			color: var(--ink);
-			font-family: "Inter", sans-serif;
-		}
-
-		h1, h2 {
-			font-family: "Anton", "Arial Narrow", sans-serif;
-			font-weight: 400;
-			letter-spacing: .015em;
-			text-transform: uppercase;
-		}
-
-		h3, .navbar-brand {
-			font-family: "Inter", sans-serif;
-		}
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		body { background: var(--navy); color: var(--ink); font-family: "Inter", sans-serif; margin: 0; }
+		a { color: inherit; }
 
 		.navbar {
-			background: #ffffff;
-			border-radius: 999px;
-			box-shadow: 0 12px 28px rgba(8, 17, 54, .18);
-			left: 1rem;
-			padding: .45rem 0;
-			right: 1rem;
-			top: .85rem;
+			align-items: center; background: #ffffff; border-radius: 999px; box-shadow: 0 12px 28px rgba(8, 17, 54, .18);
+			display: flex; justify-content: space-between; left: 1rem; padding: .45rem clamp(1.25rem, 3vw, 2rem); position: fixed; right: 1rem; top: .85rem; z-index: 2;
 		}
+		.navbar-brand { align-items: center; color: var(--navy); display: flex; font-family: "Inter", sans-serif; font-size: 1.05rem; font-weight: 800; gap: .65rem; text-decoration: none; }
+		.navbar-brand img { height: 2.2rem; object-fit: contain; width: 2.2rem; }
+		.nav-links { display: flex; gap: 1.7rem; }
+		.nav-links a { color: #161616; font-size: .76rem; font-weight: 600; text-decoration: none; }
+		.nav-links a:hover { color: var(--navy); }
 
-		.navbar-brand {
-			color: var(--night) !important;
-			font-size: 1.05rem;
-			font-weight: 800;
-			letter-spacing: -.02em;
+		.hero { background: var(--navy); color: white; min-height: 92vh; overflow: hidden; padding: 9rem clamp(1.25rem, 5vw, 5rem) 5rem; position: relative; }
+		.hero::before { border: 1px solid rgba(255, 255, 255, .12); border-radius: 50%; content: ""; height: 48rem; position: absolute; right: -14rem; top: -12rem; width: 48rem; }
+		.hero::after { background: var(--red); border-radius: 50%; content: ""; height: 1rem; position: absolute; right: 10%; top: 28%; width: 1rem; }
+		.hero-grid { align-items: center; display: grid; gap: 4rem; grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr); margin: 0 auto; max-width: 1280px; position: relative; z-index: 1; }
+		.kicker, .section-kicker { font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+		.kicker { color: #b8c4ff; margin-bottom: 1.5rem; }
+		h1, h2, h3, p { margin-top: 0; }
+		h1, h2 { font-family: "Anton", "Arial Narrow", sans-serif; font-weight: 400; letter-spacing: .015em; text-transform: uppercase; }
+		h1 { font-size: clamp(3.5rem, 7vw, 7rem); line-height: .95; margin-bottom: 2rem; max-width: 850px; }
+		h1 em { color: #ffffff; font-style: normal; }
+		.hero-copy { color: #b8c4ff; font-size: clamp(1rem, 1.6vw, 1.2rem); line-height: 1.7; max-width: 590px; }
+		.hero-logo { align-items: center; background: #fff; border-radius: 50%; display: flex; justify-content: center; margin: auto; max-width: 390px; padding: 2rem; width: min(100%, 390px); }
+		.hero-logo img { display: block; width: 100%; }
+		.scroll-note { bottom: 2rem; color: #b8c4ff; font-size: .65rem; left: clamp(1.25rem, 5vw, 5rem); position: absolute; text-transform: uppercase; }
+
+		.problem { background: #ffffff; padding: 7rem clamp(1.25rem, 5vw, 5rem); }
+		.problem-inner, .modules-inner, .closing-inner { margin: 0 auto; max-width: 1280px; }
+		.problem-grid { display: grid; gap: 4rem; grid-template-columns: .65fr 1.35fr; }
+		.section-kicker { color: var(--navy); font-weight: 500; }
+		h2 { font-size: clamp(2.5rem, 5vw, 5.7rem); line-height: .92; margin-bottom: 1.5rem; }
+		.problem-text { color: var(--muted); font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 500; letter-spacing: 0; line-height: 1.7; max-width: 800px; }
+		.problem-text strong { color: var(--navy); }
+
+		.modules { background: var(--navy); color: #ffffff; padding: 7rem clamp(1.25rem, 5vw, 5rem); }
+		.modules-heading { align-items: end; display: flex; justify-content: space-between; margin-bottom: 3rem; }
+		.modules-heading h2 { max-width: 650px; }
+		.modules-intro { color: #b8c4ff; line-height: 1.7; max-width: 300px; }
+		.module-grid { display: grid; gap: 1.2rem; grid-template-columns: repeat(3, 1fr); }
+		.module-card { background: #ffffff; border: 1px solid var(--line); color: var(--ink); min-height: 410px; padding: 1.8rem; position: relative; }
+		.module-card:nth-child(1), .module-card:nth-child(2), .module-card:nth-child(3) { border-top: 4px solid var(--navy); }
+		.module-number { color: var(--muted); font-size: .75rem; }
+		.module-icon { align-items: center; border: 1px solid currentColor; border-radius: 50%; display: flex; font-size: 2rem; height: 4.5rem; justify-content: center; margin: 2.5rem 0 2rem; width: 4.5rem; }
+		.module-card:nth-child(1) .module-icon, .module-card:nth-child(2) .module-icon, .module-card:nth-child(3) .module-icon { color: var(--navy); }
+		.module-card h3 { font-family: "Inter", sans-serif; font-size: 1.2rem; font-weight: 800; letter-spacing: 0; margin-bottom: 1rem; }
+		.module-card p { color: var(--muted); line-height: 1.7; margin-bottom: 0; }
+		.module-tag { bottom: 1.8rem; color: var(--navy); font-size: .65rem; position: absolute; text-transform: uppercase; }
+		.profiles { background: #ffffff; padding: 7rem clamp(1.25rem, 5vw, 5rem); }
+		.profiles-heading { margin: 0 auto 3rem; max-width: 1280px; }
+		.profiles-heading h2 { max-width: 720px; }
+		.profiles-intro { color: var(--muted); line-height: 1.7; max-width: 620px; }
+		.profile-grid { display: grid; gap: 1.2rem; grid-template-columns: repeat(4, 1fr); margin: auto; max-width: 1280px; }
+		.profile-card { border: 1px solid var(--line); display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+		.profile-card img { background: #f1f3f8; height: 210px; object-fit: cover; width: 100%; }
+		.profile-card-body { display: flex; flex: 1; flex-direction: column; padding: 1.3rem; }
+		.profile-card h3 { font-size: 1.05rem; font-weight: 800; line-height: 1.25; margin-bottom: .65rem; }
+		.profile-card p { color: var(--muted); font-size: .84rem; line-height: 1.6; margin-bottom: 1.2rem; }
+		.profile-card a { align-self: flex-start; background: var(--navy); color: #ffffff; font-size: .72rem; font-weight: 700; margin-top: auto; padding: .65rem .85rem; text-decoration: none; }
+		.profile-card a:hover { background: var(--blue); }
+
+		.closing { background: var(--navy); color: white; padding: 7rem clamp(1.25rem, 5vw, 5rem); }
+		.closing-inner { align-items: end; display: flex; justify-content: space-between; gap: 3rem; }
+		.closing h2 { color: #ffffff; margin-bottom: 0; max-width: 760px; }
+		.closing-copy { color: #b8c4ff; line-height: 1.7; max-width: 320px; }
+		footer { background: #111111; color: rgba(255, 255, 255, .72); font-size: .65rem; padding: 1.5rem clamp(1.25rem, 5vw, 5rem); text-transform: uppercase; }
+		.footer-inner { display: flex; justify-content: space-between; margin: auto; max-width: 1280px; }
+
+		@media (max-width: 800px) {
+			.nav-links { gap: .8rem; }
+			.nav-links a { font-size: .58rem; }
+			.hero-grid, .problem-grid { grid-template-columns: 1fr; }
+			.hero { min-height: auto; padding-top: 8rem; }
+			.hero-logo { margin-top: 1rem; max-width: 280px; }
+			.modules-heading, .closing-inner { align-items: start; flex-direction: column; }
+			.module-grid { grid-template-columns: 1fr; }
+			.module-card { min-height: 330px; }
+			.profile-grid { grid-template-columns: repeat(2, 1fr); }
 		}
-
-		.brand-mark {
-			color: var(--night);
-			font-size: 1.1rem;
-		}
-
-		.nav-link {
-			color: #161616 !important;
-			font-size: .76rem;
-			font-weight: 600;
-			padding-left: .75rem !important;
-			padding-right: .75rem !important;
-			position: relative;
-		}
-
-		.nav-link:hover, .nav-link:focus {
-			color: var(--night) !important;
-		}
-
-		.nav-link:hover::after, .nav-link:focus::after, .nav-link[href="#inicio"]::after {
-			background: var(--night);
-			bottom: .15rem;
-			content: "";
-			height: 2px;
-			left: .75rem;
-			position: absolute;
-			right: .75rem;
-		}
-
-		.hero {
-			align-items: center;
-			background: var(--night);
-			color: #fff;
-			display: flex;
-			min-height: 100vh;
-		}
-
-		.hero-content {
-			max-width: 1320px;
-			padding-bottom: 4rem;
-			padding-top: 7.5rem;
-			width: 100%;
-		}
-
-		.hero-content-inner {
-			max-width: 58%;
-		}
-
-		.eyebrow {
-			color: #b8c4ff;
-			font-size: .75rem;
-			font-weight: 700;
-			letter-spacing: .18em;
-			text-transform: uppercase;
-		}
-
-		.hero h1 {
-			font-size: clamp(3.25rem, 6.6vw, 6.5rem);
-			line-height: 1.02;
-			margin-bottom: 2rem !important;
-			max-width: 760px;
-		}
-
-		.hero h1 span {
-			color: #ffffff;
-			display: block;
-			font-size: 1em;
-		}
-
-		.hero h1 .title-line {
-			display: block;
-			white-space: nowrap;
-		}
-
-		.hero-copy {
-			color: #b8c4ff;
-			font-size: 1rem;
-			line-height: 1.75;
-			margin-bottom: 2rem !important;
-			max-width: 600px;
-		}
-
-		.btn-carnival {
-			align-items: center;
-			background: #ffffff;
-			border: 1px solid #ffffff;
-			border-radius: 2px;
-			color: #111111;
-			display: inline-flex;
-			font-weight: 700;
-			padding: .8rem .8rem .8rem 1.25rem;
-			transition: background-color .2s ease, color .2s ease;
-		}
-
-		.btn-carnival:hover, .btn-carnival:focus {
-			background: #f0f0f0;
-			color: #111111;
-		}
-
-		.btn-carnival i {
-			align-items: center;
-			background: #111111;
-			color: #ffffff;
-			display: inline-flex;
-			font-size: 0;
-			height: 2.35rem;
-			justify-content: center;
-			margin-left: 1rem !important;
-			width: 2.35rem;
-		}
-
-		.btn-carnival i::before {
-			font-size: 1rem;
-		}
-
-		.section-padding { padding: 5.5rem 0; }
-
-		#sobre, #biblioteca { background: #ffffff; }
-
-		.section-label {
-			color: var(--night);
-			font-size: .75rem;
-			font-weight: 700;
-			letter-spacing: .14em;
-			text-transform: uppercase;
-		}
-
-		.section-title {
-			font-size: clamp(2.4rem, 5vw, 4.5rem);
-			line-height: .95;
-		}
-
-		.section-text {
-			color: #697181;
-			line-height: 1.8;
-		}
-
-		.about-icon {
-			align-items: center;
-			background: transparent;
-			border-radius: 50%;
-			border: 2px solid var(--night);
-			color: var(--night);
-			display: flex;
-			font-size: 5.5rem;
-			height: 190px;
-			justify-content: center;
-			margin: 0 auto;
-			width: 190px;
-		}
-
-		.tools-section { background: var(--night); }
-
-		.tools-section .section-title,
-		.tools-section .section-label { color: #ffffff; }
-
-		.tool-card, .library-card {
-			background: #ffffff;
-			border: 1px solid var(--line);
-			border-radius: 0;
-			height: 100%;
-		}
-
-		.tool-card { padding: 1.8rem; }
-
-		.tool-icon {
-			color: var(--night);
-			font-size: 2rem;
-		}
-
-		.tool-card h3 { font-size: 1.2rem; font-weight: 800; }
-
-		.tool-card p, .library-card p {
-			color: var(--muted);
-			font-size: .92rem;
-			line-height: 1.65;
-		}
-
-		.library-card { padding: 1.25rem; }
-
-		.library-card i {
-			color: var(--night);
-			font-size: 1.5rem;
-		}
-
-		.alliance-section {
-			background: var(--night);
-			color: #fff;
-		}
-
-		.alliance-section .section-label { color: rgba(255, 255, 255, .7); }
-
-		.alliance-section .section-text { color: rgba(255, 255, 255, .76); }
-|	
-		footer {
-			background: #111111;
-			color: rgba(255, 255, 255, .72);
-			font-size: .82rem;
-		}
-
-		footer a {
-			align-items: center;
-			border: 1px solid rgba(255, 255, 255, .65);
-			border-radius: 50%;
-			color: #ffffff;
-			display: inline-flex;
-			height: 2rem;
-			justify-content: center;
-			text-decoration: none;
-			width: 2rem;
-		}
-
-		@media (max-width: 991.98px) {
-			.navbar-collapse { background: #ffffff; border-radius: 0 0 1rem 1rem; padding: .75rem 0; }
-			.navbar-toggler i { color: var(--night) !important; }
-			.hero { min-height: 88vh; }
-			.hero-content-inner { max-width: 72%; }
-		}
-
-		@media (max-width: 575.98px) {
-			.navbar { left: .65rem; right: .65rem; }
-			.hero-content { padding-bottom: 3rem; padding-top: 7rem; }
-			.hero-content-inner { max-width: 100%; }
-			.hero h1 { font-size: clamp(2.8rem, 14vw, 4.6rem); }
-			.hero h1 .title-line { white-space: normal; }
-			.hero-copy { font-size: .95rem; }
+		@media (max-width: 520px) {
+			.navbar { align-items: start; flex-direction: column; gap: .8rem; }
+			.nav-links { flex-wrap: wrap; }
+			h1 { font-size: clamp(3.2rem, 17vw, 5rem); }
+			.hero { padding-top: 10rem; }
+			.scroll-note { display: none; }
+			.footer-inner { flex-direction: column; gap: .5rem; }
+			.profile-grid { grid-template-columns: 1fr; }
 		}
 	</style>
 </head>
 
 <body>
-	<!-- Navegación -->
-	<nav class="navbar navbar-expand-lg fixed-top" aria-label="Navegación principal">
-		<div class="container">
-			<a class="navbar-brand" href="#inicio"><i class="bi bi-stars brand-mark me-2" aria-hidden="true"></i>ArtSanctuary</a>
-			<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Abrir menú">
-				<i class="bi bi-list text-white fs-3" aria-hidden="true"></i>
-			</button>
-			<div class="collapse navbar-collapse" id="mainNav">
-				<ul class="navbar-nav ms-auto gap-lg-2">
-					<li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
-					<li class="nav-item"><a class="nav-link" href="#sobre">Sobre el proyecto</a></li>
-					<li class="nav-item"><a class="nav-link" href="#herramientas">Herramientas</a></li>
-					<li class="nav-item"><a class="nav-link" href="#biblioteca">Biblioteca</a></li>
-					<li class="nav-item"><a class="nav-link" href="#corpocarnaval">Corpocarnaval</a></li>
-				</ul>
-			</div>
-		</div>
+	<nav class="navbar" aria-label="Navegación principal">
+		<a class="navbar-brand" href="#inicio"><img src="Logo_ArtSanctuary.png" alt=""><span>ArtSanctuary</span></a>
+		<div class="nav-links"><a href="#problema">El problema</a><a href="#modulos">Los módulos</a><a href="#vision">La visión</a></div>
 	</nav>
 
 	<main>
-		<!-- Hero -->
-		<section id="inicio" class="hero" aria-labelledby="hero-title">
-			<div class="container hero-content">
-				<div class="hero-content-inner">
-					<p class="eyebrow mb-3">Arte · territorio · memoria</p>
-					<h1 id="hero-title"><span class="title-line">La creación de</span><span class="title-line">Nariño</span><span class="title-line">encuentra su</span><span class="title-line">lugar.</span></h1>
-					<p class="hero-copy">Una propuesta de plataforma digital para visibilizar a artistas, preservar saberes y acercar el patrimonio del Carnaval de Negros y Blancos al mundo.</p>
-					<a class="btn btn-carnival" href="#sobre">Conoce el proyecto <i class="bi bi-arrow-up-right ms-1" aria-hidden="true"></i></a>
+		<section class="hero" id="inicio" aria-labelledby="hero-title">
+			<div class="hero-grid">
+				<div><p class="kicker">Plataforma digital / Nariño</p><h1 id="hero-title">El arte que nos <em>reúne</em> merece permanecer.</h1><p class="hero-copy">ArtSanctuary es una propuesta para crear, preservar y visibilizar el talento de los maestros artesanos y sus colectivos durante todo el año.</p></div>
+				<div class="hero-logo"><img src="Logo_ArtSanctuary.png" alt="Logo de ArtSanctuary"></div>
+			</div>
+			<p class="scroll-note">01 - Una nueva memoria digital</p>
+		</section>
+
+		<section class="problem" id="problema" aria-labelledby="problem-title">
+			<div class="problem-inner problem-grid"><div><p class="section-kicker">El punto de partida</p></div><div><h2 id="problem-title">La memoria no puede desaparecer entre temporadas.</h2><p class="problem-text">Hoy, los registros de las obras y la memoria del Carnaval viven dispersos en <strong>archivos personales y redes sociales</strong>. Así, el trabajo de los artesanos pierde visibilidad justo cuando termina la celebración.</p></div></div>
+		</section>
+
+		<section class="modules" id="modulos" aria-labelledby="modules-title">
+			<div class="modules-inner">
+				<div class="modules-heading"><div><p class="section-kicker">La propuesta</p><h2 id="modules-title">Tres formas de mantener vivo lo propio.</h2></div><p class="modules-intro">Una plataforma pensada para acompañar el proceso creativo, guardar la historia y poner rostro a quienes construyen el Carnaval.</p></div>
+				<div class="module-grid">
+					<article class="module-card"><span class="module-number">01 / Crear</span><div class="module-icon"><i class="bi bi-boxes" aria-hidden="true"></i></div><h3>Herramientas creativas</h3><p>Una suite 2D/3D para apoyar el diseño de carrozas y esculturas: espacio de trabajo, visualización tridimensional y atlas anatómico de referencias.</p><span class="module-tag">Diseño + exploración</span></article>
+					<article class="module-card"><span class="module-number">02 / Recordar</span><div class="module-icon"><i class="bi bi-archive" aria-hidden="true"></i></div><h3>Archivo histórico</h3><p>Un repositorio digital de fotografías, documentos y registros del Carnaval, clasificados por año, modalidad, técnica y autor.</p><span class="module-tag">Patrimonio + memoria</span></article>
+					<article class="module-card"><span class="module-number">03 / Visibilizar</span><div class="module-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></div><h3>Perfiles de artesanos</h3><p>Espacios para conocer la trayectoria, las obras y los reconocimientos de los maestros y sus colectivos.</p><span class="module-tag">Personas + legado</span></article>
 				</div>
 			</div>
 		</section>
 
-		<!-- Sobre el proyecto -->
-		<section id="sobre" class="section-padding" aria-labelledby="about-title">
-			<div class="container">
-				<div class="row align-items-center g-5">
-					<div class="col-lg-7">
-						<p class="section-label mb-3">Una propuesta académica</p>
-						<h2 id="about-title" class="section-title mb-4">Conectar el talento con su territorio.</h2>
-						<p class="section-text mb-0">Regiones como Nariño todavía quedan fuera de muchos circuitos digitales del arte. ArtSanctuary propone una vitrina para que artistas y creadores compartan su obra con galerías, curadores y visitantes, mientras una biblioteca digital conserva las referencias y técnicas que hacen único al territorio.</p>
+		<section class="profiles" id="perfiles" aria-labelledby="profiles-title">
+			<div class="profiles-heading">
+				<p class="section-kicker">Personas que crean</p>
+				<h2 id="profiles-title">El talento también tiene un rostro.</h2>
+				<p class="profiles-intro">Una muestra de los perfiles que ArtSanctuary puede reunir para visibilizar trayectorias, intereses y formas distintas de crear.</p>
+			</div>
+			<div class="profile-grid">
+				<article class="profile-card">
+					<img src="../../estudiantes/SantiagoBustos/Foto_Perfil_Santy.png" alt="Santiago Bustos López">
+					<div class="profile-card-body">
+						<h3>Santiago Bustos López</h3>
+						<p>Estudiante de Ingeniería de Software, me gusta la arquitectura de software y el diseño de interfaces de usuario.</p>
+						<a href="../../estudiantes/SantiagoBustos/perfil_SantiagoBustos.HTML">Ver perfil</a>
 					</div>
-					<div class="col-lg-5">
-						<div class="about-icon" aria-label="Icono de una estrella que representa la creatividad"><i class="bi bi-brush" aria-hidden="true"></i></div>
+				</article>
+
+				<article class="profile-card">
+					<img src="../../estudiantes/img/juan-enriquez.jpg" alt="Juan Jose Enriquez Cordoba">
+					<div class="profile-card-body">
+						<h3>Juan Jose Enriquez Cordoba</h3>
+						<p>Estudiante de Ingeniería de Software, interesado en el desarrollo de software con potencial y impacto hacia las plataformas futuras.</p>
+						<a href="../../JuanEnriquez.html">Ver perfil</a>
 					</div>
-				</div>
-			</div>
-		</section>
+				</article>
 
-		<!-- Herramientas -->
-		<section id="herramientas" class="section-padding tools-section" aria-labelledby="tools-title">
-			<div class="container">
-				<p class="section-label mb-3">El corazón de la propuesta</p>
-				<h2 id="tools-title" class="section-title mb-5">Herramientas para hacer visible lo propio.</h2>
-				<div class="row g-4">
-					<div class="col-md-4"><article class="tool-card"><i class="bi bi-person-badge tool-icon" aria-hidden="true"></i><h3 class="mt-4">Perfil de artista</h3><p class="mb-0">Una identidad digital para presentar trayectoria, disciplina, ubicación y proceso creativo.</p></article></div>
-					<div class="col-md-4"><article class="tool-card"><i class="bi bi-images tool-icon" aria-hidden="true"></i><h3 class="mt-4">Portafolio digital</h3><p class="mb-0">Un espacio para organizar obras, imágenes y relatos que acompañan cada creación.</p></article></div>
-					<div class="col-md-4"><article class="tool-card"><i class="bi bi-eye tool-icon" aria-hidden="true"></i><h3 class="mt-4">Vitrina pública</h3><p class="mb-0">Una puerta de encuentro con galerías, curadores y quienes visitan el carnaval.</p></article></div>
-				</div>
-			</div>
-		</section>
-
-		<!-- Biblioteca digital -->
-		<section id="biblioteca" class="section-padding" aria-labelledby="library-title">
-			<div class="container">
-				<div class="row align-items-end g-4 mb-5">
-					<div class="col-lg-7"><p class="section-label mb-3">Memoria que se comparte</p><h2 id="library-title" class="section-title mb-0">Biblioteca digital</h2></div>
-					<div class="col-lg-5"><p class="section-text mb-0">Referencias visuales y recursos curados para aprender, crear y mantener vivo el conocimiento regional.</p></div>
-				</div>
-				<div class="row g-3">
-					<div class="col-md-4"><article class="library-card"><i class="bi bi-palette" aria-hidden="true"></i><h3 class="h5 mt-3">Barniz de Pasto</h3><p class="mb-0">Materia, color y técnica de una tradición artesanal viva.</p></article></div>
-					<div class="col-md-4"><article class="library-card"><i class="bi bi-mask" aria-hidden="true"></i><h3 class="h5 mt-3">Mascarería del Carnaval</h3><p class="mb-0">Formas, personajes y símbolos de una celebración colectiva.</p></article></div>
-					<div class="col-md-4"><article class="library-card"><i class="bi bi-award" aria-hidden="true"></i><h3 class="h5 mt-3">Patrimonio UNESCO</h3><p class="mb-0">Contexto para comprender el valor cultural del Carnaval.</p></article></div>
-				</div>
-			</div>
-		</section>
-
-		<!-- Corpocarnaval -->
-		<section id="corpocarnaval" class="section-padding alliance-section" aria-labelledby="alliance-title">
-			<div class="container">
-				<div class="row align-items-center g-5">
-					<div class="col-lg-12">
-						<p class="section-label mb-3">Alianza por construir</p>
-						<h2 id="alliance-title" class="section-title mb-4">ArtSanctuary busca consolidarse como extensión digital de Corpocarnaval.</h2>
-						<p class="section-text mb-0">Esta es una propuesta que busca la alianza y el respaldo institucional de Corpocarnaval, entidad organizadora del Carnaval de Negros y Blancos. No representa una extensión formalizada.</p>
+				<article class="profile-card">
+					<img src="https://files.catbox.moe/76eymz.jpg" alt="Manuel Viveros Realpe">
+					<div class="profile-card-body">
+						<h3>Manuel Viveros Realpe</h3>
+						<p>Estudiante de Ingeniería de Sistemas, semestre 6.</p>
+						<a href="../../estudiantes/ManuelViverosCard/M4nuVR.html">Ver perfil</a>
 					</div>
-				</div>
+				</article>
+
+				<article class="profile-card">
+					<img src="../../estudiantes/SamuelMena/perfil.png" alt="Foto de perfil de Samuel Esteban Mena Pupiales">
+					<div class="profile-card-body">
+						<h3>Samuel Esteban Mena Pupiales</h3>
+						<p>Desarrollador Full Stack con enfoque en diseño 3D, modelado con Blender y desarrollo interactivo con Three.js.</p>
+						<a href="../../estudiantes/SamuelMena/perfil.html">Ver perfil</a>
+					</div>
+				</article>
 			</div>
 		</section>
+
+		<section class="closing" id="vision" aria-labelledby="closing-title"><div class="closing-inner"><h2 id="closing-title">Una casa digital para el arte de Nariño.</h2><p class="closing-copy">ArtSanctuary conecta la imaginación del presente con la memoria que merece ser compartida mañana.</p></div></section>
 	</main>
 
-	<!-- Pie de página -->
-	<footer class="py-4">
-		<div class="container d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-			<span>Propuesta de trabajo de grado - Santiago Bustos López, Juan José Enríquez, Samuel Esteban Mena, Khaled Santiago Benabides, Manuel Viveros Realpe</span>
-			<a href="mailto:art.sanctuary@example.com" aria-label="Enviar correo electrónico"><i class="bi bi-envelope fs-5" aria-hidden="true"></i></a>
-		</div>
-	</footer>
-
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<footer><div class="footer-inner"><span>ArtSanctuary / Propuesta de proyecto</span><span>Arte - territorio - memoria</span></div></footer>
 </body>
 
 </html>
