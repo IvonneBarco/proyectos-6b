@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurea · Salud a tiempo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --noche: #08090a;
+            --tinta: #111316;
+            --crema: #f3eee4;
+            --oro: #d4b483;
+            --oro-bajo: #c4a574;
+            --salvia: #8fa89a;
+            --muted: rgba(243, 238, 228, 0.68);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: "Outfit", system-ui, sans-serif;
+            background: var(--noche);
+            color: var(--crema);
+            overflow-x: hidden;
+        }
+
+        body.intro-on { overflow: hidden; }
+
+        ::selection {
+            background: rgba(212, 180, 131, 0.35);
+            color: var(--crema);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #08090a; }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #d4b483, #7d6848);
+            border-radius: 999px;
+        }
+
+        a { color: inherit; }
+
+        @keyframes enterUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes wordIn {
+            from { opacity: 0; letter-spacing: 0.6em; filter: blur(8px); }
+            to { opacity: 1; letter-spacing: 0.42em; filter: none; }
+        }
+
+        @keyframes ringDraw {
+            from { stroke-dashoffset: 420; opacity: 0; }
+            to { stroke-dashoffset: 0; opacity: 1; }
+        }
+
+        @keyframes floatPhone {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(2deg); }
+            50% { transform: translateY(-34px) translateX(8px) rotate(6deg); }
+        }
+
+        @keyframes floatPhoneBack {
+            0%, 100% { transform: translateY(0) rotate(11deg) scale(0.9); }
+            50% { transform: translateY(26px) rotate(15deg) scale(0.9); }
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(212, 180, 131, 0.45); }
+            70% { box-shadow: 0 0 0 8px rgba(212, 180, 131, 0); }
+        }
+
+        @keyframes cinta {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        @keyframes dust {
+            0% { transform: translateY(0); opacity: 0; }
+            15% { opacity: 0.65; }
+            100% { transform: translateY(-110vh); opacity: 0; }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-140%) rotate(18deg); }
+            55%, 100% { transform: translateX(220%) rotate(18deg); }
+        }
+
+        @keyframes lineDraw {
+            from { width: 0; opacity: 0; }
+            to { width: 120px; opacity: 1; }
+        }
+
+        @keyframes orbitSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes bounceHint {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.55; }
+            50% { transform: translateX(-50%) translateY(6px); opacity: 1; }
+        }
+
+        @keyframes markBreath {
+            0%, 100% { transform: scale(1); opacity: 0.85; }
+            50% { transform: scale(1.045); opacity: 1; }
+        }
+
+        @keyframes titleShine {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 220% 50%; }
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(212, 180, 131, 0.2)); }
+            50% { filter: drop-shadow(0 0 34px rgba(240, 221, 184, 0.7)); }
+        }
+
+        @keyframes glareSweep {
+            0% { transform: translateX(-160%) rotate(18deg); }
+            100% { transform: translateX(280%) rotate(18deg); }
+        }
+
+        @keyframes floatGal1 {
+            0%, 100% { transform: rotate(-6deg) translateY(0); }
+            50% { transform: rotate(-8deg) translateY(-22px); }
+        }
+
+        @keyframes floatGal2 {
+            0%, 100% { transform: translateY(-18px); }
+            50% { transform: translateY(-40px); }
+        }
+
+        @keyframes floatGal3 {
+            0%, 100% { transform: rotate(6deg) translateY(0); }
+            50% { transform: rotate(9deg) translateY(-22px); }
+        }
+
+        @keyframes letterboxIn {
+            from { transform: scaleX(0.4); opacity: 0; }
+            to { transform: none; opacity: 1; }
+        }
+
+        .cielo {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .progreso {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            width: 0;
+            background: linear-gradient(90deg, transparent, var(--oro), #f0ddb8);
+            z-index: 30;
+            box-shadow: 0 0 12px rgba(212, 180, 131, 0.55);
+        }
+
+        .orbe {
+            position: fixed;
+            width: 220px;
+            height: 220px;
+            margin: -110px 0 0 -110px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 7;
+            opacity: 0;
+            background: radial-gradient(circle, rgba(212, 180, 131, 0.16), transparent 68%);
+            mix-blend-mode: screen;
+            transition: opacity 0.4s;
+        }
+
+        .orbe.on { opacity: 1; }
+
+        .marco-cine span {
+            position: fixed;
+            width: 28px;
+            height: 28px;
+            border: 1px solid rgba(212, 180, 131, 0.28);
+            z-index: 12;
+            pointer-events: none;
+        }
+
+        .marco-cine .tl { top: 14px; left: 14px; border-right: 0; border-bottom: 0; }
+        .marco-cine .tr { top: 14px; right: 14px; border-left: 0; border-bottom: 0; }
+        .marco-cine .bl { bottom: 14px; left: 14px; border-right: 0; border-top: 0; }
+        .marco-cine .br { bottom: 14px; right: 14px; border-left: 0; border-top: 0; }
+
+        .letterbox {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 42px;
+            background: #000;
+            z-index: 3;
+            animation: letterboxIn 1.1s ease both;
+        }
+
+        .letterbox.top { top: 0; }
+        .letterbox.bot { bottom: 0; }
+
+        .grano {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 8;
+            opacity: 0.045;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .intro {
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            background: #050505;
+            display: grid;
+            place-items: center;
+        }
+
+        .intro.out {
+            animation: fadeIn 0.8s ease reverse forwards;
+            pointer-events: none;
+        }
+
+        .intro canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .intro-vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 30%, #000 88%);
+            pointer-events: none;
+        }
+
+        .intro-content {
+            position: relative;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .intro-mark {
+            width: 92px;
+            height: 92px;
+            margin: 0 auto 22px;
+        }
+
+        .intro-mark circle {
+            fill: none;
+            stroke: var(--oro);
+            stroke-width: 1.4;
+            stroke-dasharray: 420;
+            animation: ringDraw 1.4s ease forwards;
+        }
+
+        .intro-name {
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: clamp(2.8rem, 8vw, 5.4rem);
+            font-weight: 500;
+            letter-spacing: 0.42em;
+            text-indent: 0.42em;
+            animation: wordIn 1.4s 0.35s ease both;
+        }
+
+        .intro-sub {
+            margin-top: 14px;
+            color: var(--oro);
+            letter-spacing: 0.34em;
+            text-transform: uppercase;
+            font-size: 0.68rem;
+            animation: enterUp 0.9s 0.9s ease both;
+        }
+
+        .intro-skip-wrap {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 36px;
+            display: flex;
+            justify-content: center;
+            z-index: 3;
+        }
+
+        .intro-skip {
+            background: transparent;
+            border: 1px solid rgba(212, 180, 131, 0.35);
+            color: var(--oro);
+            padding: 8px 18px;
+            border-radius: 999px;
+            font: 500 0.72rem/1 Outfit, sans-serif;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .intro-skip:hover { background: rgba(212, 180, 131, 0.08); }
+
+        .dust {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .dust span {
+            position: absolute;
+            bottom: -10px;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            background: var(--oro);
+            animation: dust 14s linear infinite;
+        }
+
+        .dust span:nth-child(1) { left: 8%; animation-delay: 0s; }
+        .dust span:nth-child(2) { left: 18%; animation-delay: 1.2s; }
+        .dust span:nth-child(3) { left: 28%; animation-delay: 2s; }
+        .dust span:nth-child(4) { left: 41%; animation-delay: 3.4s; }
+        .dust span:nth-child(5) { left: 53%; animation-delay: 5s; }
+        .dust span:nth-child(6) { left: 64%; animation-delay: 1.6s; }
+        .dust span:nth-child(7) { left: 76%; animation-delay: 4.2s; }
+        .dust span:nth-child(8) { left: 88%; animation-delay: 6.4s; }
+        .dust span:nth-child(9) { left: 94%; animation-delay: 2.8s; }
+
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 7vw;
+            background: rgba(8, 9, 10, 0.72);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(212, 180, 131, 0.08);
+        }
+
+        .brand {
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: 1.35rem;
+            letter-spacing: 0.28em;
+            text-decoration: none;
+            color: var(--crema);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            font-size: 0.86rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--muted);
+        }
+
+        .nav-links a:hover { color: var(--crema); }
+
+        .hero {
+            min-height: calc(100vh - 68px);
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 48px;
+            align-items: center;
+            padding: 48px 7vw 64px;
+            position: relative;
+            overflow: hidden;
+            background: #08090a;
+        }
+
+        .hero-mark {
+            position: absolute;
+            left: -4vw;
+            top: 8%;
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: 38vw;
+            line-height: 0.8;
+            color: transparent;
+            -webkit-text-stroke: 1.4px rgba(212, 180, 131, 0.16);
+            pointer-events: none;
+            user-select: none;
+            transform-origin: left center;
+            animation: markBreath 7s ease-in-out infinite;
+        }
+
+        .hero-copy { position: relative; z-index: 2; }
+
+        body:not(.intro-on) .hero-copy .kicker { animation: enterUp 0.7s 0.05s ease both; }
+        body:not(.intro-on) .hero-copy h1 {
+            animation: enterUp 0.8s 0.16s ease both, titleGlow 3.2s 0.8s ease-in-out infinite;
+        }
+
+        body:not(.intro-on) .hero-copy h1 span {
+            animation: titleShine 3.2s linear infinite;
+        }
+        body:not(.intro-on) .hero-copy .title-line { animation: lineDraw 1s 0.32s ease both; }
+        body:not(.intro-on) .hero-copy .lead { animation: enterUp 0.8s 0.4s ease both; }
+        body:not(.intro-on) .hero-copy .actions { animation: enterUp 0.8s 0.52s ease both; }
+
+        .title-line {
+            display: block;
+            height: 2px;
+            width: 120px;
+            margin: 4px 0 26px;
+            background: linear-gradient(90deg, #f0ddb8, var(--oro), transparent);
+            box-shadow: 0 0 12px rgba(212, 180, 131, 0.55);
+            animation: lineDraw 1.1s 0.4s ease both;
+        }
+
+        .kicker {
+            color: var(--oro);
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: clamp(5.2rem, 14vw, 9.4rem);
+            line-height: 0.8;
+            letter-spacing: -0.03em;
+            margin: 0 0 10px;
+        }
+
+        h1 span {
+            background: linear-gradient(100deg, #8a7044 0%, #f0ddb8 28%, #fff8ea 48%, #d4b483 72%, #8a7044 100%);
+            background-size: 240% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .lead {
+            color: var(--muted);
+            font-weight: 300;
+            font-size: 1.18rem;
+            max-width: 38ch;
+            line-height: 1.65;
+            margin-bottom: 32px;
+        }
+
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            background: var(--crema);
+            color: var(--noche);
+            padding: 13px 22px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+            animation: shine 4.5s ease infinite;
+        }
+
+        .btn.ghost {
+            background: transparent;
+            color: var(--crema);
+            border: 1px solid rgba(243, 238, 228, 0.2);
+        }
+
+        .btn.ghost::after { display: none; }
+
+        .hero-visual {
+            display: grid;
+            place-items: center;
+            position: relative;
+            min-height: 600px;
+        }
+
+        .phone-stack {
+            position: relative;
+            width: 360px;
+            height: 580px;
+            z-index: 1;
+        }
+
+        .phone {
+            width: 270px;
+            height: 560px;
+            background: #0c0d0f;
+            border-radius: 42px;
+            border: 1px solid rgba(212, 180, 131, 0.42);
+            box-shadow:
+                0 40px 90px rgba(0, 0, 0, 0.62),
+                0 0 0 1px rgba(212, 180, 131, 0.08),
+                inset 0 0 0 8px #16181c;
+            padding: 14px 12px 16px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .phone.hero-phone {
+            position: absolute;
+            left: 0;
+            top: 10px;
+            animation: floatPhone 3.4s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        .phone.back {
+            position: absolute;
+            right: 0;
+            top: 48px;
+            opacity: 0.78;
+            z-index: 0;
+            filter: saturate(0.85);
+            animation: floatPhoneBack 4s ease-in-out infinite;
+        }
+
+        .phone-glare {
+            position: absolute;
+            top: -20%;
+            left: 0;
+            width: 42%;
+            height: 140%;
+            background: linear-gradient(90deg, transparent, rgba(243, 238, 228, 0.2), transparent);
+            pointer-events: none;
+            z-index: 2;
+            animation: glareSweep 4.2s ease-in-out infinite;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .days i {
+            font-style: normal;
+            text-align: center;
+            font-size: 0.62rem;
+            color: rgba(243, 238, 228, 0.45);
+            border: 1px solid rgba(212, 180, 131, 0.12);
+            border-radius: 10px;
+            padding: 6px 0;
+        }
+
+        .days i b { display: block; font-size: 0.78rem; color: var(--crema); font-weight: 500; margin-top: 2px; }
+        .days i.on {
+            background: rgba(212, 180, 131, 0.18);
+            border-color: rgba(212, 180, 131, 0.4);
+            color: var(--oro);
+        }
+
+        .med {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(243, 238, 228, 0.06);
+            font-size: 0.78rem;
+        }
+
+        .med:last-child { border-bottom: 0; }
+        .med span { color: var(--muted); }
+        .med em { font-style: normal; color: var(--oro); font-size: 0.68rem; }
+
+        .fecha-linea {
+            color: var(--muted);
+            font-size: 0.78rem;
+            margin: -10px 0 14px;
+        }
+
+        .chip {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 1px solid rgba(212, 180, 131, 0.4);
+            color: var(--oro);
+            padding: 4px 8px;
+            border-radius: 999px;
+        }
+
+        .toma {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(243, 238, 228, 0.06);
+            font-size: 0.78rem;
+        }
+
+        .toma:last-child { border-bottom: 0; }
+        .toma b { font-weight: 500; display: block; }
+        .toma small { letter-spacing: 0; text-transform: none; color: var(--muted); font-size: 0.68rem; }
+        .toma .hora { margin-left: auto; color: var(--oro); font-size: 0.7rem; }
+
+        .check {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1.5px solid var(--oro);
+        }
+
+        .check.ok { background: var(--oro); box-shadow: inset 0 0 0 3px #14161a; }
+
+        .btn-app {
+            margin-top: 8px;
+            text-align: center;
+            background: var(--crema);
+            color: var(--noche);
+            border-radius: 999px;
+            padding: 10px 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .busca {
+            border: 1px solid rgba(212, 180, 131, 0.2);
+            border-radius: 12px;
+            padding: 8px 12px;
+            color: rgba(243, 238, 228, 0.4);
+            font-size: 0.75rem;
+            margin-bottom: 12px;
+        }
+
+        .lugar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .lugar .km {
+            color: var(--oro);
+            font-size: 0.7rem;
+            white-space: nowrap;
+            padding-top: 4px;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92px;
+            height: 18px;
+            background: #000;
+            border-radius: 999px;
+            z-index: 2;
+        }
+
+        .screen {
+            height: 100%;
+            border-radius: 32px;
+            background: linear-gradient(180deg, #14161a 0%, #0d0e11 100%);
+            padding: 36px 16px 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.68rem;
+            color: rgba(243, 238, 228, 0.55);
+            margin-bottom: 18px;
+        }
+
+        .hello { color: var(--oro); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; }
+        .screen h3 {
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: 1.7rem;
+            font-weight: 500;
+            margin: 4px 0 4px;
+        }
+
+        .tile {
+            background: rgba(243, 238, 228, 0.05);
+            border: 1px solid rgba(212, 180, 131, 0.2);
+            border-radius: 18px;
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+
+        .tile.destacada {
+            background: linear-gradient(160deg, rgba(212, 180, 131, 0.18), rgba(243, 238, 228, 0.03));
+            border-color: rgba(212, 180, 131, 0.4);
+        }
+
+        .tile small {
+            color: var(--oro);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-size: 0.62rem;
+        }
+
+        .tile strong { display: block; margin: 6px 0 4px; font-size: 0.95rem; }
+        .tile p { color: var(--muted); font-size: 0.78rem; }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--oro);
+            display: inline-block;
+            animation: pulseDot 2s infinite;
+            margin-right: 6px;
+        }
+
+        .tabbar {
+            margin-top: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            padding-top: 10px;
+            font-size: 0.68rem;
+            text-align: center;
+            color: rgba(243, 238, 228, 0.45);
+        }
+
+        .tabbar span.on { color: var(--oro); }
+
+        .scroll-hint {
+            position: absolute;
+            left: 50%;
+            bottom: 22px;
+            transform: translateX(-50%);
+            color: var(--oro);
+            text-decoration: none;
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            animation: bounceHint 2.2s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        .ticker {
+            border-top: 1px solid rgba(212, 180, 131, 0.1);
+            border-bottom: 1px solid rgba(212, 180, 131, 0.1);
+            overflow: hidden;
+            padding: 16px 0;
+            color: var(--oro-bajo);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+        }
+
+        .ticker-track {
+            display: flex;
+            width: max-content;
+            animation: cinta 36s linear infinite;
+        }
+
+        .ticker-group {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            gap: 40px;
+            padding-right: 40px;
+        }
+
+        .ticker-group span::after {
+            content: "·";
+            margin-left: 40px;
+            opacity: 0.45;
+        }
+
+        section.block {
+            padding: 88px 7vw;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .reveal { opacity: 0; transform: translateY(24px); transition: 0.8s ease; }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        h2 {
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-weight: 500;
+            font-size: clamp(2.2rem, 4vw, 3.4rem);
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .story {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 56px;
+            align-items: start;
+        }
+
+        .story p {
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin-bottom: 16px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 28px;
+        }
+
+        .stat {
+            padding: 18px 16px;
+            border: 1px solid rgba(212, 180, 131, 0.14);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .stat b {
+            display: block;
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--oro);
+        }
+
+        .stat span { color: var(--muted); font-size: 0.78rem; }
+
+        .grid3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 36px;
+        }
+
+        .card {
+            background: var(--tinta);
+            border: 1px solid rgba(212, 180, 131, 0.14);
+            border-radius: 22px;
+            padding: 26px 24px 28px;
+            min-height: 220px;
+            transition: transform 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(212, 180, 131, 0.45);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .card em {
+            display: block;
+            color: var(--salvia);
+            font-style: normal;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-size: 0.68rem;
+            margin-bottom: 14px;
+        }
+
+        .card h3 {
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: 1.7rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .card p { color: var(--muted); line-height: 1.65; }
+
+        .phones {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            justify-items: center;
+            margin-top: 40px;
+        }
+
+        .phones > div:nth-child(1) .phone { animation: floatGal1 4.2s ease-in-out infinite; }
+        .phones > div:nth-child(2) .phone { animation: floatGal2 4.8s ease-in-out infinite; }
+        .phones > div:nth-child(3) .phone { animation: floatGal3 4.4s 0.3s ease-in-out infinite; }
+
+        .caption {
+            text-align: center;
+            margin-top: 18px;
+            color: var(--oro);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-size: 0.68rem;
+        }
+
+        .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+
+        .pill {
+            border: 1px solid rgba(212, 180, 131, 0.28);
+            background: rgba(212, 180, 131, 0.08);
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+        }
+
+        .member {
+            display: flex;
+            gap: 22px;
+            align-items: center;
+            max-width: 520px;
+            padding: 20px;
+            border-radius: 24px;
+            background: var(--tinta);
+            border: 1px solid rgba(212, 180, 131, 0.16);
+        }
+
+        .member img {
+            width: 88px;
+            height: 110px;
+            object-fit: cover;
+            object-position: 46% 16%;
+            border-radius: 16px;
+        }
+
+        .member a {
+            color: var(--oro);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 36px 20px 48px;
+            color: rgba(212, 180, 131, 0.45);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+        }
+
+        @media (max-width: 980px) {
+            .hero, .story, .grid3, .phones, .stats { grid-template-columns: 1fr; }
+            .phones .phone { transform: none !important; }
+            .nav-links { display: none; }
+            .hero { padding-top: 28px; }
+            .hero-mark, .marco-cine, .orbe { display: none; }
+            .phone.back { display: none; }
+            .hero-visual { min-height: auto; }
+            .phone-stack { width: auto; height: auto; }
+            .phone.hero-phone { position: relative; left: 0; top: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="intro-on">
+    <div class="intro" id="intro">
+        <canvas id="intro-particulas"></canvas>
+        <div class="intro-vignette"></div>
+        <div class="letterbox top"></div>
+        <div class="letterbox bot"></div>
+        <div class="intro-content">
+            <svg class="intro-mark" viewBox="0 0 100 100" aria-hidden="true">
+                <circle cx="50" cy="50" r="46"></circle>
+                <path d="M50 24 L68 76 H32 Z" fill="none" stroke="#d4b483" stroke-width="2.1" stroke-linejoin="round"></path>
+                <line x1="40" y1="56" x2="60" y2="56" stroke="#d4b483" stroke-width="1.6"></line>
+            </svg>
+            <h2 class="intro-name">AUREA</h2>
+            <p class="intro-sub">Salud, a tiempo</p>
+        </div>
+        <div class="intro-skip-wrap">
+            <button type="button" class="intro-skip" id="intro-skip">Saltar</button>
+        </div>
+    </div>
+
+    <canvas class="cielo" id="cielo"></canvas>
+    <div class="progreso" id="progreso"></div>
+    <div class="orbe" id="orbe"></div>
+    <div class="marco-cine" aria-hidden="true">
+        <span class="tl"></span><span class="tr"></span>
+        <span class="bl"></span><span class="br"></span>
+    </div>
+    <div class="dust" aria-hidden="true">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+    </div>
+
+    <nav class="nav">
+        <a class="brand" href="../../proyectos.html">AUREA</a>
+        <div class="nav-links">
+            <a href="#proyecto">Proyecto</a>
+            <a href="#caracteristicas">Características</a>
+            <a href="#app">La app</a>
+            <a href="#integrante">Integrante</a>
+            <a href="../../proyectos.html">Volver</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <span class="hero-mark" aria-hidden="true">A</span>
+        <div class="hero-copy">
+            <p class="kicker">Proyecto académico · Salud · Pasto</p>
+            <h1><span>Aurea</span></h1>
+            <span class="title-line"></span>
+            <p class="lead">Para no olvidar la cita ni la pastilla. Aurea ordena el día de un paciente en Pasto: agenda, tomas y un directorio de IPS.</p>
+            <div class="actions">
+                <a class="btn" href="#proyecto">Ver propuesta</a>
+                <a class="btn ghost" href="../../estudiantes/BryanRamirez/perfil.html">Perfil del estudiante</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="phone-stack">
+                <div class="phone back" aria-hidden="true">
+                    <div class="phone-notch"></div>
+                    <div class="screen">
+                        <div class="status"><span>9:41</span><span>Cerca</span></div>
+                        <p class="hello">Directorio</p>
+                        <h3>Pasto</h3>
+                        <p class="fecha-linea">Centros y farmacias cerca de ti</p>
+                        <div class="busca">Buscar IPS o farmacia</div>
+                        <div class="tile">
+                            <div class="lugar">
+                                <div>
+                                    <small>Hospital</small>
+                                    <strong>Departamental</strong>
+                                    <p>Abierto · Calle 22</p>
+                                </div>
+                                <span class="km">1.2 km</span>
+                            </div>
+                        </div>
+                        <div class="tile">
+                            <div class="lugar">
+                                <div>
+                                    <small>Farmacia</small>
+                                    <strong>Cruz Verde</strong>
+                                    <p>Abierto hasta las 21:00</p>
+                                </div>
+                                <span class="km">640 m</span>
+                            </div>
+                        </div>
+                        <div class="tabbar"><span>Hoy</span><span>Citas</span><span class="on">Cerca</span></div>
+                    </div>
+                </div>
+                <div class="phone hero-phone" aria-hidden="true">
+                    <div class="phone-glare"></div>
+                    <div class="phone-notch"></div>
+                    <div class="screen">
+                        <div class="status"><span>9:41</span><span>Pasto</span></div>
+                        <p class="hello">Buenos días</p>
+                        <h3>Bryan</h3>
+                        <p class="fecha-linea">Martes 29 de septiembre</p>
+                        <div class="days">
+                            <i>Lun<b>28</b></i>
+                            <i class="on">Mar<b>29</b></i>
+                            <i>Mié<b>30</b></i>
+                            <i>Jue<b>1</b></i>
+                            <i>Vie<b>2</b></i>
+                        </div>
+                        <div class="tile destacada">
+                            <small><span class="dot"></span>Próxima cita · 10:00</small>
+                            <strong>Medicina general</strong>
+                            <p>Hospital Departamental · Piso 2</p>
+                            <span class="chip">Confirmada</span>
+                        </div>
+                        <div class="tile">
+                            <small>Tomas · 1 de 2</small>
+                            <div class="toma">
+                                <span class="check ok"></span>
+                                <div><b>Losartán 50 mg</b><small>Con el desayuno</small></div>
+                                <span class="hora">08:00</span>
+                            </div>
+                            <div class="toma">
+                                <span class="check"></span>
+                                <div><b>Losartán 50 mg</b><small>Pendiente</small></div>
+                                <span class="hora">20:00</span>
+                            </div>
+                        </div>
+                        <div class="tabbar">
+                            <span class="on">Hoy</span>
+                            <span>Citas</span>
+                            <span>Cerca</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+            <div class="ticker-group">
+                <span>Citas</span><span>Medicamentos</span><span>Pasto</span><span>EPS</span><span>Recordatorios</span><span>Directorio</span>
+                <span>Citas</span><span>Medicamentos</span><span>Pasto</span><span>EPS</span><span>Recordatorios</span><span>Directorio</span>
+                <span>Citas</span><span>Medicamentos</span><span>Pasto</span><span>EPS</span><span>Recordatorios</span><span>Directorio</span>
+            </div>
+            <div class="ticker-group">
+                <span>Citas</span><span>Medicamentos</span><span>Pasto</span><span>EPS</span><span>Recordatorios</span><span>Directorio</span>
+                <span>Citas</span><span>Medicamentos</span><span>Pasto</span><span>EPS</span><span>Recordatorios</span><span>Directorio</span>
+                <span>Citas</span><span>Medicamentos</span><span>Pasto</span><span>EPS</span><span>Recordatorios</span><span>Directorio</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="block" id="proyecto">
+        <div class="story reveal">
+            <div>
+                <p class="kicker">Qué es</p>
+                <h2>El día de un paciente, en una sola app.</h2>
+            </div>
+            <div>
+                <p>En Pasto es fácil perder una cita o saltarse la toma: la IPS por un lado, la farmacia por otro, y el recordatorio en un papel. Aurea junta esas tres cosas.</p>
+                <p>Es una propuesta de frontend con datos de prueba. Se puede recorrer el flujo —hoy, agendar y el directorio— sin levantar un backend clínico.</p>
+                <div class="stats">
+                    <div class="stat"><b>01</b><span>Agendar citas</span></div>
+                    <div class="stat"><b>02</b><span>Recordar tomas</span></div>
+                    <div class="stat"><b>03</b><span>Encontrar IPS</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="block" id="caracteristicas">
+        <p class="kicker reveal">Características</p>
+        <h2 class="reveal">Tres pantallas. Lo necesario.</h2>
+        <div class="grid3">
+            <article class="card reveal">
+                <em>01</em>
+                <h3>Agenda</h3>
+                <p>Especialidad, IPS y hora. En Hoy aparece lo pendiente, no un calendario infinito.</p>
+            </article>
+            <article class="card reveal">
+                <em>02</em>
+                <h3>Tomas</h3>
+                <p>Cada medicamento con su hora. Marcas la de la mañana y Aurea te espera en la de la noche.</p>
+            </article>
+            <article class="card reveal">
+                <em>03</em>
+                <h3>Cerca</h3>
+                <p>Hospitales, clínicas y farmacias de Pasto, con distancia y horario.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="block" id="app">
+        <p class="kicker reveal">La app</p>
+        <h2 class="reveal">Así se ve el flujo.</h2>
+        <div class="phones">
+            <div>
+                <div class="phone">
+                    <div class="phone-notch"></div>
+                    <div class="screen">
+                        <div class="status"><span>9:41</span><span>Hoy</span></div>
+                        <p class="hello">Buenos días</p>
+                        <h3>Bryan</h3>
+                        <p class="fecha-linea">Martes 29 de septiembre</p>
+                        <div class="tile destacada">
+                            <small><span class="dot"></span>10:00</small>
+                            <strong>Medicina general</strong>
+                            <p>Hospital Departamental</p>
+                            <span class="chip">Confirmada</span>
+                        </div>
+                        <div class="tile">
+                            <small>Tomas</small>
+                            <div class="toma">
+                                <span class="check ok"></span>
+                                <div><b>Losartán 50 mg</b><small>Tomada</small></div>
+                                <span class="hora">08:00</span>
+                            </div>
+                            <div class="toma">
+                                <span class="check"></span>
+                                <div><b>Losartán 50 mg</b><small>Pendiente</small></div>
+                                <span class="hora">20:00</span>
+                            </div>
+                        </div>
+                        <div class="tabbar"><span class="on">Hoy</span><span>Citas</span><span>Cerca</span></div>
+                    </div>
+                </div>
+                <p class="caption">Hoy · cita y tomas</p>
+            </div>
+            <div>
+                <div class="phone">
+                    <div class="phone-notch"></div>
+                    <div class="screen">
+                        <div class="status"><span>9:41</span><span>Citas</span></div>
+                        <p class="hello">Nueva cita</p>
+                        <h3>Agendar</h3>
+                        <p class="fecha-linea">Tres datos y listo</p>
+                        <div class="tile"><small>1 · Especialidad</small><strong>Cardiología</strong><p>Consultorio externo</p></div>
+                        <div class="tile"><small>2 · IPS</small><strong>Clínica Nuestra Señora</strong><p>Pasto · Centro</p></div>
+                        <div class="tile"><small>3 · Fecha</small><strong>12 de octubre · 14:30</strong><p>Cupo disponible</p></div>
+                        <div class="btn-app">Confirmar cita</div>
+                        <div class="tabbar"><span>Hoy</span><span class="on">Citas</span><span>Cerca</span></div>
+                    </div>
+                </div>
+                <p class="caption">Citas · agendar</p>
+            </div>
+            <div>
+                <div class="phone">
+                    <div class="phone-notch"></div>
+                    <div class="screen">
+                        <div class="status"><span>9:41</span><span>Cerca</span></div>
+                        <p class="hello">Directorio</p>
+                        <h3>Pasto</h3>
+                        <p class="fecha-linea">Cerca de tu ubicación</p>
+                        <div class="busca">Buscar IPS o farmacia</div>
+                        <div class="tile">
+                            <div class="lugar">
+                                <div><small>Hospital</small><strong>Departamental</strong><p>Abierto · Calle 22</p></div>
+                                <span class="km">1.2 km</span>
+                            </div>
+                        </div>
+                        <div class="tile">
+                            <div class="lugar">
+                                <div><small>Farmacia</small><strong>Cruz Verde</strong><p>Hasta las 21:00</p></div>
+                                <span class="km">640 m</span>
+                            </div>
+                        </div>
+                        <div class="tile">
+                            <div class="lugar">
+                                <div><small>IPS</small><strong>San Pedro</strong><p>Citas de EPS</p></div>
+                                <span class="km">2.1 km</span>
+                            </div>
+                        </div>
+                        <div class="tabbar"><span>Hoy</span><span>Citas</span><span class="on">Cerca</span></div>
+                    </div>
+                </div>
+                <p class="caption">Cerca · directorio</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="block">
+        <p class="kicker reveal">Stack</p>
+        <h2 class="reveal">Cómo se construye.</h2>
+        <p class="reveal" style="color: var(--muted); max-width: 56ch; line-height: 1.75; margin-top: 10px;">
+            Next.js, TypeScript y Tailwind. Se publica en Vercel con datos simulados, para entrar y recorrer citas, tomas y el directorio de punta a punta, sin montar un servidor clínico.
+        </p>
+        <div class="pills reveal">
+            <span class="pill">Next.js</span>
+            <span class="pill">TypeScript</span>
+            <span class="pill">Tailwind</span>
+            <span class="pill">Vercel</span>
+        </div>
+    </section>
+
+    <section class="block" id="integrante">
+        <p class="kicker reveal">Integrante</p>
+        <h2 class="reveal">Proyecto individual.</h2>
+        <div class="member reveal" style="margin-top: 28px;">
+            <img src="../../estudiantes/BryanRamirez/foto.jpg" alt="Bryan Alexander Ramirez Benavides">
+            <div>
+                <strong>Bryan Alexander Ramirez Benavides</strong>
+                <p style="color: var(--muted); font-size: 0.92rem; margin: 8px 0 10px;">Ingeniería de Software, sexto semestre · 6B · Pasto</p>
+                <a href="../../estudiantes/BryanRamirez/perfil.html">Ver perfil</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>Aurea · Team 6B · Bryan Alexander Ramirez Benavides</footer>
+
+    <script>
+        function prenderParticulas(canvas, total) {
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+            const puntos = [];
+
+            function ajustar() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            ajustar();
+            for (let i = 0; i < total; i++) {
+                puntos.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    r: Math.random() * 1.6 + 0.3,
+                    v: Math.random() * 0.25 + 0.05
+                });
+            }
+
+            function dibujar() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                puntos.forEach((p) => {
+                    p.y -= p.v;
+                    if (p.y < -4) p.y = canvas.height + 4;
+                    ctx.beginPath();
+                    ctx.fillStyle = "rgba(212, 180, 131, 0.55)";
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                requestAnimationFrame(dibujar);
+            }
+
+            window.addEventListener("resize", ajustar);
+            dibujar();
+        }
+
+        const intro = document.getElementById("intro");
+        const skip = document.getElementById("intro-skip");
+
+        function cerrarIntro() {
+            if (!intro || intro.classList.contains("out")) return;
+            intro.classList.add("out");
+            document.body.classList.remove("intro-on");
+            setTimeout(() => intro.remove(), 900);
+        }
+
+        function prenderCielo(canvas) {
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+            const estrellas = [];
+            const cometas = [];
+
+            function ajustar() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            ajustar();
+            for (let i = 0; i < 70; i++) {
+                estrellas.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    r: Math.random() * 1.3 + 0.2,
+                    a: Math.random() * 0.55 + 0.15,
+                    v: Math.random() * 0.12 + 0.02
+                });
+            }
+
+            function nuevoCometa() {
+                cometas.push({
+                    x: Math.random() * canvas.width,
+                    y: -20,
+                    l: 40 + Math.random() * 70,
+                    v: 3.5 + Math.random() * 2.5
+                });
+            }
+
+            function dibujar() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                estrellas.forEach((e) => {
+                    e.y -= e.v;
+                    if (e.y < -4) e.y = canvas.height + 4;
+                    ctx.beginPath();
+                    ctx.fillStyle = `rgba(212, 180, 131, ${e.a})`;
+                    ctx.arc(e.x, e.y, e.r, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                cometas.forEach((c, i) => {
+                    c.y += c.v;
+                    c.x += c.v * 0.35;
+                    const g = ctx.createLinearGradient(c.x, c.y - c.l, c.x, c.y);
+                    g.addColorStop(0, "rgba(212, 180, 131, 0)");
+                    g.addColorStop(1, "rgba(240, 221, 184, 0.85)");
+                    ctx.strokeStyle = g;
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath();
+                    ctx.moveTo(c.x - c.l * 0.35, c.y - c.l);
+                    ctx.lineTo(c.x, c.y);
+                    ctx.stroke();
+                    if (c.y > canvas.height + 40) cometas.splice(i, 1);
+                });
+                requestAnimationFrame(dibujar);
+            }
+
+            window.addEventListener("resize", ajustar);
+            setInterval(() => {
+                if (cometas.length < 2) nuevoCometa();
+            }, 3200);
+            dibujar();
+        }
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            intro?.remove();
+            document.body.classList.remove("intro-on");
+        } else {
+            skip?.addEventListener("click", cerrarIntro);
+            setTimeout(cerrarIntro, 4000);
+            prenderParticulas(document.getElementById("intro-particulas"), 130);
+            prenderCielo(document.getElementById("cielo"));
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.14, rootMargin: "0px 0px -40px 0px" });
+
+        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+        const progreso = document.getElementById("progreso");
+        const orbe = document.getElementById("orbe");
+
+        window.addEventListener("scroll", () => {
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+            if (progreso) progreso.style.width = pct + "%";
+        }, { passive: true });
+
+        window.addEventListener("pointermove", (event) => {
+            if (!orbe) return;
+            orbe.classList.add("on");
+            orbe.style.left = event.clientX + "px";
+            orbe.style.top = event.clientY + "px";
+        }, { passive: true });
+    </script>
+</body>
+</html>

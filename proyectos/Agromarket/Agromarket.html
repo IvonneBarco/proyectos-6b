@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgroMarket — Del campo a nuevos mercados</title>
+
+<!-- Tipografías editoriales -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#12231d;
+  --forest:#17382d;
+  --moss:#667b50;
+  --cream:#eee9dc;
+  --paper:#f5f1e8;
+  --lime:#c9d86b;
+  --orange:#dc784d;
+  --line:rgba(245,241,232,.22);
+  --serif:"Playfair Display", Georgia, serif;
+  --sans:"DM Sans", Arial, sans-serif;
+  --mono:"DM Mono", monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--forest);
+  color:var(--cream);
+  font-family:var(--sans);
+  overflow-x:hidden;
+}
+
+a{color:inherit;text-decoration:none}
+img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* ---------- navegación lateral ---------- */
+.side-nav{
+  position:fixed;
+  z-index:20;
+  right:24px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:13px;
+}
+.side-nav span{
+  width:7px;height:7px;border:1px solid var(--cream);
+  border-radius:50%;opacity:.7;
+}
+.side-nav span:first-child{background:var(--lime);opacity:1}
+.side-nav i{
+  width:1px;height:32px;background:var(--line);
+}
+
+/* ---------- header ---------- */
+.header{
+  position:absolute;
+  z-index:10;
+  top:0;left:0;width:100%;
+  padding:28px 5vw;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  mix-blend-mode:screen;
+}
+.brand{
+  display:flex;align-items:center;gap:13px;
+  font-family:var(--mono);font-size:11px;letter-spacing:2px;
+}
+.brand-mark{
+  width:27px;height:27px;border:1px solid white;
+  border-radius:50%;display:grid;place-items:center;
+}
+.brand-mark:before{content:"+";font-size:16px}
+.menu{
+  font-family:var(--mono);font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:100vh;
+  position:relative;
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  background:#19342b;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(8,24,19,.22) 0%,rgba(8,24,19,.05) 35%,rgba(10,31,23,.9) 100%),
+    url("https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=2200&q=85") center/cover;
+  transform:scale(1.02);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(to right,transparent 24.9%,rgba(255,255,255,.09) 25%,transparent 25.1%),
+    linear-gradient(to right,transparent 49.9%,rgba(255,255,255,.09) 50%,transparent 50.1%),
+    linear-gradient(to right,transparent 74.9%,rgba(255,255,255,.09) 75%,transparent 75.1%);
+  opacity:.35;
+}
+.hero-content{
+  position:relative;z-index:2;
+  width:100%;padding:0 10vw 8vh;
+}
+.eyebrow{
+  font-family:var(--mono);font-size:10px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--lime);
+  margin-bottom:18px;
+}
+.hero h1{
+  font-size:clamp(4.8rem,14vw,12rem);
+  line-height:.72;
+  font-weight:500;
+  letter-spacing:-.075em;
+  text-transform:uppercase;
+}
+.hero h1 em{
+  font-family:var(--serif);
+  text-transform:none;
+  font-weight:500;
+  font-size:.38em;
+  letter-spacing:-.02em;
+  vertical-align:top;
+  position:relative;top:-.35em;
+}
+.hero-bottom{
+  margin-top:38px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:40px;
+}
+.hero-description{
+  max-width:440px;
+  font-family:var(--serif);
+  font-size:clamp(1.05rem,1.8vw,1.45rem);
+  line-height:1.35;
+}
+.hero-description i{color:#cfd5ba}
+.hero-index{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:2px;
+  text-align:right;
+  line-height:2;
+}
+
+/* ---------- shared ---------- */
+.section{padding:105px 10vw}
+.kicker{
+  font-family:var(--mono);
+  text-transform:uppercase;
+  letter-spacing:3px;
+  color:var(--lime);
+  font-size:10px;
+  margin-bottom:18px;
+}
+.section-title{
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:clamp(2.6rem,5.5vw,6rem);
+  line-height:.95;
+  letter-spacing:-.045em;
+}
+.section-title em{font-weight:500}
+.rule{
+  height:1px;background:var(--line);margin:25px 0;
+}
+
+/* ---------- story ---------- */
+.story{
+  background:var(--forest);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9vw;
+}
+.story-copy{padding-top:5px}
+.story-copy p{
+  max-width:530px;
+  margin-top:28px;
+  color:#bac5b8;
+  font-size:15px;
+  line-height:1.9;
+}
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:8px;margin-top:36px;
+}
+.stat{
+  border-top:1px solid var(--line);
+  padding-top:13px;
+}
+.stat b{
+  font-family:var(--serif);
+  font-size:30px;
+  font-weight:500;
+}
+.stat span{
+  display:block;
+  font-family:var(--mono);
+  font-size:8px;
+  color:#98a99a;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-top:4px;
+}
+.story-image{
+  height:540px;
+  position:relative;
+}
+.story-image img{filter:saturate(.8)}
+.image-note{
+  position:absolute;left:-22px;bottom:25px;
+  padding:14px 18px;background:var(--lime);
+  color:var(--ink);
+  font-family:var(--mono);font-size:9px;
+  letter-spacing:1px;text-transform:uppercase;
+}
+
+/* ---------- catálogo ---------- */
+.market{
+  background:var(--paper);
+  color:var(--ink);
+  position:relative;
+}
+.market .kicker{color:var(--orange)}
+.market-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:40px;
+}
+.market-intro{
+  max-width:340px;color:#647067;
+  font-size:13px;line-height:1.7;
+}
+.products{
+  margin-top:55px;
+  display:grid;
+  grid-template-columns:1.15fr .85fr 1fr;
+  gap:12px;
+}
+.product{
+  background:#e3dfd2;
+  min-height:410px;
+  position:relative;
+  overflow:hidden;
+}
+.product:nth-child(2){margin-top:70px}
+.product:nth-child(3){margin-top:25px}
+.product-image{height:100%;transition:transform .6s ease}
+.product:hover .product-image{transform:scale(1.05)}
+.product-overlay{
+  position:absolute;inset:auto 0 0 0;
+  padding:20px;
+  background:linear-gradient(transparent,rgba(9,25,19,.88));
+  color:white;
+  padding-top:80px;
+}
+.product-number{
+  font-family:var(--mono);font-size:9px;color:var(--lime);
+}
+.product h3{
+  font-family:var(--serif);font-size:28px;font-weight:500;
+  margin:5px 0;
+}
+.product p{font-size:10px;opacity:.8}
+
+/* ---------- experiencia ---------- */
+.experience{
+  background:#0e2820;
+  display:grid;
+  grid-template-columns:.8fr 1.2fr;
+  gap:8vw;
+}
+.phone{
+  max-width:360px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:28px;
+  padding:9px;
+  background:#091b15;
+  box-shadow:0 30px 70px rgba(0,0,0,.25);
+  margin:auto;
+}
+.phone-screen{
+  min-height:580px;
+  border-radius:21px;
+  overflow:hidden;
+  background:#eae6da;
+  color:var(--ink);
+}
+.phone-top{
+  padding:22px 20px;
+  background:#17382d;color:white;
+}
+.phone-top small{font-family:var(--mono);font-size:8px;color:var(--lime)}
+.phone-top h3{
+  font-family:var(--serif);font-size:32px;font-weight:500;margin-top:10px;
+}
+.phone-search{
+  margin:18px 20px;
+  border:1px solid #c7c5bb;border-radius:100px;
+  padding:11px 14px;font-size:10px;color:#858b82;
+}
+.mini-card{
+  margin:10px 20px;
+  background:white;padding:13px;border-radius:14px;
+  display:flex;gap:12px;align-items:center;
+}
+.mini-photo{width:58px;height:58px;border-radius:10px;overflow:hidden}
+.mini-card b{font-family:var(--serif);font-size:18px}
+.mini-card small{display:block;color:#7c847b;font-size:9px;margin-top:3px}
+.experience-copy p{
+  max-width:500px;
+  margin-top:25px;color:#aab9ad;
+  line-height:1.9;font-size:14px;
+}
+.feature-list{margin-top:35px}
+.feature{
+  border-top:1px solid var(--line);
+  padding:18px 0;
+  display:flex;justify-content:space-between;gap:20px;
+}
+.feature b{font-family:var(--serif);font-size:21px;font-weight:500}
+.feature span{
+  font-family:var(--mono);font-size:9px;color:#8fa093;
+  max-width:210px;text-align:right;line-height:1.6;
+}
+
+/* ---------- equipo / estructura del boceto ---------- */
+.team{
+  background:var(--forest);
+}
+.team-head{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:30px;
+}
+.team-note{
+  font-family:var(--mono);font-size:9px;color:#93a295;
+  max-width:220px;line-height:1.7;text-transform:uppercase;
+}
+.members{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:12px;margin-top:45px;
+}
+.member{
+  position:relative;
+  min-height:280px;
+  overflow:hidden;
+  background:#243e32;
+}
+.member img{filter:grayscale(25%);transition:.5s}
+.member:hover img{transform:scale(1.06)}
+.member-info{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px;
+  background:linear-gradient(transparent,rgba(7,22,16,.95));
+}
+.member-info small{
+  font-family:var(--mono);font-size:8px;
+  color:var(--lime);text-transform:uppercase;letter-spacing:1px;
+}
+.member-info h3{
+  font-family:var(--serif);font-size:21px;font-weight:500;margin-top:4px;
+}
+
+/* ---------- repo / footer ---------- */
+.repo{
+  background:var(--orange);
+  color:#201912;
+  padding:80px 10vw;
+  display:flex;align-items:center;justify-content:space-between;gap:40px;
+}
+.repo h2{
+  font-family:var(--serif);font-size:clamp(2.5rem,5vw,5rem);
+  font-weight:500;line-height:.9;
+}
+.repo p{margin-top:15px;font-size:12px;max-width:430px;line-height:1.6}
+.git{
+  border:1px solid #201912;
+  padding:17px 27px;
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:2px;text-transform:uppercase;
+  transition:.25s;
+  white-space:nowrap;
+}
+.git:hover{background:#201912;color:white}
+
+.footer{
+  background:#091a14;padding:28px 10vw;
+  display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:8px;
+  letter-spacing:1px;color:#728277;text-transform:uppercase;
+}
+
+/* ---------- responsive ---------- */
+@media(max-width:800px){
+  .side-nav{display:none}
+  .hero-content{padding:0 7vw 8vh}
+  .hero h1{font-size:20vw}
+  .hero-bottom{display:block}
+  .hero-index{text-align:left;margin-top:25px}
+  .section{padding:75px 7vw}
+  .story,.experience{grid-template-columns:1fr;gap:45px}
+  .story-image{height:400px}
+  .market-head,.team-head{display:block}
+  .products{grid-template-columns:1fr 1fr}
+  .product{min-height:330px}
+  .product:nth-child(2),.product:nth-child(3){margin-top:0}
+  .members{grid-template-columns:1fr 1fr}
+  .repo{padding:65px 7vw;display:block}
+  .git{display:inline-block;margin-top:30px}
+}
+
+@media(max-width:500px){
+  .header{padding:20px}
+  .menu{display:none}
+  .hero{min-height:780px}
+  .hero h1{font-size:19vw}
+  .products{grid-template-columns:1fr}
+  .product,.product:nth-child(2),.product:nth-child(3){margin:0;min-height:390px}
+  .members{grid-template-columns:1fr 1fr}
+  .member{min-height:220px}
+  .stats{gap:14px}
+  .stat b{font-size:24px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- navegación visual inspirada en la referencia -->
+<nav class="side-nav" aria-label="Secciones">
+  <span></span><i></i>
+  <span></span><i></i>
+  <span></span><i></i>
+  <span></span>
+</nav>
+
+<header class="header">
+  <a href="#" class="brand">
+    <span class="brand-mark"></span>
+    AGROMARKET / 01
+  </a>
+  <div class="menu">PROYECTO ESTUDIANTIL · AGRO + TECH</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <div class="eyebrow">Del campo a nuevos mercados</div>
+
+    <h1>
+      <em>the</em><br>
+      AGRO<br>
+      MARKET
+    </h1>
+
+    <div class="hero-bottom">
+      <p class="hero-description">
+        Una vitrina digital para que <i>quienes cultivan</i> puedan
+        mostrar, conectar y vender sus productos sin perder el origen.
+      </p>
+
+      <div class="hero-index">
+        01 / ORIGEN<br>
+        02 / PRODUCTO<br>
+        03 / CONEXIÓN
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORIA -->
+<section class="section story">
+  <div class="story-copy">
+    <div class="kicker">01 — Nuestra idea</div>
+    <h2 class="section-title">
+      El campo<br>
+      <em>también</em> se conecta.
+    </h2>
+    <div class="rule"></div>
+    <p>
+      AgroMarket nace para acercar pequeños productores a compradores
+      mediante una experiencia digital clara, elegante y humana.
+      El producto no es solo una mercancía: tiene territorio, persona
+      y una historia detrás.
+    </p>
+
+    <div class="stats">
+      <div class="stat"><b>01</b><span>Catálogo local</span></div>
+      <div class="stat"><b>02</b><span>Productores</span></div>
+      <div class="stat"><b>03</b><span>Conexión directa</span></div>
+    </div>
+  </div>
+
+  <div class="story-image">
+    <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1100&q=85" alt="Paisaje agrícola">
+    <div class="image-note">Pasto · Nariño / Colombia</div>
+  </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="section market">
+  <div class="market-head">
+    <div>
+      <div class="kicker">02 — Mercado</div>
+      <h2 class="section-title">Lo que<br><em>crece</em> aquí.</h2>
+    </div>
+    <p class="market-intro">
+      Un catálogo visual para descubrir productos locales,
+      conocer su origen y encontrar al productor detrás de cada cosecha.
+    </p>
+  </div>
+
+  <div class="products">
+    <article class="product">
+      <img class="product-image"
+        src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=900&q=85"
+        alt="Papas">
+      <div class="product-overlay">
+        <span class="product-number">01 / TUBÉRCULO</span>
+        <h3>Papa Andina</h3>
+        <p>Producto local · Precio por kg · Disponibilidad</p>
+      </div>
+    </article>
+
+    <article class="product">
+      <img class="product-image"
+        src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=900&q=85"
+        alt="Manzanas">
+      <div class="product-overlay">
+        <span class="product-number">02 / FRUTA</span>
+        <h3>Cosecha fresca</h3>
+        <p>Origen identificado · Productor local</p>
+      </div>
+    </article>
+
+    <article class="product">
+      <img class="product-image"
+        src="https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?auto=format&fit=crop&w=900&q=85"
+        alt="Verduras">
+      <div class="product-overlay">
+        <span class="product-number">03 / HORTALIZA</span>
+        <h3>Huerta local</h3>
+        <p>Fresco · Cercano · Disponible</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- EXPERIENCIA -->
+<section class="section experience">
+  <div class="phone">
+    <div class="phone-screen">
+      <div class="phone-top">
+        <small>AGROMARKET / EXPLORE</small>
+        <h3>Encuentra<br>tu cosecha.</h3>
+      </div>
+      <div class="phone-search">⌕ Buscar papa, frutas, hortalizas...</div>
+
+      <div class="mini-card">
+        <div class="mini-photo">
+          <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=300&q=80" alt="">
+        </div>
+        <div>
+          <b>Papa Andina</b>
+          <small>📍 Pasto, Nariño · $2.500/kg</small>
+        </div>
+      </div>
+
+      <div class="mini-card">
+        <div class="mini-photo">
+          <img src="https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?auto=format&fit=crop&w=300&q=80" alt="">
+        </div>
+        <div>
+          <b>Huerta fresca</b>
+          <small>📍 La Laguna · Disponible</small>
+        </div>
+      </div>
+
+      <div class="mini-card">
+        <div class="mini-photo">
+          <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=300&q=80" alt="">
+        </div>
+        <div>
+          <b>Cosecha mixta</b>
+          <small>📍 Nariño · Ver productor</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="experience-copy">
+    <div class="kicker">03 — La experiencia</div>
+    <h2 class="section-title">
+      Menos<br>
+      <em>intermediarios.</em><br>
+      Más origen.
+    </h2>
+    <p>
+      La interfaz está pensada para que publicar un producto sea tan sencillo
+      como mostrarlo: fotografía, precio, cantidad, ubicación y productor.
+      Del otro lado, el comprador descubre, compara y contacta.
+    </p>
+
+    <div class="feature-list">
+      <div class="feature">
+        <b>01 / Publicar</b>
+        <span>El agricultor crea su vitrina digital.</span>
+      </div>
+      <div class="feature">
+        <b>02 / Descubrir</b>
+        <span>El comprador encuentra ofertas locales.</span>
+      </div>
+      <div class="feature">
+        <b>03 / Conectar</b>
+        <span>Solicitud de compra y contacto directo.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTEGRANTES -->
+<section class="section team">
+  <div class="team-head">
+    <div>
+      <div class="kicker">04 — El equipo</div>
+      <h2 class="section-title">Personas<br><em>detrás</em> de la idea.</h2>
+    </div>
+    <p class="team-note">
+      PROYECTO ESTUDIANTIL<br>
+      FRONT-END / UI-UX / DESARROLLO
+    </p>
+  </div>
+
+  <div class="members">
+    <article class="member">
+      <img src="../../estudiantes/JohanaGaviria/Perfil.png" alt="Johana Gaviria">
+      <div class="member-info">
+        <small>01 / Front-end</small>
+        <h3>Johana Gaviria</h3>
+        <a href="../../estudiantes/JohanaGaviria/perfil_estudiante_johana.html"
+                            class="btn btn-primary">Ver Perfil</a>
+      </div>
+    </article>
+
+    <article class="member">
+      <img src="../../estudiantes/Pedroza/fotoperfilJP.jpeg" alt="Julian Pedroza">
+      <div class="member-info">
+        <small>02 / Desarrollo</small>
+        <h3>Julian Pedroza</h3>
+        <a href="../../estudiantes/Pedroza/perfil-pedroza.html"
+                            class="btn btn-primary">Ver Perfil</a>
+      </div>
+    </article>
+
+    <article class="member">
+      <img src="../../estudiantes/EstebanLasso/EstebanLasso.jpeg" alt="Esteban Lasso">
+      <div class="member-info">
+        <small>03 / UI & UX</small>
+        <h3>Esteban Lasso</h3>
+        <a href="../../estudiantes/EstebanLasso/EstebanLasso.html"
+                            class="btn btn-primary">Ver Perfil</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- REPOSITORIO -->
+<section class="repo">
+  <div>
+    <div class="kicker" style="color:#201912">05 — Código</div>
+    <h2>Construido<br>para crecer.</h2>
+    <p>
+      Consulta el repositorio del proyecto, su evolución y la implementación
+      de la experiencia Front-End de AgroMarket.
+    </p>
+  </div>
+
+  <!-- Cambia # por el enlace real del repositorio -->
+  <a class="git" href="https://github.com/johanagaviria19/Agromarket.git" target="_blank" rel="noopener">
+    GitHub / Ver repositorio ↗
+  </a>
+</section>
+
+<footer class="footer">
+  <span>AGROMARKET © 2026</span>
+  <span>DEL CAMPO A NUEVOS MERCADOS</span>
+</footer>
+
+</body>
+</html>

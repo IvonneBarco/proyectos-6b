@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Juan Manuel Córdoba Flórez — Ingeniero de Software</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EDEDEA;
+    --card:#FFFFFF;
+    --ink:#111111;
+    --muted:#6B6B6B;
+    --accent:#111111;
+    --accent-ink:#FFFFFF;
+    --line:#DDDDD8;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Sora', system-ui, sans-serif;
+    padding:20px;
+    display:flex;
+    justify-content:center;
+  }
+
+  .card{
+    width:100%;
+    max-width:560px;
+    background:var(--card);
+    border-radius:20px;
+    padding:48px 40px;
+    margin:56px 0;
+    box-shadow:0 1px 2px rgba(0,0,0,.04);
+  }
+
+  .avatar{
+    width:96px;height:96px;
+    border-radius:50%;
+    background:var(--line);
+    margin:0 auto 20px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--muted);
+    font-size:.68rem;
+    text-align:center;
+    line-height:1.3;
+    overflow:hidden;
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+
+  h1{
+    text-align:center;
+    font-size:1.5rem;
+    font-weight:700;
+    margin:0 0 4px;
+  }
+  .role{
+    text-align:center;
+    color:var(--accent);
+    font-weight:500;
+    margin:0 0 28px;
+    font-size:.98rem;
+  }
+
+  p.about{
+    text-align:center;
+    color:var(--muted);
+    line-height:1.65;
+    font-size:.96rem;
+    max-width:44ch;
+    margin:0 auto 30px;
+  }
+
+  h2{
+    font-size:.8rem;
+    font-weight:600;
+    color:var(--muted);
+    margin:0 0 12px;
+  }
+
+  section{margin-bottom:28px;}
+
+  .skills{
+    display:flex;flex-wrap:wrap;gap:8px;
+  }
+  .skills span{
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:100px;
+    padding:6px 14px;
+    font-size:.82rem;
+    color:var(--ink);
+  }
+
+  .project{
+    padding:14px 0;
+    border-top:1px solid var(--line);
+  }
+  .project:last-child{padding-bottom:0;}
+  .project h3{
+    margin:0 0 4px;
+    font-size:.96rem;
+    font-weight:600;
+  }
+  .project p{
+    margin:0;
+    font-size:.88rem;
+    color:var(--muted);
+    line-height:1.55;
+  }
+
+  .links{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    padding-top:8px;
+  }
+  .links a{
+    flex:1;
+    text-align:center;
+    padding:12px;
+    border-radius:12px;
+    background:var(--accent);
+    color:var(--accent-ink);
+    text-decoration:none;
+    font-size:.9rem;
+    font-weight:500;
+  }
+  .links a.secondary{
+    background:var(--bg);
+    color:var(--ink);
+    border:1px solid var(--line);
+  }
+
+  @media (max-width:480px){
+    .card{padding:36px 24px;}
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="avatar" id="avatarBox">
+      <img src="foto_perfil_Manu.jpg" alt="Juan Manuel Córdoba Flórez" />
+    </div>
+
+    <h1>Juan Manuel Córdoba Flórez</h1>
+    <p class="role">Ingeniero de Software</p>
+
+    <p class="about">
+      Construyo software con foco en código limpio y soluciones prácticas.
+      Me gusta aprender tecnologías nuevas y aportar valor real en cada proyecto que desarrollo.
+    </p>
+
+     <section>
+      <h2>ACERCA DE MI</h2>
+      <p class="about">
+      Me gusta el fútbol y el baloncesto, siendo el baloncesto el deporte al que más le dedico tiempo.
+      Considero que soy pragmatico y me gusta aprender cosas nuevas, por lo que siempre estoy buscando mejorar mis habilidades y conocimientos en el desarrollo de software y la relación con mis compañeros.
+    </p>
+    </section>
+
+     <section>
+      <h2>MUSICA</h2>
+      <p class="about">
+      Me gusta Luis Miguel y un poco de música urbana donde destaca mucho Cali Cartel, tambien se tocar piano y los bongos, aunque no soy un experto en ninguno de los dos instrumentos, me gusta retarme a aprender cosas nuevas y la música es una de ellas.
+    </p>
+    </section>
+
+     <section>
+      <h2>ESTUDIOS</h2>
+      <p class="about">
+       Actualmente estoy estudiando Ingeniería de Software en la Universidad cooperativa de Colombia, Campus Pasto, donde desarrollo mis habilidades en el área de la programación, destacando el compromiso y necesidad de seguir aprendiendo.
+    </p>
+    </section>
+
+    <section>
+      <h2>TECNOLOGÍAS QUE MANEJO</h2>
+      <div class="skills">
+        <span>JavaScript</span>
+        <span>TypeScript</span>
+        <span>Python</span>
+        <span>Java</span>
+        <span>Node.js</span>
+        <span>PostgreSQL</span>
+        <span>Git</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>PROYECTOS</h2>
+      <div class="project">
+        <h3>Fresh-Cut</h3>
+        <p>Una aplicación web para la gestión de tareas diarias en una barberia, que permite gestionar citas de manera eficiente.</p>
+      </div>
+      <div class="project">
+        <h3>Nineteen-sports</h3>
+        <p>Landing page para una tienda de camisetas de futbol y accesorios deportivos.</p>
+      </div>
+      <div class="project">
+        <h3>Simon´s Mansion</h3>
+        <p>Un juego de lógica y rompecabezas en el que los jugadores deben resolver acertijos para avanzar en la historia.</p>
+      </div>
+    </section>
+
+    <section style="margin-bottom:0;">
+      <div class="links">
+        <a href="https://github.com/JUanM776" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/juan-manuel-cordoba-florez-956b653ba?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noreferrer" class="secondary">LinkedIn</a>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>

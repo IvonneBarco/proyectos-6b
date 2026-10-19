@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Samuel Esteban Mena Pupiales | Portafolio</title>
+    <style>
+        :root {
+            --fondo: #17110d;
+            --panel: #211812;
+            --panel-alt: #2a1e16;
+            --linea: #73543d;
+            --texto: #f1dfca;
+            --muted: #bda991;
+            --acento: #c98150;
+            --acento-claro: #e4b084;
+            --sombra: 0 18px 45px rgba(0, 0, 0, .22);
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { margin: 0; color: var(--texto); background: var(--fondo); background-image: linear-gradient(rgba(255, 255, 255, .018) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .018) 1px, transparent 1px); background-size: 42px 42px; font-family: Georgia, 'Times New Roman', serif; line-height: 1.6; }
+        a { color: inherit; }
+        .contenedor { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; }
+        .barra { position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--linea); background: rgba(23, 17, 13, .92); padding: 1rem 0; backdrop-filter: blur(12px); }
+        .barra .contenedor, .navegacion { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+        .marca { color: var(--acento-claro); text-decoration: none; font-size: 1.1rem; font-weight: bold; letter-spacing: .08em; }
+        .navegacion { justify-content: flex-end; color: var(--muted); font-size: .85rem; }
+        .navegacion a { border-bottom: 1px solid transparent; text-decoration: none; transition: color .2s, border-color .2s; }
+        .navegacion a:hover, .marca:hover { color: var(--acento-claro); }
+        .navegacion a:hover { border-color: var(--acento); }
+        .hero { position: relative; display: grid; grid-template-columns: 1.1fr .9fr; gap: 4rem; align-items: center; min-height: 690px; padding: 5rem 0; }
+        .hero::before { position: absolute; top: 12%; left: -8rem; width: 15rem; height: 1px; background: var(--linea); content: ''; }
+        .eyebrow, .etiqueta { color: var(--acento-claro); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; }
+        .eyebrow { margin-bottom: 1.5rem; }
+        h1, h2, h3, p { margin-top: 0; }
+        h1 { max-width: 11ch; margin-bottom: 1.4rem; font-size: clamp(3.2rem, 7vw, 6.4rem); line-height: .9; letter-spacing: -.05em; }
+        .intro { max-width: 48ch; color: var(--muted); font-size: 1.08rem; }
+        .acciones { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.2rem; }
+        .boton { display: inline-block; border: 1px solid var(--acento); padding: .68rem 1.05rem; color: var(--texto); text-decoration: none; font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; transition: transform .2s, color .2s, background .2s; }
+        .boton.principal, .boton:hover { color: var(--fondo); background: var(--acento); }
+        .boton:hover { transform: translateY(-2px); }
+        .retrato { position: relative; width: min(100%, 410px); justify-self: end; border: 1px solid var(--linea); padding: .7rem; background: var(--panel); box-shadow: var(--sombra); transform: rotate(2deg); }
+        .retrato::after { position: absolute; right: -1.1rem; bottom: -1.1rem; width: 5rem; height: 5rem; border-right: 1px solid var(--acento); border-bottom: 1px solid var(--acento); content: ''; }
+        .retrato img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; filter: saturate(.82) contrast(1.05); }
+        .seccion { border-top: 1px solid var(--linea); padding: 4.5rem 0; }
+        .cabecera-seccion { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.8rem; }
+        .cabecera-seccion .etiqueta { margin-bottom: 0; }
+        h2 { margin-bottom: 0; font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.04em; }
+        .sobre-mi { display: grid; grid-template-columns: .8fr 1.2fr; gap: 3rem; }
+        .sobre-mi > p { color: var(--muted); font-size: 1.08rem; }
+        .datos { display: grid; grid-template-columns: repeat(2, 1fr); gap: .8rem; }
+        .dato, .proyecto, .habilidad { border: 1px solid var(--linea); background: rgba(33, 24, 18, .88); padding: 1.15rem; transition: border-color .2s, background .2s, transform .2s; }
+        .dato:hover, .proyecto:hover, .habilidad:hover { border-color: var(--acento); background: var(--panel-alt); transform: translateY(-3px); }
+        .dato strong { display: block; margin-bottom: .25rem; color: var(--acento-claro); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
+        .dato span { color: var(--muted); font-size: .88rem; }
+        .dato a { color: var(--acento-claro); text-decoration: none; }
+        .dato a:hover { text-decoration: underline; }
+        .proyectos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .proyecto { position: relative; min-height: 255px; display: flex; flex-direction: column; }
+        .proyecto::before { display: block; width: 2.5rem; height: 2px; margin-bottom: 1.1rem; background: var(--acento); content: ''; }
+        .proyecto h3 { margin: .7rem 0 .45rem; font-size: 1.35rem; }
+        .proyecto p { min-height: 7.5rem; color: var(--muted); font-size: .9rem; }
+        .tecnologias { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 1.2rem; }
+        .tecnologias span { border: 1px solid rgba(228, 176, 132, .45); padding: .2rem .45rem; color: var(--acento-claro); font-size: .66rem; letter-spacing: .04em; }
+        .proyecto a { margin-top: auto; color: var(--acento-claro); font-size: .76rem; text-decoration: none; text-transform: uppercase; }
+        .proyecto a::after { margin-left: .4rem; content: '->'; }
+        .proyecto a:hover { color: var(--texto); }
+        .habilidades { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .habilidad h3 { color: var(--acento-claro); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; }
+        .habilidad ul { margin: 0; padding-left: 1.1rem; color: var(--muted); }
+        footer { border-top: 1px solid var(--linea); padding: 1.5rem 0 2rem; color: var(--muted); font-size: .8rem; }
+        @media (max-width: 760px) {
+            .barra .contenedor, .navegacion { align-items: flex-start; }
+            .navegacion { flex-wrap: wrap; justify-content: flex-end; }
+            .hero, .sobre-mi { grid-template-columns: 1fr; gap: 2rem; }
+            .hero { min-height: auto; padding: 4rem 0 5rem; }
+            .hero::before { display: none; }
+            .retrato { justify-self: start; max-width: 330px; }
+            .cabecera-seccion { align-items: flex-start; flex-direction: column-reverse; gap: .45rem; }
+            .proyectos, .habilidades { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 460px) {
+            .barra .contenedor { align-items: center; }
+            .marca { font-size: .95rem; }
+            .navegacion { gap: .65rem; font-size: .73rem; }
+            h1 { font-size: clamp(2.8rem, 14vw, 4.2rem); }
+            .datos { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="barra">
+        <div class="contenedor">
+            <a class="marca" href="../../index.html">SM / 06B</a>
+            <nav class="navegacion" aria-label="Navegacion principal">
+                <a href="#sobre-mi">Sobre mi</a>
+                <a href="#proyectos">Proyectos</a>
+                <a href="../../estudiantes.html">Estudiantes</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="contenedor hero">
+            <div>
+                <p class="eyebrow">Estudiante #26 / Ingenieria de Software</p>
+                <h1>Samuel Esteban Mena Pupiales</h1>
+                <p class="intro">Desarrollador Full Stack con interes en crear experiencias digitales, explorar el diseno 3D y convertir ideas en proyectos interactivos.</p>
+                <div class="acciones">
+                    <a class="boton principal" href="#proyectos">Ver proyectos</a>
+                    <a class="boton" href="../../estudiantes.html">Volver a estudiantes</a>
+                    <a class="boton" href="https://github.com/SamuelMenan" target="_blank" rel="noopener noreferrer">GitHub</a>
+                </div>
+            </div>
+            <div class="retrato"><img src="perfil.png" alt="Foto de Samuel Esteban Mena Pupiales"></div>
+        </section>
+
+        <section id="sobre-mi" class="seccion">
+            <div class="contenedor">
+                <div class="cabecera-seccion"><p class="etiqueta">01 / Perfil</p><h2>Sobre mi</h2></div>
+                <div class="sobre-mi">
+                    <p>Me estoy formando como ingeniero de software y disfruto combinar la logica del desarrollo con la parte visual de cada proyecto. Mi objetivo es seguir construyendo soluciones claras, utiles y con una experiencia memorable.</p>
+                    <div class="datos">
+                        <div class="dato"><strong>Enfoque</strong><span>Full Stack y experiencias interactivas</span></div>
+                        <div class="dato"><strong>Formacion</strong><span>Ingenieria de Software / VI semestre</span></div>
+                        <div class="dato"><strong>Herramientas</strong><span>Blender, Three.js y desarrollo web</span></div>
+                        <div class="dato"><strong>Intereses</strong><span>Diseno 3D, tecnologia y aprendizaje continuo</span></div>
+                        <div class="dato"><strong>GitHub</strong><span><a href="https://github.com/SamuelMenan" target="_blank" rel="noopener noreferrer">github.com/SamuelMenan</a></span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="proyectos" class="seccion">
+            <div class="contenedor">
+                <div class="cabecera-seccion"><p class="etiqueta">02 / Trabajo</p><h2>Proyectos</h2></div>
+                <div class="proyectos">
+                    <article class="proyecto">
+                        <span class="etiqueta">01 / Lexico</span>
+                        <h3>BABEL Lexicon War</h3>
+                        <p>Experiencia interactiva basada en el reto de explorar palabras, conceptos y decisiones dentro de una propuesta de juego. El proyecto combina una interfaz enfocada en la lectura y la respuesta del usuario con una idea de aprendizaje ludico, donde cada partida invita a descubrir nuevas relaciones entre el lenguaje y la tecnologia.</p>
+                        <div class="tecnologias" aria-label="Tecnologias de BABEL Lexicon War">
+                            <span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Logica de juego</span>
+                        </div>
+                        <a href="https://github.com/SamuelMenan/BABEL-Lexicon-War" target="_blank" rel="noopener noreferrer">Ver repositorio</a>
+                    </article>
+                    <article class="proyecto">
+                        <span class="etiqueta">02 / Creativo</span>
+                        <h3>ArtSanctuary</h3>
+                        <p>Plataforma digital pensada para visibilizar artistas y creadores de Nariño, conectar sus obras con nuevos públicos y preservar saberes relacionados con el territorio. La propuesta funciona como una vitrina cultural que une arte, memoria y patrimonio en una experiencia web clara, editorial y accesible.</p>
+                        <div class="tecnologias" aria-label="Tecnologias de ArtSanctuary">
+                            <span>HTML5</span><span>CSS3</span><span>Bootstrap</span><span>Bootstrap Icons</span><span>Google Fonts</span>
+                        </div>
+                        <a href="https://github.com/SamuelMenan/ArtSanctuary" target="_blank" rel="noopener noreferrer">Ver repositorio</a>
+                    </article>
+                    <article class="proyecto">
+                        <span class="etiqueta">03 / Seguridad</span>
+                        <h3>CyberView</h3>
+                        <p>Proyecto enfocado en acercar temas de ciberseguridad a través de una presentación visual y comprensible. Su propósito es organizar información, conceptos y señales de riesgo para que el usuario pueda recorrerlos con mayor claridad, relacionando el diseño de la interfaz con la comunicación de contenidos técnicos.</p>
+                        <div class="tecnologias" aria-label="Tecnologias de CyberView">
+                            <span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Diseño UI</span>
+                        </div>
+                        <a href="https://github.com/SamuelMenan/CyberView" target="_blank" rel="noopener noreferrer">Ver repositorio</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="habilidades" class="seccion">
+            <div class="contenedor">
+                <div class="cabecera-seccion"><p class="etiqueta">03 / Caja de herramientas</p><h2>Habilidades</h2></div>
+                <div class="habilidades">
+                    <div class="habilidad"><h3>Desarrollo</h3><ul><li>HTML y CSS</li><li>JavaScript</li><li>Arquitectura web</li></ul></div>
+                    <div class="habilidad"><h3>Creatividad</h3><ul><li>Blender 3D</li><li>Modelado y escenas</li><li>Diseno de interfaces</li></ul></div>
+                    <div class="habilidad"><h3>Colaboracion</h3><ul><li>Git y GitHub</li><li>Trabajo en equipo</li><li>Aprendizaje autonomo</li></ul></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer><div class="contenedor">Samuel Esteban Mena Pupiales / Portafolio estudiantil 6B</div></footer>
+</body>
+
+</html>
