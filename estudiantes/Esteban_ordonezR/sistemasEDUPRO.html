@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SistemasEDUPRO - Sistema de Gestión Educativa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .proyecto-header {
+            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+            color: white;
+            border-radius: 16px;
+            padding: 3rem 2rem;
+        }
+
+        .proyecto-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="../../index.html">TEAM 6B</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../estudiantes.html">Estudiantes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="../../proyectos.html">Proyectos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="proyecto-card">
+
+            <!-- Encabezado -->
+            <div class="proyecto-header text-center mb-4">
+                <h1 class="fw-bold mb-2">SistemasEDUPRO</h1>
+                <p class="mb-0 fs-5">Sistema de Gestión Educativa</p>
+            </div>
+
+            <!-- Descripción -->
+            <h5 class="fw-semibold mb-3">📋 Descripción</h5>
+            <p class="text-muted mb-4">
+                Aplicación web desarrollada con <strong>Angular</strong> que permite gestionar cursos, estudiantes
+                e inscripciones de manera sencilla. Los usuarios podrán registrarse, consultar cursos disponibles,
+                inscribirse y administrar la información académica, utilizando un backend para manejar los datos
+                y una base de datos para almacenarlos.
+            </p>
+
+            <!-- Funcionalidades -->
+            <h5 class="fw-semibold mb-3">⚙️ Funcionalidades</h5>
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item d-flex align-items-center gap-2">
+                    <span class="feature-icon">👤</span> Registro e inicio de sesión de usuarios
+                </li>
+                <li class="list-group-item d-flex align-items-center gap-2">
+                    <span class="feature-icon">📚</span> Consulta de cursos disponibles
+                </li>
+                <li class="list-group-item d-flex align-items-center gap-2">
+                    <span class="feature-icon">✅</span> Inscripción a cursos
+                </li>
+                <li class="list-group-item d-flex align-items-center gap-2">
+                    <span class="feature-icon">🗂️</span> Administración de información académica
+                </li>
+            </ul>
+
+            <!-- Tecnologías -->
+            <h5 class="fw-semibold mb-3">🛠️ Tecnologías</h5>
+            <div class="d-flex flex-wrap gap-2 mb-4">
+                <span class="badge bg-danger fs-6">Angular</span>
+                <span class="badge bg-success fs-6">Backend API</span>
+                <span class="badge bg-dark fs-6">Base de Datos</span>
+                <span class="badge bg-primary fs-6">HTML / CSS</span>
+                <span class="badge bg-warning text-dark fs-6">TypeScript</span>
+            </div>
+
+            <!-- Autores -->
+            <h5 class="fw-semibold mb-3">👨‍💻 Integrantes</h5>
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <img src="114fc997-a0f2-4728-92d7-c92d813379ee.jpg"
+                    alt="David Esteban Ordoñez Rendón"
+                    style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%; border: 3px solid #0d6efd;">
+                <div>
+                    <p class="mb-0 fw-semibold">David Esteban Ordoñez Rendón</p>
+                    <small class="text-muted">Ingeniería de Software - 6B</small>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <img src="../Alejandro/foto.jpeg"
+                    alt="Alejandro"
+                    style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%; border: 3px solid #0dcaf0;">
+                <div>
+                    <p class="mb-0 fw-semibold">Alejandro</p>
+                    <small class="text-muted">Ingeniería de Software - 6B</small>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="d-flex gap-2">
+                <a href="../../proyectos.html" class="btn btn-outline-secondary px-4">← Volver a Proyectos</a>
+                <a href="estebanOR.html" class="btn btn-primary px-4">Ver perfil del autor</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
