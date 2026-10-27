@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="400" viewBox="0 0 720 400" role="img" aria-label="Aurea">
+  <rect width="720" height="400" fill="#08090a"/>
+  <circle cx="360" cy="158" r="70" fill="none" stroke="#d4b483" stroke-width="2"/>
+  <path d="M360 106 L394 210 H326 Z" fill="none" stroke="#d4b483" stroke-width="3" stroke-linejoin="round"/>
+  <line x1="340" y1="170" x2="380" y2="170" stroke="#d4b483" stroke-width="2"/>
+  <text x="360" y="286" text-anchor="middle" fill="#f3eee4" font-family="Georgia, serif" font-size="58" font-style="italic">Aurea</text>
+  <text x="360" y="322" text-anchor="middle" fill="#d4b483" font-family="Georgia, serif" font-size="14" letter-spacing="6">SALUD  PASTO</text>
+</svg>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sebastián Orlando Manchabajoy Rosero</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      max-width: 380px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .card-banner {
+      background: linear-gradient(135deg, #0d6efd, #6610f2);
+      height: 90px;
+    }
+    .card-body { padding: 0 32px 32px; text-align: center; }
+    .avatar-wrapper { margin-top: -52px; margin-bottom: 16px; }
+    .avatar {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #ffffff;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    }
+    .name { font-size: 1.25rem; font-weight: 700; color: #111827; margin-bottom: 4px; }
+    .role { font-size: 0.875rem; color: #6b7280; margin-bottom: 20px; }
+    .bio { font-size: 0.9rem; color: #4b5563; line-height: 1.65; margin-bottom: 24px; }
+    .skills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 28px; }
+    .skill {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+    .links { display: flex; flex-direction: column; gap: 10px; }
+    .link-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .link-btn:hover { opacity: 0.85; }
+    .btn-github { background: #24292f; color: #ffffff; }
+    .btn-linkedin { background: #0a66c2; color: #ffffff; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-banner"></div>
+    <div class="card-body">
+      <div class="avatar-wrapper">
+        <img src="./foto.jpg" alt="Sebastián Orlando Manchabajoy Rosero" class="avatar">
+      </div>
+      <h1 class="name">Sebastián Orlando Manchabajoy Rosero</h1>
+      <p class="role">Estudiante de Ingeniería de Software · VI semestre</p>
+      <p class="bio">Estudiante de Ingeniería de Software en VI semestre. Me apasiona el desarrollo web full-stack, la arquitectura de microservicios y la creación de interfaces modernas e interactivas. Enfocado en adquirir experiencia constante mediante proyectos de desarrollo, trabajo colaborativo y soluciones de software eficientes.</p>
+      <div class="skills">
+        <span class="skill">Spring Boot</span>
+        <span class="skill">React</span>
+        <span class="skill">TypeScript</span>
+        <span class="skill">Angular</span>
+        <span class="skill">PostgreSQL</span>
+        <span class="skill">Git</span>
+        <span class="skill">TailwindCSS</span>
+        <span class="skill">AWS</span>
+      </div>
+      <div class="links">
+        <a href="https://github.com/SebastianRosero16" target="_blank" class="link-btn btn-github">GitHub</a>
+        <a href="https://www.linkedin.com/in/sebastian-orlando-manchabajoy-rosero-b1973a3ab/" target="_blank" class="link-btn btn-linkedin">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

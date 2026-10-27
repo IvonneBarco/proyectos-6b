@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriGo — Checkout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="design-system.css">
+<style>
+body { background: var(--gray-100); }
+  .sidebar { background: #0C1B33; }
+  .sidebar-logo .logo-text span { color: #60A5FA; }
+  .sidebar-nav a.active { background: rgba(59,130,246,.15); }
+  .sidebar-nav a.active::before { background: #60A5FA; }
+
+  .checkout-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: var(--space-8);
+    align-items: flex-start;
+  }
+
+  .checkout-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: var(--space-5);
+  }
+  .checkout-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--space-6);
+    border-bottom: 1px solid var(--gray-100);
+    background: var(--gray-50);
+  }
+  .checkout-step-circle {
+    width: 32px; height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--green-600);
+    color: var(--white);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .checkout-card-title { font-family: var(--font-display); font-size: var(--text-base); font-weight: 700; color: var(--gray-900); }
+  .checkout-card-body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4); }
+
+  /* Payment methods */
+  .payment-options { display: flex; flex-direction: column; gap: var(--space-3); }
+  .payment-option { position: relative; cursor: pointer; }
+  .payment-option input[type="radio"] { position: absolute; opacity: 0; width:0; height:0; }
+  .payment-card {
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4) var(--space-5);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    transition: var(--transition);
+    background: var(--white);
+  }
+  .payment-option input:checked + .payment-card {
+    border-color: var(--green-500);
+    background: var(--green-50);
+    box-shadow: 0 0 0 3px rgba(46,158,79,.1);
+  }
+  .payment-card:hover { border-color: var(--green-300); background: var(--green-50); }
+  .payment-icon {
+    width: 48px; height: 48px;
+    border-radius: var(--radius-lg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .payment-name { font-size: var(--text-sm); font-weight: 700; color: var(--gray-900); }
+  .payment-desc { font-size: var(--text-xs); color: var(--gray-500); margin-top: 2px; }
+  .payment-tag {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+
+  /* Card form */
+  .card-form {
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    background: var(--gray-50);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-200);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .card-number-input {
+    position: relative;
+  }
+  .card-number-input .card-icons {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 4px;
+    font-size: 16px;
+  }
+
+  /* Order summary (right) */
+  .order-summary {
+    position: sticky;
+    top: 80px;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .os-header {
+    padding: var(--space-5) var(--space-6);
+    border-bottom: 1px solid var(--gray-100);
+    background: var(--gray-50);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+  .os-items { padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-3); }
+  .os-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .os-item-img {
+    width: 48px; height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--green-50);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .os-item-qty {
+    position: absolute;
+    top: -6px; right: -6px;
+    background: var(--green-600);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 700;
+    width: 18px; height: 18px;
+    border-radius: var(--radius-full);
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--white);
+  }
+  .os-item-name { font-size: var(--text-xs); font-weight: 600; color: var(--gray-800); flex: 1; }
+  .os-item-price { font-size: var(--text-sm); font-weight: 700; color: var(--gray-900); }
+
+  .os-totals { padding: var(--space-4) var(--space-5); border-top: 1px solid var(--gray-100); }
+  .os-line { display: flex; justify-content: space-between; font-size: var(--text-sm); padding: 5px 0; }
+  .os-line .key { color: var(--gray-600); }
+  .os-line .val { color: var(--gray-900); font-weight: 600; }
+  .os-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) 0;
+    margin-top: var(--space-2);
+    border-top: 1px solid var(--gray-200);
+  }
+  .os-total .t-l { font-size: var(--text-base); font-weight: 700; color: var(--gray-900); }
+  .os-total .t-v { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 800; color: var(--green-700); }
+
+  .os-footer { padding: var(--space-5) var(--space-5); border-top: 1px solid var(--gray-100); }
+
+  /* Progress steps header */
+  .checkout-progress {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5) var(--space-8);
+    margin-bottom: var(--space-6);
+    box-shadow: var(--shadow-xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+</head>
+<body>
+<div class="screen-label">12 — Checkout · AgriGo</div>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="ph ph-plant"></i></div>
+      <div><div class="logo-text">Agri<span>Go</span></div><span class="logo-sub">Plataforma AgTech</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="#"><span class="nav-icon"><i class="ph ph-chart-bar"></i></span> Mi Dashboard</a>
+      <a href="09-marketplace.html"><span class="nav-icon"><i class="ph ph-storefront"></i></span> Marketplace</a>
+      <a href="11-carrito.html" class="active"><span class="nav-icon"><i class="ph ph-shopping-cart"></i></span> Mi carrito</a>
+      <a href="14-mis-ordenes.html"><span class="nav-icon"><i class="ph ph-receipt"></i></span> Mis órdenes</a>
+      <a href="19-asistente-compras.html"><span class="nav-icon"><i class="ph ph-chat-circle"></i></span> Asistente IA</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" style="width:36px;height:36px;background:#1D4ED8;color:white;font-weight:700;font-size:14px;">ML</div>
+        <div class="user-info"><div class="user-name">María López</div><div class="user-role" style="color:#93C5FD;"><i class="ph ph-shopping-cart"></i> Compradora</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <a href="11-carrito.html" style="color:var(--gray-500);font-size:var(--text-sm);">← Mi carrito</a>
+      <span style="color:var(--gray-300);margin:0 8px;">/</span>
+      <span class="topbar-title">Checkout</span>
+      <div class="topbar-spacer"></div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:var(--text-xs);color:var(--green-600);font-weight:600;">
+        <i class="ph ph-lock-simple"></i> Conexión segura · SSL cifrado
+      </div>
+    </header>
+
+    <div class="page-body">
+
+      <!-- PROGRESS INDICATOR -->
+      <div class="checkout-progress">
+        <div class="checkout-steps">
+          <div class="checkout-step done">
+            <div class="checkout-step-num"><i class="ph ph-check"></i></div>
+            <span>Carrito</span>
+          </div>
+          <div class="checkout-step-line done"></div>
+          <div class="checkout-step active">
+            <div class="checkout-step-num">2</div>
+            <span>Entrega</span>
+          </div>
+          <div class="checkout-step-line"></div>
+          <div class="checkout-step">
+            <div class="checkout-step-num">3</div>
+            <span>Pago</span>
+          </div>
+          <div class="checkout-step-line"></div>
+          <div class="checkout-step">
+            <div class="checkout-step-num">4</div>
+            <span>Confirmación</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-layout">
+        <!-- LEFT: FORM SECTIONS -->
+        <div>
+          <!-- 1. Delivery address -->
+          <div class="checkout-card">
+            <div class="checkout-card-header">
+              <div class="checkout-step-circle">1</div>
+              <div>
+                <div class="checkout-card-title">Dirección de entrega</div>
+              </div>
+            </div>
+            <div class="checkout-card-body">
+              <div class="form-grid form-grid-2">
+                <div class="form-group">
+                  <label class="form-label">Nombre completo <span style="color:var(--status-error);">*</span></label>
+                  <input type="text" class="form-input" value="María López">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Teléfono <span style="color:var(--status-error);">*</span></label>
+                  <div class="form-input-wrap">
+                    <span class="form-input-icon"><i class="ph ph-device-mobile"></i></span>
+                    <input type="tel" class="form-input with-icon" value="+57 300 123 4567">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Dirección <span style="color:var(--status-error);">*</span></label>
+                <div class="form-input-wrap">
+                  <span class="form-input-icon"><i class="ph ph-map-pin"></i></span>
+                  <input type="text" class="form-input with-icon" placeholder="Calle, carrera, avenida…" value="Cra. 15 # 93-47, Apto 302">
+                </div>
+              </div>
+              <div class="form-grid form-grid-3">
+                <div class="form-group">
+                  <label class="form-label">Ciudad <span style="color:var(--status-error);">*</span></label>
+                  <input type="text" class="form-input" value="Bogotá">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Departamento <span style="color:var(--status-error);">*</span></label>
+                  <select class="form-select">
+                    <option selected>Bogotá D.C.</option>
+                    <option>Cundinamarca</option>
+                    <option>Antioquia</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Código postal</label>
+                  <input type="text" class="form-input" value="110221">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Instrucciones para el envío</label>
+                <textarea class="form-textarea" rows="2" placeholder="Ej: Dejar con el portero…">Dejar con el portero del edificio. Timbre 302.</textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Delivery date -->
+          <div class="checkout-card">
+            <div class="checkout-card-header">
+              <div class="checkout-step-circle">2</div>
+              <div class="checkout-card-title">Fecha y hora de entrega</div>
+            </div>
+            <div class="checkout-card-body">
+              <div class="form-grid form-grid-2">
+                <div class="form-group">
+                  <label class="form-label">Fecha de entrega preferida</label>
+                  <input type="date" class="form-input" value="2024-08-26">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Horario preferido</label>
+                  <select class="form-select">
+                    <option>Mañana (8am – 12pm)</option>
+                    <option selected>Tarde (12pm – 6pm)</option>
+                    <option>Noche (6pm – 9pm)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="alert alert-green">
+                <span><i class="ph ph-truck"></i></span> Entrega estimada: <strong>Lunes 26 de agosto</strong> · Sin costo adicional de envío para este pedido.
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Payment -->
+          <div class="checkout-card">
+            <div class="checkout-card-header">
+              <div class="checkout-step-circle">3</div>
+              <div class="checkout-card-title">Método de pago</div>
+            </div>
+            <div class="checkout-card-body">
+              <div class="payment-options">
+                <label class="payment-option">
+                  <input type="radio" name="payment" value="card" checked>
+                  <div class="payment-card">
+                    <div class="payment-icon" style="background:#EFF6FF;"><i class="ph ph-credit-card"></i></div>
+                    <div>
+                      <div class="payment-name">Tarjeta débito / crédito</div>
+                      <div class="payment-desc">Visa, Mastercard, American Express</div>
+                    </div>
+                    <div class="payment-tag badge badge-blue">Popular</div>
+                  </div>
+                </label>
+
+                <label class="payment-option">
+                  <input type="radio" name="payment" value="nequi">
+                  <div class="payment-card">
+                    <div class="payment-icon" style="background:#F5F3FF;"><i class="ph ph-device-mobile"></i></div>
+                    <div>
+                      <div class="payment-name">Nequi</div>
+                      <div class="payment-desc">Pago inmediato con tu app Nequi</div>
+                    </div>
+                    <div class="payment-tag badge badge-purple">Sin comisión</div>
+                  </div>
+                </label>
+
+                <label class="payment-option">
+                  <input type="radio" name="payment" value="cash">
+                  <div class="payment-card">
+                    <div class="payment-icon" style="background:var(--green-50);"><i class="ph ph-money"></i></div>
+                    <div>
+                      <div class="payment-name">Efectivo contraentrega</div>
+                      <div class="payment-desc">Paga en efectivo al recibir tu pedido</div>
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Card form (shown when card selected) -->
+              <div class="card-form">
+                <div class="form-group">
+                  <label class="form-label">Número de tarjeta</label>
+                  <div class="card-number-input form-input-wrap">
+                    <input type="text" class="form-input" placeholder="1234 5678 9012 3456" value="4532 •••• •••• 7891" style="padding-right:80px;">
+                    <div class="card-icons"><i class="ph ph-credit-card"></i></div>
+                  </div>
+                </div>
+                <div class="form-grid form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label">Vencimiento</label>
+                    <input type="text" class="form-input" placeholder="MM/AA" value="09/27">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">CVV</label>
+                    <input type="text" class="form-input" placeholder="•••" value="•••">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Nombre en la tarjeta</label>
+                  <input type="text" class="form-input" value="MARIA LOPEZ">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action buttons -->
+          <div style="display:flex;gap:var(--space-3);justify-content:flex-end;">
+            <a href="11-carrito.html" class="btn btn-secondary">← Volver al carrito</a>
+            <a href="13-confirmacion-orden.html" class="btn btn-primary btn-lg"><i class="ph ph-lock-simple"></i> Confirmar y pagar $76.398</a>
+          </div>
+        </div>
+
+        <!-- RIGHT: ORDER SUMMARY -->
+        <div class="order-summary">
+          <div class="os-header">Resumen de tu pedido</div>
+          <div class="os-items">
+            <div class="os-item">
+              <div class="os-item-img"><i class="ph ph-flower-tulip"></i><div class="os-item-qty">2</div></div>
+              <span class="os-item-name">Tomate Cherry Orgánico</span>
+              <span class="os-item-price">$17.000</span>
+            </div>
+            <div class="os-item">
+              <div class="os-item-img" style="background:var(--green-50);"><i class="ph ph-leaf"></i><div class="os-item-qty">1</div></div>
+              <span class="os-item-name">Lechuga Batavia Hidropónica</span>
+              <span class="os-item-price">$5.200</span>
+            </div>
+            <div class="os-item">
+              <div class="os-item-img" style="background:#FFFBEB;"><i class="ph ph-coffee"></i><div class="os-item-qty">1</div></div>
+              <span class="os-item-name">Café Arábica Especial</span>
+              <span class="os-item-price">$42.000</span>
+            </div>
+          </div>
+          <div class="os-totals">
+            <div class="os-line"><span class="key">Subtotal</span><span class="val">$64.200</span></div>
+            <div class="os-line"><span class="key">Envío</span><span class="val" style="color:var(--green-600);">Gratis</span></div>
+            <div class="os-line"><span class="key">IVA (19%)</span><span class="val">$12.198</span></div>
+            <div class="os-total">
+              <span class="t-l">Total a pagar</span>
+              <span class="t-v">$76.398</span>
+            </div>
+          </div>
+          <div class="os-footer">
+            <div style="display:flex;align-items:center;gap:8px;font-size:var(--text-xs);color:var(--gray-500);margin-bottom:var(--space-3);">
+              <span><i class="ph ph-lock-simple"></i></span> Tus datos de pago están cifrados con TLS 1.3
+            </div>
+            <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;">
+              <div style="padding:4px 10px;background:var(--gray-100);border-radius:var(--radius-sm);font-size:10px;font-weight:600;color:var(--gray-500);"><i class="ph ph-credit-card"></i> Visa</div>
+              <div style="padding:4px 10px;background:var(--gray-100);border-radius:var(--radius-sm);font-size:10px;font-weight:600;color:var(--gray-500);"><i class="ph ph-credit-card"></i> MC</div>
+              <div style="padding:4px 10px;background:var(--gray-100);border-radius:var(--radius-sm);font-size:10px;font-weight:600;color:var(--gray-500);"><i class="ph ph-device-mobile"></i> Nequi</div>
+              <div style="padding:4px 10px;background:var(--gray-100);border-radius:var(--radius-sm);font-size:10px;font-weight:600;color:var(--gray-500);"><i class="ph ph-money"></i> PSE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

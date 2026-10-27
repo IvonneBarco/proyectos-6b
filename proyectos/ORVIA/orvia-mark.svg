@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <defs>
+    <linearGradient id="orvia" x1="55" y1="54" x2="350" y2="355" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#6D28D9"/>
+    </linearGradient>
+    <linearGradient id="inner" x1="132" y1="117" x2="268" y2="287" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C4B5FD"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <circle cx="200" cy="205" r="133" stroke="url(#orvia)" stroke-width="27"/>
+  <path d="M200 31 351 294H49L200 31Z" stroke="url(#orvia)" stroke-width="25" stroke-linejoin="round"/>
+  <path d="M200 155c-40 0-72 31-72 70 0 40 34 77 72 92 38-15 72-52 72-92 0-39-32-70-72-70Z" stroke="url(#inner)" stroke-width="26"/>
+</svg>
