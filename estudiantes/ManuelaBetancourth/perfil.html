@@ -4,81 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - Manuela Betancourth</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
     <style>
+        :root {
+            --pink-cloud: #fff3f7;
+            --pink-soft: #ffe1eb;
+            --pink-light: #ffd0df;
+            --pink: #e887a6;
+            --pink-deep: #9c4265;
+            --brown-pink: #563541;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #212529;
+            background-color: var(--pink-cloud);
+            color: var(--brown-pink);
             margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
+            padding: 0 20px 40px;
+            min-height: 100svh;
+        }
+
+        .navbar {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 18px 0;
+            background-color: transparent !important;
+        }
+
+        .navbar-brand {
+            color: var(--pink-deep);
+            font-weight: 800;
+            letter-spacing: 0.06em;
+        }
+
+        .nav-link {
+            color: var(--brown-pink);
+            font-weight: 600;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus-visible,
+        .navbar-brand:hover {
+            color: var(--pink-deep);
+        }
+
+        .navbar-toggler {
+            border-color: var(--pink-light);
+        }
+
+        .navbar-toggler:focus {
+            outline: 3px solid var(--pink-light);
+            outline-offset: 2px;
         }
 
         .profile-card {
             background-color: #ffffff;
-            border: 1px solid #e9ecef;
-            border-radius: 12px;
-            padding: 40px;
-            max-width: 400px;
+            border-radius: 32px;
+            padding: clamp(32px, 7vw, 56px);
+            max-width: 460px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            margin: 48px auto 0;
         }
 
         .profile-img {
-            width: 130px;
-            height: 130px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #dee2e6;
-            margin-bottom: 20px;
+            border: 7px solid var(--pink-soft);
+            margin-bottom: 24px;
         }
 
         .profile-name {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 0 0 15px 0;
-            color: #111111;
-            letter-spacing: -0.5px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(2rem, 8vw, 3rem);
+            line-height: 1.05;
+            font-weight: 700;
+            margin: 0 0 18px;
+            color: var(--pink-deep);
+            letter-spacing: -1.5px;
         }
 
         .profile-bio {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #6c757d;
-            margin-bottom: 30px;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #765563;
+            margin: 0 auto 32px;
+            max-width: 35ch;
         }
 
         .social-links {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .social-btn {
             display: block;
-            padding: 10px 16px;
-            background-color: #ffffff;
-            color: #343a40;
+            padding: 14px 18px;
+            background-color: var(--pink-soft);
+            color: var(--pink-deep);
             text-decoration: none;
-            border: 1px solid #ced4da;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
+            border-radius: 999px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
         }
 
-        .social-btn:hover {
-            background-color: #f8f9fa;
-            border-color: #adb5bd;
-            color: #000000;
+        .social-btn:hover,
+        .social-btn:focus-visible {
+            background-color: var(--pink);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .social-btn:focus-visible {
+            outline: 3px solid var(--pink-light);
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0 16px 24px;
+            }
+
+            .profile-card {
+                margin-top: 24px;
+                border-radius: 24px;
+            }
         }
     </style>
 </head>
 <body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">TEAM 6B</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="../../estudiantes.html">Estudiantes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../proyectos.html">Proyectos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <div class="profile-card">
         <img src="./foto.jpeg" alt="Foto de perfil de Manuela Betancourth" class="profile-img">
@@ -86,10 +172,11 @@
         <h1 class="profile-name">Manuela Betancourth</h1>
 
         <p class="profile-bio">
-            Estudiante de ingienria de software. Apasionada al desarollo e inovacion tecnologica. Me gusta aprender cosas nuevas y compartir mis conocimientos con los demás.
+            Estudiante de ingeniería de software. Apasionada por el desarrollo y la innovación tecnológica. Me gusta aprender cosas nuevas y compartir mis conocimientos con los demás.
+        </p>
         <div class="social-links">
-            <a href="https://github.com/manuelabetancourth12" target="_blank" class="social-btn">GitHub</a>
-            <a href="manuela.betancourth@campusucc.edu.co" class="social-btn">Contacto / Email</a>
+            <a href="https://github.com/manuelabetancourth12" target="_blank" rel="noopener noreferrer" class="social-btn">GitHub</a>
+            <a href="mailto:manuela.betancourth@campusucc.edu.co" class="social-btn">Contacto / Email</a>
         </div>
     </div>
 
