@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-labelledby="title">
+  <title id="title">CodeType</title>
+  <rect width="480" height="240" rx="18" fill="#f1f7ee"/>
+  <circle cx="240" cy="87" r="45" fill="#d8edcf"/>
+  <path d="m222 74-15 13 15 13m36-26 15 13-15 13m-12-41-17 58" fill="none" stroke="#267a52" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"/>
+  <text x="240" y="178" fill="#267a52" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">CodeType</text>
+</svg>

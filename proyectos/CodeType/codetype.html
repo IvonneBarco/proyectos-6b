@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CodeType | Aprende programación</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <style>
+    body { background: #f7f8f7; }
+    .project-card { max-width: 900px; }
+    .project-logo { min-height: 230px; background: #f1f7ee; object-fit: contain; }
+    .lesson-option { text-align: left; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-light border-bottom">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="./codetype.html">CodeType</a>
+      <div class="navbar-nav ms-auto flex-row gap-3">
+        <a class="nav-link" href="../../estudiantes/JohanAlejandroCastroAscuntar/perfil.html">Mi perfil</a>
+        <a class="nav-link" href="../../proyectos.html">Proyectos 6B</a>
+      </div>
+    </div>
+  </nav>
+  <main class="container py-5">
+    <section class="card project-card mx-auto shadow-sm mb-4">
+      <img class="card-img-top project-logo p-4" src="./codetype-mark.svg" alt="Logo de CodeType">
+      <div class="card-body p-4 p-md-5 text-center">
+        <h1 class="h2">CodeType</h1>
+        <p class="lead">Aprende programación paso a paso.</p>
+        <p class="text-secondary">CodeType es una plataforma educativa con lecciones cortas y retos prácticos para aprender a programar, inspirada en la dinámica de Duolingo.</p>
+        <a class="btn btn-success" href="#leccion">Probar una lección</a>
+      </div>
+    </section>
+
+    <section class="card project-card mx-auto shadow-sm" id="leccion">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h4">Reto de JavaScript</h2>
+        <p>¿Qué valor muestra este código?</p>
+        <pre class="bg-light border rounded p-3"><code>const lenguaje = "JavaScript";
+console.log(lenguaje);</code></pre>
+        <div class="d-grid gap-2">
+          <button class="btn btn-outline-secondary lesson-option" data-correct="false">El texto <code>lenguaje</code></button>
+          <button class="btn btn-outline-secondary lesson-option" data-correct="true">El texto <code>JavaScript</code></button>
+          <button class="btn btn-outline-secondary lesson-option" data-correct="false">El número 10</button>
+        </div>
+        <p id="feedback" class="mt-3 mb-0 text-secondary" aria-live="polite">Selecciona una respuesta.</p>
+      </div>
+    </section>
+  </main>
+  <footer class="container text-center text-secondary small pb-4">Proyecto de Johan Alejandro Castro Ascuntar · <a href="../../proyectos.html">Volver a proyectos</a></footer>
+  <script>
+    document.querySelectorAll('.lesson-option').forEach((button) => {
+      button.addEventListener('click', () => {
+        const correct = button.dataset.correct === 'true';
+        const feedback = document.querySelector('#feedback');
+        feedback.textContent = correct
+          ? '¡Correcto! La variable guarda el texto "JavaScript".'
+          : 'Intenta de nuevo. Busca el texto entre comillas.';
+        feedback.className = `mt-3 mb-0 ${correct ? 'text-success' : 'text-danger'}`;
+      });
+    });
+  </script>
+</body>
+</html>
